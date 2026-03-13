@@ -26,7 +26,7 @@ const ProfileMenuDropdown = memo(() => {
                         <li key={item.id} className={item.className}>
                             <Link
                                 target={item.link?.startsWith('http') ? '_blank' : '_self'}
-                                to="#"
+                                to={item.link ?? "#"}
                                 className="inline-flex items-center w-full px-3 py-2 text-md"
                             >
                                 {t(item.label)}

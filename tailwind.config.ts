@@ -92,6 +92,18 @@ const config = {
         "accent-magenta": "var(--accent-magenta)",
         "accent-grey": "var(--accent-grey)",
 
+        // Status
+        "success": "var(--success)",
+        "success-bg": "var(--success-bg)",
+        "info": "var(--info)",
+        "info-bg": "var(--info-bg)",
+        "warning": "var(--warning)",
+        "warning-bg": "var(--warning-bg)",
+        "error": "var(--error)",
+        "error-bg": "var(--error-bg)",
+        "danger": "var(--danger)",
+        "danger-bg": "var(--danger-bg)",
+
         // Utility colors
         "white": "var(--white)",
         "black": "var(--black)",

@@ -16,7 +16,7 @@ body {
         --bg-primary: hsla(220, 15%, 95%, 1);               /* #F3F4F6 */
         --bg-secondary: hsla(220, 13%, 91%, 1);             /* #E4E6EA */
         --bg-tertiary: hsla(206, 64%, 98%, 1);              /* #F6FAFD */
-        --bg-quaternary: hsla(209, 100%, 55%, 0.90);        /* #1B91FF */
+        --bg-quaternary: hsla(206, 100%, 38%, 1);           /* #1B91FF */
         --bg-dark: hsla(204, 22%, 91%, 1);                  /* #E3E9ED */
         --bg-border: hsla(0, 0%, 89%, 1);                   /* #E2E2E2 */
         --bg-surface: hsla(0, 0%, 100%, 1);                 /* #FFFFFF */
@@ -88,6 +88,9 @@ body {
 
         --error: hsl(0 75% 55%);             /* #E23636 - Error messages */
         --error-bg: hsl(0 75% 95%);          /* Light error background */
+
+        --danger: hsla(343.72, 100%, 39.02%, 1);    /* #c70036 - Danger messages */
+        --danger-bg: hsla(340.36, 100%, 32.35%, 1); /* #a50036 - Danger messages */
 
         /* =========================
            Utility
