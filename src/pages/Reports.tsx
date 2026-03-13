@@ -1,0 +1,10 @@
+import React, {useEffect, useState} from 'react';
+
+export function Reports() {
+
+    return (
+        <div className="mx-auto max-w-mdContainer w-full flex flex-col gap-4">
+            Reports
+        </div>
+    );
+}
