@@ -4,20 +4,21 @@ interface MediaQueryContextValue {
   isDesktop: boolean;
 }
 
+const DESKTOP_QUERY = "(min-width: 768px)";
+
 const MediaQueryContext = createContext<MediaQueryContextValue | undefined>(undefined);
 
 export const MediaQueryProvider = ({ children }: { children: React.ReactNode }) => {
-  const query = "(min-width: 768px)";
-
   const [isDesktop, setIsDesktop] = useState<boolean>(() =>
-    typeof window !== "undefined" ? window.matchMedia(query).matches : false
+    typeof window !== "undefined" ? window.matchMedia(DESKTOP_QUERY).matches : false
   );
 
   useEffect(() => {
-    const mediaQueryList = window.matchMedia(query);
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia(DESKTOP_QUERY);
     const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mediaQueryList.addEventListener("change", onChange);
-    return () => mediaQueryList.removeEventListener("change", onChange);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
   }, []);
 
   const value = useMemo(() => ({ isDesktop }), [isDesktop]);
@@ -31,9 +32,6 @@ export const MediaQueryProvider = ({ children }: { children: React.ReactNode }) 
 
 export const useMediaQuery = (): MediaQueryContextValue => {
   const ctx = useContext(MediaQueryContext);
-  if (!ctx) {
-    throw new Error("useMediaQuery must be used within a MediaQueryProvider");
-  }
+  if (!ctx) throw new Error("useMediaQuery must be used within a MediaQueryProvider");
   return ctx;
 };
-

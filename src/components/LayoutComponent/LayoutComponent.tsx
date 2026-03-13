@@ -1,31 +1,26 @@
-import React from "react";
-import HeaderComponent from "@/components/HeaderComponent/HeaderComponent";
-import FooterComponent from "@/components/FooterComponent/FooterComponent";
-import ContentComponent from "@/components/ContentComponent/ContentComponent";
-import SidebarComponent from "@/components/SidebarComponent/SidebarComponent";
-import {useMediaQuery} from "@/context/MediaQueryContext";
+import { memo, type ReactNode } from 'react';
+import HeaderComponent from '@/components/HeaderComponent/HeaderComponent';
+import ContentComponent from '@/components/ContentComponent/ContentComponent';
+import SidebarComponent from '@/components/SidebarComponent/SidebarComponent';
 
-const LayoutComponent = ({
-                             children,
-                         }: Readonly<{ children: React.ReactNode }>) => {
+const LayoutComponent = memo(
+    ({ children }: Readonly<{ children: ReactNode }>) => {
+        return (
+            <>
+                <HeaderComponent/>
 
-    const { isDesktop } = useMediaQuery();
+                <div className={"flex xl:h-full gap-2 relative"}>
+                    <SidebarComponent/>
 
-    return (
-        <>
-            <HeaderComponent/>
+                    <ContentComponent>
+                        {children}
+                    </ContentComponent>
+                </div>
+            </>
+        );
+    }
+);
 
-            <div className={"flex xl:h-full gap-2 relative"}>
-                {isDesktop && <SidebarComponent/>}
-
-                <ContentComponent>
-                    {children}
-                </ContentComponent>
-            </div>
-
-            {/*<FooterComponent/>*/}
-        </>
-    );
-};
+LayoutComponent.displayName = "LayoutComponent";
 
 export default LayoutComponent;

@@ -4,6 +4,15 @@ export function useDropdown(refs?: RefObject<HTMLElement>[]) {
     const [openId, setOpenId] = useState<string | null>(null);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    // Stabilise the refs array — callers pass a new literal on every render
+    const refsRef = useRef(refs);
+    useEffect(() => { refsRef.current = refs; });
+
+    // Track openId in a ref so handleClick always reads the latest value
+    // without needing it as an effect dependency
+    const openIdRef = useRef(openId);
+    useEffect(() => { openIdRef.current = openId; });
+
     const open = useCallback((id: string | null) => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         setOpenId(id);
@@ -17,19 +26,18 @@ export function useDropdown(refs?: RefObject<HTMLElement>[]) {
         setOpenId((prev) => (prev === id ? null : id));
     }, []);
 
-    // Click outside detection
+    // Click outside detection — registered once, never re-registered
     useEffect(() => {
-        if (!refs || !openId) return;
         function handleClick(event: MouseEvent) {
-            if (!refs) return;
-            const isOutside = Array.isArray(refs) && refs.length > 0 && refs.every(ref => ref.current && !ref.current.contains(event.target as Node));
-            if (isOutside) {
-                setOpenId(null);
-            }
+            if (!openIdRef.current || !refsRef.current) return;
+            const isOutside = refsRef.current.every(
+                ref => ref.current && !ref.current.contains(event.target as Node)
+            );
+            if (isOutside) setOpenId(null);
         }
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
-    }, [openId, refs]);
+    }, []);
 
     // Cleanup on unmount
     useEffect(() => {

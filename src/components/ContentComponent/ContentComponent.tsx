@@ -1,14 +1,13 @@
-import React from 'react';
+import { memo, type ReactNode } from 'react';
 
-const ContentComponent = ({
-  children,
-}: Readonly<{ children: React.ReactNode }>) => {
+const ContentComponent = memo(({ children }: Readonly<{ children: ReactNode }>) => {
     return (
-        <main className = "p-4 md:ml-64 w-full bg-amber-100">
+        <main className="p-4 md:ml-64 w-full">
             {children}
-
         </main>
     );
-};
+});
+
+ContentComponent.displayName = 'ContentComponent';
 
 export default ContentComponent;
