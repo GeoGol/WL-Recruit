@@ -1,6 +1,4 @@
-
-
-export function Mail() {
+export default function Mail() {
 
     return (
         <div className="mx-auto max-w-mdContainer w-full flex flex-col gap-4">

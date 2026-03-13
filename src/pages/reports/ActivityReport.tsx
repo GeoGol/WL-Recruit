@@ -1,10 +1,8 @@
-
-
-export function DiversityReport() {
+export default function ActivityReport() {
 
     return (
         <div className="mx-auto max-w-mdContainer w-full flex flex-col gap-4">
-            DiversityReport
+            ActivityReport
         </div>
     );
 }

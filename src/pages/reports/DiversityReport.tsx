@@ -1,10 +1,8 @@
-
-
-export function HiringPaceReport() {
+export default function DiversityReport() {
 
     return (
         <div className="mx-auto max-w-mdContainer w-full flex flex-col gap-4">
-            HiringPaceReport
+            DiversityReport
         </div>
     );
 }

@@ -17,7 +17,7 @@ const SidebarComponent = memo(
           className="fixed top-16 left-0 z-40 w-64 h-[calc(100vh-64px)] transition-transform translate-x-0"
           aria-label="Sidebar"
         >
-          <div className="h-full flex flex-col overflow-hidden bg-surface border-e border-default">
+          <div className="h-full flex flex-col overflow-hidden bg-surface border-e border-gray-200 ">
             <SidebarListComponent />
           </div>
         </aside>

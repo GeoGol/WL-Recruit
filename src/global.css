@@ -12,7 +12,7 @@ body {
         /* =========================
            Background
         ========================== */
-        --bg-main: hsla(0, 0%, 95%, 1);                     /* #F2F2F2 */
+        --bg-main: hsla(210, 20%, 98%, 1);                  /* #f9fafb */
         --bg-primary: hsla(220, 15%, 95%, 1);               /* #F3F4F6 */
         --bg-secondary: hsla(220, 13%, 91%, 1);             /* #E4E6EA */
         --bg-tertiary: hsla(206, 64%, 98%, 1);              /* #F6FAFD */

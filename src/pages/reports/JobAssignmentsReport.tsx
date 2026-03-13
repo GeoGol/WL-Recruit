@@ -1,8 +1,8 @@
-export default function Candidates() {
+export default function JobAssignmentsReport() {
 
     return (
         <div className="mx-auto max-w-mdContainer w-full flex flex-col gap-4">
-            Candidates
+            JobAssignmentsReport
         </div>
     );
 }
