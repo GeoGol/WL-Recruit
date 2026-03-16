@@ -180,14 +180,14 @@ export const ProfileInternalItems: NavigationItem[] = [
     id: "change_password",
     label: "lblChangePassword",
     className: "rounded-md text-primary hover:bg-base cursor-pointer",
-    link: "change-password",
+    link: "/change-password",
     group: 1
   },
   {
     id: "account_user_details",
     label: "mnoEditUserDetails",
     className: "rounded-md text-primary hover:bg-base cursor-pointer",
-    link: "account/edit-user-details",
+    link: "/account/edit-user-details",
     group: 1
   },
   {
@@ -201,21 +201,21 @@ export const ProfileInternalItems: NavigationItem[] = [
     id: "new_support_request",
     label: "lblNewSupportRequest",
     className: "rounded-md text-primary hover:bg-base cursor-pointer",
-    link: "new-support-request",
+    link: "/new-support-request",
     group: 2
   },
   {
     id: "billing_history",
     label: "mnoBillingHistory",
     className: "rounded-md text-primary hover:bg-base cursor-pointer",
-    link: "billing-history",
+    link: "/billing-history",
     group: 3
   },
   {
     id: "logout",
     label: "mnoLogout",
     className: "rounded-md text-red-700 hover:bg-destructive cursor-pointer",
-    link: "Account/Logout",
+    link: "/Account/Logout",
     group: 4
   }
 ];
