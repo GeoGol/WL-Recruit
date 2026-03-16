@@ -6,6 +6,8 @@ import { RiSettings3Line } from '@/components/IconComponent/Icons';
 import SearchBarComponent from '@/components/FormComponents/SearchBarComponent';
 import ProfileMenuDropdown from '@/components/HeaderComponent/ProfileMenuDropdown';
 import SettingsMenuDropdown from '@/components/HeaderComponent/SettingsMenuDropdown';
+import LanguageToggle from '@/components/HeaderComponent/LanguageToggle';
+import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 
 // Constant outside component — never re-created
 const USER_INITIALS = 'GG';
@@ -43,15 +45,20 @@ const HeaderDesktopComponent = memo(() => {
                 </div>
 
                 <div className="flex justify-end items-center gap-4 relative">
+                    <LanguageToggle />
+
+                    {/* Settings */}
                     <div className="relative" ref={settingsRef}>
-                        <button
-                            type="button"
+                        <ButtonComponent
+                            variant="ghost"
+                            size="sm"
                             aria-label="Settings"
                             onClick={toggleSettings}
-                            className="flex justify-center items-center w-8 h-8"
-                        >
-                            <RiSettings3Line className="w-6 h-6 text-secondary" />
-                        </button>
+                            aria-expanded={openId === 'settings'}
+                            aria-haspopup="menu"
+                            className="!w-8 !h-8 !p-0 text-sm font-bold text-muted"
+                            leftIcon={<RiSettings3Line className="w-6 h-6 text-secondary" />}
+                        />
                         {openId === 'settings' && (
                             <div className="absolute right-0 top-10 w-48 bg-surface border border-gray-200 rounded-md shadow-lg z-50">
                                 <SettingsMenuDropdown />
@@ -59,15 +66,19 @@ const HeaderDesktopComponent = memo(() => {
                         )}
                     </div>
 
+                    {/* User avatar */}
                     <div className="relative" ref={userRef}>
-                        <button
-                            type="button"
+                        <ButtonComponent
+                            variant="primary"
+                            size="sm"
+                            pill
                             aria-label="User menu"
                             onClick={toggleProfile}
-                            className="rounded-full bg-primary text-sm text-muted font-bold w-8 h-8 flex items-center justify-center focus:outline-none"
-                        >
-                            {USER_INITIALS}
-                        </button>
+                            aria-expanded={openId === 'profile'}
+                            aria-haspopup="menu"
+                            label={USER_INITIALS}
+                            className="!w-8 !h-8 !p-0 text-sm font-bold text-muted"
+                        />
                         {openId === 'profile' && (
                             <div className="absolute right-0 top-10 w-48 bg-surface border border-gray-200 rounded-md shadow-lg z-50">
                                 <ProfileMenuDropdown />

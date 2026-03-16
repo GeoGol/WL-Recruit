@@ -6,6 +6,8 @@ import { RiCloseLine, RiMenu3Line, RiSettings3Line } from '@/components/IconComp
 import SidebarComponent from '@/components/SidebarComponent/SidebarComponent';
 import ProfileMenuDropdown from '@/components/HeaderComponent/ProfileMenuDropdown';
 import SettingsMenuDropdown from '@/components/HeaderComponent/SettingsMenuDropdown';
+import LanguageToggle from '@/components/HeaderComponent/LanguageToggle';
+import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 
 const USER_INITIALS = 'GG';
 
@@ -36,15 +38,20 @@ const HeaderMobileComponent = memo(() => {
                 </div>
 
                 <div className="flex justify-end items-center gap-4 relative">
+                    <LanguageToggle />
+
+                    {/* Settings */}
                     <div className="relative" ref={settingsRef}>
-                        <button
-                            type="button"
+                        <ButtonComponent
+                            variant="ghost"
+                            size="sm"
                             aria-label="Settings"
                             onClick={toggleSettings}
-                            className="flex justify-center items-center w-8 h-8"
-                        >
-                            <RiSettings3Line className="w-6 h-6 text-secondary" />
-                        </button>
+                            aria-expanded={openId === 'settings'}
+                            aria-haspopup="menu"
+                            className="!p-1 w-8 h-8"
+                            leftIcon={<RiSettings3Line className="w-6 h-6 text-secondary" />}
+                        />
                         {openId === 'settings' && (
                             <div className="absolute right-0 top-10 w-48 bg-surface border border-gray-200 rounded-md shadow-lg z-50">
                                 <SettingsMenuDropdown />
@@ -52,15 +59,19 @@ const HeaderMobileComponent = memo(() => {
                         )}
                     </div>
 
+                    {/* User avatar */}
                     <div className="relative" ref={userRef}>
-                        <button
-                            type="button"
+                        <ButtonComponent
+                            variant="primary"
+                            size="sm"
+                            pill
                             aria-label="User menu"
                             onClick={toggleProfile}
-                            className="rounded-full bg-primary text-sm text-muted font-bold w-8 h-8 flex items-center justify-center focus:outline-none"
-                        >
-                            {USER_INITIALS}
-                        </button>
+                            aria-expanded={openId === 'profile'}
+                            aria-haspopup="menu"
+                            label={USER_INITIALS}
+                            className="!w-8 !h-8 !p-0 text-sm font-bold text-muted"
+                        />
                         {openId === 'profile' && (
                             <div className="absolute right-0 top-10 w-48 bg-surface border border-gray-200 rounded-md shadow-lg z-50">
                                 <ProfileMenuDropdown />
@@ -68,20 +79,20 @@ const HeaderMobileComponent = memo(() => {
                         )}
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={toggleSidebar}
-                        className="inline-flex items-center text-sm text-gray-500 rounded-lg lg:hidden"
+                    {/* Hamburger */}
+                    <ButtonComponent
+                        variant="ghost"
+                        size="sm"
                         aria-label="mobile-menu-2"
                         aria-controls="mobile-menu-2"
                         aria-expanded={sidebarOpen}
-                    >
-                        {sidebarOpen ? (
-                            <RiCloseLine className="w-8 h-8" />
-                        ) : (
-                            <RiMenu3Line className="w-8 h-8" />
-                        )}
-                    </button>
+                        onClick={toggleSidebar}
+                        className="!p-0 w-8 h-8 lg:hidden"
+                        leftIcon={sidebarOpen
+                            ? <RiCloseLine className="w-8 h-8" />
+                            : <RiMenu3Line className="w-8 h-8" />
+                        }
+                    />
 
                     <SidebarComponent isOpen={sidebarOpen} onClose={closeSidebar} />
                 </div>

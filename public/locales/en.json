@@ -1059,7 +1059,7 @@
   "msgPipelineStageExceedsLength": "Pipeline stage {0} length exceeds {1} characters",
   "lblCompanyProfileEn": "Company profile (English)",
   "lblCompanyProfileEl": "Company profile (Greek)",
-  "lblIsMandatory": "Is mandatory",
+  "lblIsMandatory": "Mandatory field",
   "msgEvaluationCriterionCouldNotBeCreated": "Question could not be created. Then interview kit has already been used in application.",
   "msgCountryIsNotSupportedYet": "Country is not supported yet",
   "msgRegistrationsIsNotPossibleBehindAProxy": "Registrations is not possible behind a proxy. [{0}]",

@@ -17,7 +17,7 @@ const SidebarComponent = memo(
           className="fixed top-16 left-0 z-40 w-64 h-[calc(100vh-64px)] transition-transform translate-x-0"
           aria-label="Sidebar"
         >
-          <div className="h-full flex flex-col overflow-hidden bg-surface border-e border-gray-200 ">
+          <div className="h-full flex flex-col overflow-hidden bg-surface border-e border-gray-200 p-2">
             <SidebarListComponent />
           </div>
         </aside>
@@ -25,18 +25,13 @@ const SidebarComponent = memo(
     }
 
     return (
-      <>
-        {isOpen && (
-          <div className="fixed inset-0 z-30 bg-black/40" onClick={onClose} />
-        )}
         <div
-          className={`fixed top-16 right-0 z-40 w-full h-[calc(100vh-64px)] p-4 overflow-hidden transition-transform duration-300 bg-surface border-e border-default flex flex-col ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+            className={`fixed top-16 right-0 z-40 w-full h-[calc(100vh-64px)] p-4 overflow-hidden transition-transform duration-300 bg-surface border-e border-default flex flex-col ${
+                isOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
         >
-          <SidebarListComponent onLinkClick={onClose} />
+            <SidebarListComponent onLinkClick={onClose} />
         </div>
-      </>
     );
   }
 );

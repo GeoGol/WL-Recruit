@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Dropdown, DropdownItem } from "flowbite-react";
-import {NavigationItem} from "@/models/NavigationModel";
+import { NavigationItem } from "@/models/NavigationModel";
+import ButtonComponent from "@/components/FormComponents/ButtonComponent";
+import { RiArrowDownSLine } from "@/components/IconComponent/Icons";
 
 interface NavDropdownItemProps {
     item: NavigationItem;
@@ -12,14 +14,14 @@ const NavDropdownItem: React.FC<NavDropdownItemProps> = memo(({ item }) => {
             label=""
             dismissOnClick={true}
             renderTrigger={() => (
-                <button
-                    type="button"
-                    className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 hover:text-blue-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
-                >
-                    {item.icon && <i className={`${item.icon} text-base`} aria-hidden="true" />}
-                    {item.label}
-                    <i className="ri-arrow-down-s-line text-sm" aria-hidden="true" />
-                </button>
+                <ButtonComponent
+                    variant="ghost"
+                    size="sm"
+                    aria-haspopup="menu"
+                    label={item.label}
+                    rightIcon={<RiArrowDownSLine className="w-4 h-4" />}
+                    className="rounded-lg"
+                />
             )}
         >
             {item.children!.map((child) => (

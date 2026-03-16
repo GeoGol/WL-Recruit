@@ -1,6 +1,7 @@
 import { memo, useState, useRef } from 'react';
 import type { RemixiconComponentType } from '@/components/IconComponent/Icons';
 import { RiSearchLine, RiCloseLine } from '@/components/IconComponent/Icons';
+import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 
 interface SearchBarProps {
     placeholder?: string;
@@ -64,17 +65,17 @@ const SearchBar = memo<SearchBarProps>(
                     onChange={handleChange}
                     disabled={disabled}
                     placeholder={placeholder}
-                    className={`w-full rounded-lg border border-main bg-white pl-9 pr-9 text-primary focus:border-light-gray-focus focus:outline-none focus:ring-1 focus:ring-light-gray-focus disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-white [&::-webkit-search-cancel-button]:appearance-none ${sizingClasses[sizing]}`}
+                    className={`w-full rounded-lg border border-main pl-9 pr-9 text-primary focus:border-light-gray-focus focus:outline-none focus:ring-1 focus:ring-light-gray-focus disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-white [&::-webkit-search-cancel-button]:appearance-none ${sizingClasses[sizing]}`}
                 />
                 {value && (
-                    <button
-                        type="button"
-                        onClick={handleClear}
-                        className="absolute inset-y-0 right-0 flex items-center pr-3 z-10"
+                    <ButtonComponent
+                        variant="ghost"
+                        size="sm"
                         aria-label="Clear search"
-                    >
-                        <RiCloseLine className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-                    </button>
+                        onClick={handleClear}
+                        className="absolute inset-y-0 right-0 !p-0 pr-3 z-10 rounded-none"
+                        leftIcon={<RiCloseLine className="h-4 w-4 mr-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />}
+                    />
                 )}
             </div>
         );
