@@ -12,6 +12,7 @@ export default function NewSupportRequest() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        console.log('submit', subject, body);
         // TODO: send support request
     };
 
@@ -20,7 +21,16 @@ export default function NewSupportRequest() {
             <h2 className="text-xl md:text-2xl font-bold text-primary">
                 {t('lblNewSupportRequest')}
             </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form
+                onSubmit={handleSubmit}
+                onKeyDown={e => {
+                    const target = e.target as HTMLElement;
+                    if (e.key === 'Enter' && target.isContentEditable) {
+                        e.preventDefault();
+                    }
+                }}
+                className="flex flex-col gap-4"
+            >
                 <InputComponent
                     id="subject"
                     name="subject"

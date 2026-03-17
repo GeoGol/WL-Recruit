@@ -98,7 +98,7 @@ export const RiAlignCenter: RemixiconComponentType = ({ size = 24, ...props }) =
 
 export const RiAlignRight: RemixiconComponentType = ({ size = 24, ...props }) => (
     <svg {...iconDefaults(size)} {...props}>
-        <path d="M3 4h18v2H3V4zm6 7h12v2H9v-2zm-6 7h18v2H3v-2z" transform="scale(-1,1) translate(-24,0)" />
+        <path d="M3 4h18v2H3V4zm6 7h12v2H9v-2zm-6 7h18v2H3v-2z"/>
     </svg>
 );
 
@@ -153,6 +153,78 @@ export const RiIndentIncrease: RemixiconComponentType = ({ size = 24, ...props }
 export const RiIndentDecrease: RemixiconComponentType = ({ size = 24, ...props }) => (
     <svg {...iconDefaults(size)} {...props}>
         <path d="M3 4h18v2H3V4zm0 14h18v2H3v-2zm4-7h14v2H7v-2zm-2.121-.707 1.414 1.414L3 15.828l-1.414-1.414 3.293-3.293L1.172 7.828 2.586 6.414 6.586 10.414 5.172 11.828 2.879 11.293z" />
+    </svg>
+);
+
+export const RiExternalLinkLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" />
+    </svg>
+);
+
+export const RiPencilLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z" />
+    </svg>
+);
+
+export const RiVideoOnLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M17 9.2L22.2133 5.55071C22.4395 5.39235 22.7513 5.44737 22.9096 5.6736C22.9684 5.75764 23 5.85774 23 5.96033V18.0397C23 18.3158 22.7761 18.5397 22.5 18.5397C22.3974 18.5397 22.2973 18.5081 22.2133 18.4493L17 14.8V19C17 19.5523 16.5523 20 16 20H2C1.44772 20 1 19.5523 1 19V5C1 4.44772 1.44772 4 2 4H16C16.5523 4 17 4.44772 17 5V9.2ZM17 12.3587L21 15.1587V8.84131L17 11.6413V12.3587ZM3 6V18H15V6H3Z"/>
+    </svg>
+);
+
+export const RiFileChartLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M11 7H13V17H11V7ZM15 11H17V17H15V11ZM7 13H9V17H7V13ZM15 4H5V20H19V8H15V4ZM3 2.9918C3 2.44405 3.44749 2 3.9985 2H16L20.9997 7L21 20.9925C21 21.5489 20.5551 22 20.0066 22H3.9934C3.44476 22 3 21.5447 3 21.0082V2.9918Z"/>
+    </svg>
+);
+
+export const RiMailLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"/>
+    </svg>
+);
+
+export const RiGroupLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"/>
+    </svg>
+);
+
+export const RiLinksLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M13.0607 8.11097L14.4749 9.52518C17.2086 12.2589 17.2086 16.691 14.4749 19.4247L14.1214 19.7782C11.3877 22.5119 6.95555 22.5119 4.22188 19.7782C1.48821 17.0446 1.48821 12.6124 4.22188 9.87874L5.6361 11.293C3.68348 13.2456 3.68348 16.4114 5.6361 18.364C7.58872 20.3166 10.7545 20.3166 12.7072 18.364L13.0607 18.0105C15.0133 16.0578 15.0133 12.892 13.0607 10.9394L11.6465 9.52518L13.0607 8.11097ZM19.7782 14.1214L18.364 12.7072C20.3166 10.7545 20.3166 7.58872 18.364 5.6361C16.4114 3.68348 13.2456 3.68348 11.293 5.6361L10.9394 5.98965C8.98678 7.94227 8.98678 11.1081 10.9394 13.0607L12.3536 14.4749L10.9394 15.8891L9.52518 14.4749C6.79151 11.7413 6.79151 7.30911 9.52518 4.57544L9.87874 4.22188C12.6124 1.48821 17.0446 1.48821 19.7782 4.22188C22.5119 6.95555 22.5119 11.3877 19.7782 14.1214Z"/>
+    </svg>
+);
+
+export const RiArrowLeftDoubleLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M4.83582 12L11.0429 18.2071L12.4571 16.7929L7.66424 12L12.4571 7.20712L11.0429 5.79291L4.83582 12ZM10.4857 12L16.6928 18.2071L18.107 16.7929L13.3141 12L18.107 7.20712L16.6928 5.79291L10.4857 12Z"/>
+    </svg>
+);
+
+export const RiArrowUpSLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z" />
+    </svg>
+);
+
+export const RiExpandUpDownLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M12 4.586l-4.95 4.95-1.414-1.414L12 1.757l6.364 6.365-1.414 1.414L12 4.586zM12 19.414l4.95-4.95 1.414 1.414L12 22.243l-6.364-6.365 1.414-1.414L12 19.414z" />
+    </svg>
+);
+
+export const RiCheckboxLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5zm6.003 11l-3.536-3.536 1.415-1.414 2.121 2.122 4.242-4.243 1.415 1.414L11.003 16z" />
+    </svg>
+);
+
+export const RiCheckboxBlankLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5z" />
     </svg>
 );
 

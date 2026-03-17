@@ -1,18 +1,23 @@
-import { memo, type ReactNode } from 'react';
+import { memo, useState, type ReactNode } from 'react';
 import HeaderComponent from '@/components/HeaderComponent/HeaderComponent';
 import ContentComponent from '@/components/ContentComponent/ContentComponent';
 import SidebarComponent from '@/components/SidebarComponent/SidebarComponent';
 
 const LayoutComponent = memo(
     ({ children }: Readonly<{ children: ReactNode }>) => {
+        const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
         return (
             <>
                 <HeaderComponent/>
 
                 <div className={"flex xl:h-full gap-2 relative"}>
-                    <SidebarComponent/>
+                    <SidebarComponent
+                        collapsed={sidebarCollapsed}
+                        onToggleCollapse={() => setSidebarCollapsed(prev => !prev)}
+                    />
 
-                    <ContentComponent>
+                    <ContentComponent collapsed={sidebarCollapsed}>
                         {children}
                     </ContentComponent>
                 </div>

@@ -1,5 +1,5 @@
-import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import {memo, useCallback} from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ProfileInternalItems } from '@/utils/SystemLinks';
 import { NavigationItem } from '@/models';
@@ -17,6 +17,12 @@ const groups = Object.entries(groupedItems).sort(([a], [b]) => Number(a) - Numbe
 
 const ProfileMenuDropdown = memo(() => {
     const { t } = useTranslation();
+    const { pathname } = useLocation();
+
+    const isActive = useCallback(
+        (link?: string) => pathname === `/${link}`,
+        [pathname]
+    );
 
     return (
         <div className="flex flex-col">
@@ -27,7 +33,7 @@ const ProfileMenuDropdown = memo(() => {
                             <Link
                                 target={item.link?.startsWith('http') ? '_blank' : '_self'}
                                 to={`/${item.link ?? '#'}`}
-                                className="inline-flex items-center w-full px-3 py-2 text-md"
+                                className= {`inline-flex items-center w-full px-3 py-2 text-md ${isActive(item.link) ? 'font-semibold' : ''}`}
                             >
                                 {t(item.label)}
                             </Link>

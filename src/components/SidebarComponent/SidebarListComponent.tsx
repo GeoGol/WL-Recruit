@@ -6,9 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 interface SidebarListProps {
     onLinkClick?: () => void;
+    collapsed?  : boolean;
 }
 
-const SidebarListComponent = memo(({ onLinkClick }: SidebarListProps) => {
+const SidebarListComponent = memo(({ onLinkClick, collapsed = false }: SidebarListProps) => {
     const { t } = useTranslation();
     const location = useLocation();
     const [activeNavItem, setActiveNavItem] = useState<string | undefined>();
@@ -34,14 +35,18 @@ const SidebarListComponent = memo(({ onLinkClick }: SidebarListProps) => {
                                 aria-controls={`sublist-${item.id}`}
                                 data-collapse-toggle={`sublist-${item.id}`}
                                 onClick={() => handleToggle(item.id)}
-                                className="flex items-center w-full justify-between px-2 py-1.5 text-primary hover:bg-base rounded-md group"
+                                title={collapsed ? t(item.label) : undefined}
+                                className="flex items-center w-full h-9 px-2 text-primary hover:bg-base rounded-md"
                             >
-                                <span className="flex-1 text-left rtl:text-right whitespace-nowrap">{t(item.label)}</span>
-                                <RiArrowDownSLine className="w-5 h-5" />
+                                {item.icon && <item.icon size={18} className="shrink-0" />}
+                                <span className={`whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ms-2 ${collapsed ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100'}`}>
+                                    {t(item.label)}
+                                </span>
+                                <RiArrowDownSLine className={`ms-auto shrink-0 overflow-hidden transition-[max-width,opacity] duration-300 ${collapsed ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100 w-5 h-5'}`} />
                             </button>
                             <ul
                                 id={`sublist-${item.id}`}
-                                className={`space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${item.id === activeNavItem ? '' : 'max-h-0'}`}
+                                className={`space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${!collapsed && item.id === activeNavItem ? 'max-h-96' : 'max-h-0'}`}
                             >
                                 {item.children.map((subItem) => (
                                     <li key={subItem.id}>
@@ -49,7 +54,7 @@ const SidebarListComponent = memo(({ onLinkClick }: SidebarListProps) => {
                                             target="_self"
                                             to={`/${subItem.link ?? '#'}`}
                                             onClick={onLinkClick}
-                                            className={`ms-5 flex items-center px-2 py-1.5 text-primary hover:bg-base rounded-md group ${isActive(subItem.link) ? 'font-semibold' : ''}`}
+                                            className={`ms-5 flex items-center px-2 py-1.5 text-primary hover:bg-base rounded-md ${isActive(subItem.link) ? 'font-semibold' : ''}`}
                                         >
                                             {t(subItem.label)}
                                         </Link>
@@ -62,9 +67,13 @@ const SidebarListComponent = memo(({ onLinkClick }: SidebarListProps) => {
                             target="_self"
                             to={`/${item.link ?? '#'}`}
                             onClick={() => { setActiveNavItem(item.id); onLinkClick?.(); }}
-                            className={`flex items-center px-2 py-1.5 text-primary hover:bg-base rounded-md group ${isActive(item.link) ? 'font-semibold' : ''}`}
+                            title={collapsed ? t(item.label) : undefined}
+                            className={`flex items-center h-9 px-2 text-primary hover:bg-base rounded-md ${isActive(item.link) ? 'font-semibold' : ''}`}
                         >
-                            <span>{t(item.label)}</span>
+                            {item.icon && <item.icon size={18} className="shrink-0" />}
+                            <span className={`whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ms-2 ${collapsed ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100'}`}>
+                                {t(item.label)}
+                            </span>
                         </Link>
                     )}
                 </li>

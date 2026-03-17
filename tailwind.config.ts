@@ -111,6 +111,8 @@ const config = {
         "light-gray-2":       "var(--light-gray-2)",
         "light-gray-focus":   "var(--focus-ring-light-gray)",
         "dark-gray":          "var(--dark-gray)",
+        "wlr-green":          "var(--wlr-green)",
+        "wlr-blue":           "var(--wlr-blue)",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -90,12 +90,14 @@ body {
         /* =========================
            Utility
         ========================== */
-        --white:      hsla(0, 0%, 100%, 1);        /* #FFFFFF */
+        --white:      hsla(0, 0%, 100%, 1);         /* #FFFFFF */
         --black:      hsla(0, 0%, 0%, 1);           /* #000000 */
         --gray:       hsla(217, 13%, 62%, 1);       /* #919BAB */
         --dark-gray:  hsla(211, 18%, 23%, 1);       /* #303A45 */
         --light-gray: hsla(217, 10%, 85%, 1);       /* #D4D7DC */
         --light-gray-2: hsla(0, 0%, 80%, 1);        /* #CCCCCC */
+        --wlr-green: hsla(140, 60%, 50%, 1);        /* #33cc66 */
+        --wlr-blue: hsla(210, 100%, 60%, 1);        /* #3399ff */
 
         --focus-ring:            hsla(217, 100%, 55%, 1);   /* #2474F3 */
         --focus-ring-light-gray: hsla(217, 10%, 70%, 1);    /* #AAB0BA */
@@ -103,6 +105,16 @@ body {
 
         --radius: 0.5rem;
     }
+}
+
+.rte-link {
+    color: var(--text-link);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.rte-link:hover {
+    color: var(--text-link-dark);
 }
 
     /*.dark {*/

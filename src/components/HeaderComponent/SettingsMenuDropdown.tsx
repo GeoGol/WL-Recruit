@@ -1,10 +1,17 @@
-import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import {memo, useCallback} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SettingsInternalItems } from '@/utils/SystemLinks';
 
 const SettingsMenuDropdown = memo(() => {
     const { t } = useTranslation();
+
+    const { pathname } = useLocation();
+
+    const isActive = useCallback(
+        (link?: string) => pathname === `/${link}`,
+        [pathname]
+    )
 
     return (
         <ul className="p-2">
@@ -13,7 +20,7 @@ const SettingsMenuDropdown = memo(() => {
                     <Link
                         target="_self"
                         to={`/${item.link ?? '#'}`}
-                        className="inline-flex items-center w-full px-3 py-2 text-md"
+                        className= {`inline-flex items-center w-full px-3 py-2 text-md ${isActive(item.link) ? 'font-semibold' : ''}`}
                     >
                         {t(item.label)}
                     </Link>

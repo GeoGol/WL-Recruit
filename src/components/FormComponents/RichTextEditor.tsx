@@ -1,3 +1,4 @@
+// filepath: c:\repos\WL-Recruit\src\components\FormComponents\RichTextEditor.tsx
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -5,7 +6,8 @@ import TextAlign from '@tiptap/extension-text-align';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import Indent from '@/components/FormComponents/extensions/Indent';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import {
     RiBold, RiItalic, RiUnderline,
@@ -14,6 +16,7 @@ import {
     RiLinkM, RiLinkUnlink,
     RiArrowGoBackLine, RiArrowGoForwardLine,
     RiIndentIncrease, RiIndentDecrease,
+    RiExternalLinkLine, RiPencilLine,
 } from '@/components/IconComponent/Icons';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -58,23 +61,109 @@ interface ToolbarButtonProps {
 
 const ToolbarButton = memo(({ onClick, active, disabled, icon, title }: ToolbarButtonProps) => (
     <Tooltip title={title}>
-        <ButtonComponent
-            variant="ghost"
-            size="xs"
-            onClick={onClick}
-            disabled={disabled}
-            aria-label={title}
-            className={[
-                '!p-1.5 w-7 h-7',
-                active ? '!bg-gray-200 !text-primary-700' : 'text-gray-600',
-            ].join(' ')}
-            leftIcon={icon}
-        />
+        {/* onMouseDown preventDefault keeps editor focus/selection intact when clicking toolbar */}
+        <div onMouseDown={e => e.preventDefault()}>
+            <ButtonComponent
+                variant="ghost"
+                size="xs"
+                onClick={onClick}
+                disabled={disabled}
+                aria-label={title}
+                className={[
+                    '!p-1.5 w-7 h-7',
+                    active ? '!bg-gray-200 !text-primary-700' : 'text-gray-600',
+                ].join(' ')}
+                leftIcon={icon}
+            />
+        </div>
     </Tooltip>
 ));
 ToolbarButton.displayName = 'ToolbarButton';
 
 const Divider = () => <div className="w-px h-5 bg-gray-200 mx-0.5 self-center" />;
+
+// ─── Link bubble popover ──────────────────────────────────────────────────────
+
+interface LinkBubbleProps {
+    url        : string;
+    onEdit     : () => void;
+    onRemove   : () => void;
+    anchorRef  : React.RefObject<HTMLDivElement | null>;
+}
+
+const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) => {
+    const bubbleRef = useRef<HTMLDivElement>(null);
+    const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
+
+    useEffect(() => {
+        const anchor = anchorRef.current;
+        if (!anchor) return;
+
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0) return;
+
+        const range  = selection.getRangeAt(0);
+        const rect   = range.getBoundingClientRect();
+        const parent = anchor.getBoundingClientRect();
+
+        setPos({
+            top : rect.bottom - parent.top + 6,
+            left: rect.left   - parent.left,
+        });
+    }, [url, anchorRef]);
+
+    if (!pos) return null;
+
+    const display = url.length > 40 ? url.slice(0, 40) + '…' : url;
+
+    return (
+        <div
+            ref={bubbleRef}
+            style={{ top: pos.top, left: pos.left }}
+            className="absolute z-50 flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white shadow-md px-2.5 py-1.5 text-xs"
+            onMouseDown={e => e.preventDefault()}
+        >
+            <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-600 underline max-w-[200px] truncate hover:text-primary-800"
+                title={url}
+            >
+                {display}
+            </a>
+            <div className="w-px h-3.5 bg-gray-200 mx-0.5" />
+            <button
+                type="button"
+                title="Open link"
+                onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
+                className="text-gray-500 hover:text-primary-600 transition-colors"
+                onMouseDown={e => e.preventDefault()}
+            >
+                <RiExternalLinkLine size={13} />
+            </button>
+            <button
+                type="button"
+                title="Edit link"
+                onClick={onEdit}
+                className="text-gray-500 hover:text-primary-600 transition-colors"
+                onMouseDown={e => e.preventDefault()}
+            >
+                <RiPencilLine size={13} />
+            </button>
+            <button
+                type="button"
+                title="Remove link"
+                onClick={onRemove}
+                className="text-gray-500 hover:text-danger transition-colors"
+                onMouseDown={e => e.preventDefault()}
+            >
+                <RiLinkUnlink size={13} />
+            </button>
+        </div>
+    );
+});
+LinkBubble.displayName = 'LinkBubble';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -88,52 +177,89 @@ const RichTextEditor = memo<RichTextEditorProps>(({
     disabled    = false,
     onChange,
 }) => {
-    const [linkUrl, setLinkUrl]           = useState('');
+    const [linkUrl, setLinkUrl]             = useState('');
     const [showLinkInput, setShowLinkInput] = useState(false);
+    const [activeLink, setActiveLink]       = useState<string | null>(null);
+    const editorWrapperRef                  = useRef<HTMLDivElement>(null);
+    const savedSelection                    = useRef<{ from: number; to: number } | null>(null);
 
     const editor = useEditor({
         extensions: [
             StarterKit,
             Underline,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
-            Link.configure({ openOnClick: false }),
+            Link.configure({ openOnClick: false, HTMLAttributes: { class: 'rte-link' } }),
             Placeholder.configure({ placeholder }),
+            Indent,
             ...(maxLength ? [CharacterCount.configure({ limit: maxLength })] : [CharacterCount]),
         ],
         content: value,
         editable: !disabled,
-        onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
+        onUpdate:          ({ editor }) => onChange?.(editor.getHTML()),
+        onSelectionUpdate: ({ editor }) => {
+            const href = editor.getAttributes('link').href as string | undefined;
+            setActiveLink(href ?? null);
+        },
     });
 
     const applyLink = useCallback(() => {
         if (!editor) return;
-        if (linkUrl) editor.chain().focus().setLink({ href: linkUrl }).run();
+        if (linkUrl) {
+            const sel = savedSelection.current;
+            if (sel) {
+                // Restore selection that was lost when URL input took focus, apply link, then collapse
+                editor
+                    .chain()
+                    .focus()
+                    .setTextSelection({ from: sel.from, to: sel.to })
+                    .setLink({ href: linkUrl })
+                    .setTextSelection(sel.to)   // collapse to end → stops typing as link
+                    .run();
+            } else {
+                editor.chain().focus().setLink({ href: linkUrl }).run();
+                const { to } = editor.state.selection;
+                editor.chain().setTextSelection(to).run();
+            }
+        }
+        savedSelection.current = null;
         setLinkUrl('');
         setShowLinkInput(false);
     }, [editor, linkUrl]);
 
     const removeLink = useCallback(() => {
         editor?.chain().focus().unsetLink().run();
+        setActiveLink(null);
         setShowLinkInput(false);
     }, [editor]);
+
+    const openEditLink = useCallback(() => {
+        if (editor) {
+            // Extend the selection to the full link range so it gets re-applied correctly
+            editor.chain().focus().extendMarkRange('link').run();
+            const { from, to } = editor.state.selection;
+            savedSelection.current = { from, to };
+        }
+        setLinkUrl(activeLink ?? '');
+        setActiveLink(null);
+        setShowLinkInput(true);
+    }, [activeLink, editor]);
 
     if (!editor) return null;
 
     const charCount = editor.storage.characterCount?.characters?.() ?? 0;
-    const inList    = editor.isActive('bulletList') || editor.isActive('orderedList');
 
     return (
         <div className={`flex flex-col ${disabled ? 'opacity-60 pointer-events-none' : ''}`}>
 
             {/* Label */}
             {label && (
-                <label className="mb-2 block text-sm font-medium text-primary ">
+                <label className="mb-2 block text-sm font-medium text-primary">
                     {label}
                 </label>
             )}
 
             {/* Editor wrapper */}
-            <div className="flex flex-col rounded-lg border border-gray-200 bg-surface focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600 transition-colors duration-150">
+            <div ref={editorWrapperRef} className="relative flex flex-col rounded-lg border border-gray-200 bg-surface focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600 transition-colors duration-150">
 
                 {/* ── Toolbar ─────────────────────────────────────────── */}
                 <div className="flex flex-wrap items-center gap-0.5 border-b border-gray-200 px-2 py-1.5 flex-shrink-0">
@@ -169,13 +295,11 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                         active={editor.isActive('orderedList')}
                         onClick={() => editor.chain().focus().toggleOrderedList().run()} />
 
-                    {/* Indent — only meaningful inside a list */}
+                    {/* Indent */}
                     <ToolbarButton title="Decrease indent" icon={<RiIndentDecrease size={14} />}
-                        disabled={!inList}
-                        onClick={() => editor.chain().focus().liftListItem('listItem').run()} />
+                        onClick={() => editor.chain().focus().indent().run()} />
                     <ToolbarButton title="Increase indent" icon={<RiIndentIncrease size={14} />}
-                        disabled={!inList}
-                        onClick={() => editor.chain().focus().sinkListItem('listItem').run()} />
+                        onClick={() => editor.chain().focus().outdent().run()} />
 
                     <Divider />
 
@@ -195,7 +319,11 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                     {/* Link */}
                     <ToolbarButton title="Insert link" icon={<RiLinkM size={14} />}
                         active={editor.isActive('link') || showLinkInput}
-                        onClick={() => setShowLinkInput(prev => !prev)} />
+                        onClick={() => {
+                            const { from, to } = editor.state.selection;
+                            savedSelection.current = { from, to };
+                            setShowLinkInput(prev => !prev);
+                        }} />
                     <ToolbarButton title="Remove link" icon={<RiLinkUnlink size={14} />}
                         disabled={!editor.isActive('link')}
                         onClick={removeLink} />
@@ -208,7 +336,12 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                             type="url"
                             value={linkUrl}
                             onChange={e => setLinkUrl(e.target.value)}
-                            onKeyDown={e => e.key === 'Enter' && applyLink()}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    applyLink();
+                                }
+                            }}
                             placeholder="https://..."
                             autoFocus
                             className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary-600"
@@ -223,19 +356,18 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                     editor={editor}
                     onClick={() => editor.commands.focus()}
                     className={[
-                        'prose prose-sm max-w-none px-4 py-3 text-primary text-md cursor-text flex-1',
-                        minHeight,
-                        '[&_.tiptap]:outline-none',
-                        '[&_.tiptap]:h-full',
-                        '[&_.tiptap]:min-h-[inherit]',
-                        '[&_.tiptap_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]',
-                        '[&_.tiptap_p.is-editor-empty:first-child::before]:text-gray-400',
-                        '[&_.tiptap_p.is-editor-empty:first-child::before]:float-left',
-                        '[&_.tiptap_p.is-editor-empty:first-child::before]:pointer-events-none',
-                        '[&_.tiptap_p.is-editor-empty:first-child::before]:h-0',
-                        '[&_.tiptap_a]:text-primary-600 [&_.tiptap_a]:underline',
-                        '[&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-5',
-                        '[&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-5',
+                            'prose prose-sm max-w-none px-4 py-3 text-primary text-md cursor-text flex-1',
+                            minHeight,
+                            '[&_.tiptap]:outline-none',
+                            '[&_.tiptap]:h-full',
+                            '[&_.tiptap]:min-h-[inherit]',
+                            '[&_.tiptap_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]',
+                            '[&_.tiptap_p.is-editor-empty:first-child::before]:text-gray-400',
+                            '[&_.tiptap_p.is-editor-empty:first-child::before]:float-left',
+                            '[&_.tiptap_p.is-editor-empty:first-child::before]:pointer-events-none',
+                            '[&_.tiptap_p.is-editor-empty:first-child::before]:h-0',
+                            '[&_.tiptap_ul]:list-disc [&_.tiptap_ul]:pl-5',
+                            '[&_.tiptap_ol]:list-decimal [&_.tiptap_ol]:pl-5',
                         '[&_.tiptap_li_p]:my-0',
                     ].join(' ')}
                 />
@@ -247,6 +379,16 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                             {charCount} / {maxLength}
                         </span>
                     </div>
+                )}
+
+                {/* ── Link bubble ──────────────────────────────────────── */}
+                {activeLink && !showLinkInput && (
+                    <LinkBubble
+                        url={activeLink}
+                        onEdit={openEditLink}
+                        onRemove={removeLink}
+                        anchorRef={editorWrapperRef}
+                    />
                 )}
             </div>
 
