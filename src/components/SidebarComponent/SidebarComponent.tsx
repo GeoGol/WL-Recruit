@@ -28,8 +28,8 @@ const SidebarComponent = memo(
           }`}
           aria-label="Sidebar"
         >
-          <div className="h-full flex flex-col overflow-hidden bg-surface border-e border-gray-200 p-2">
-            <SidebarListComponent collapsed={collapsed} />
+          <div className="h-full flex flex-col overflow-hidden bg-surface border-e border-main p-2">
+            <SidebarListComponent collapsed={collapsed} parseCollapseAction={onToggleCollapse}/>
 
             {/* ── Collapse toggle ───────────────────────────── */}
             <ButtonComponent

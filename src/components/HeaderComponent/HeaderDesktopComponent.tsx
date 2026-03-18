@@ -22,7 +22,7 @@ const HeaderDesktopComponent = memo(() => {
     const handleSearch = useCallback((_val: string) => { /* implement search */ }, []);
 
     return (
-        <header className="flex w-full h-16 border-b border-gray-200 sticky top-0 left-0 z-50 bg-surface">
+        <header className="flex w-full h-16 border-b border-main sticky top-0 left-0 z-50 bg-surface">
             <div className="p-3 flex items-center justify-between w-full h-full gap-6">
                 <div className="max-w-56 w-full h-full">
                     <Link
@@ -60,7 +60,7 @@ const HeaderDesktopComponent = memo(() => {
                             leftIcon={<RiSettings3Line className="w-6 h-6 text-secondary" />}
                         />
                         {openId === 'settings' && (
-                            <div className="absolute right-0 top-10 w-48 bg-surface border border-gray-200 rounded-md shadow-lg z-50">
+                            <div className="absolute right-0 top-10 w-48 bg-surface border border-main rounded-md shadow-lg z-50">
                                 <SettingsMenuDropdown />
                             </div>
                         )}
@@ -80,7 +80,7 @@ const HeaderDesktopComponent = memo(() => {
                             className="!w-8 !h-8 !p-0 text-sm font-bold text-muted"
                         />
                         {openId === 'profile' && (
-                            <div className="absolute right-0 top-10 w-48 bg-surface border border-gray-200 rounded-md shadow-lg z-50">
+                            <div className="absolute right-0 top-10 w-48 bg-surface border border-main rounded-md shadow-lg z-50">
                                 <ProfileMenuDropdown />
                             </div>
                         )}

@@ -55,7 +55,7 @@ const LanguageToggle = memo(() => {
                 <div
                     role="menu"
                     aria-label="Language"
-                    className="absolute right-0 top-10 w-30 bg-surface border border-gray-200 rounded-md shadow-lg z-50"
+                    className="absolute right-0 top-10 w-30 bg-surface border border-main rounded-md shadow-lg z-50"
                 >
                     <ul className="p-2">
                         {LANGUAGES.map(({ code, label, Flag }) => (

@@ -120,7 +120,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
         <div
             ref={bubbleRef}
             style={{ top: pos.top, left: pos.left }}
-            className="absolute z-50 flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white shadow-md px-2.5 py-1.5 text-xs"
+            className="absolute z-50 flex items-center gap-1.5 rounded-lg border border-main bg-white shadow-md px-2.5 py-1.5 text-xs"
             onMouseDown={e => e.preventDefault()}
         >
             <a
@@ -259,10 +259,10 @@ const RichTextEditor = memo<RichTextEditorProps>(({
             )}
 
             {/* Editor wrapper */}
-            <div ref={editorWrapperRef} className="relative flex flex-col rounded-lg border border-gray-200 bg-surface focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600 transition-colors duration-150">
+            <div ref={editorWrapperRef} className="relative flex flex-col rounded-lg border border-main bg-surface focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600 transition-colors duration-150">
 
                 {/* ── Toolbar ─────────────────────────────────────────── */}
-                <div className="flex flex-wrap items-center gap-0.5 border-b border-gray-200 px-2 py-1.5 flex-shrink-0">
+                <div className="flex flex-wrap items-center gap-0.5 border-b border-main px-2 py-1.5 flex-shrink-0">
 
                     {/* History */}
                     <ToolbarButton title="Undo" icon={<RiArrowGoBackLine size={14} />}
@@ -331,7 +331,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
 
                 {/* ── Link input bar ───────────────────────────────────── */}
                 {showLinkInput && (
-                    <div className="flex items-center gap-2 border-b border-gray-200 px-3 py-1.5 bg-surface">
+                    <div className="flex items-center gap-2 border-b border-main px-3 py-1.5 bg-surface">
                         <input
                             type="url"
                             value={linkUrl}
@@ -344,7 +344,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                             }}
                             placeholder="https://..."
                             autoFocus
-                            className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary-600"
+                            className="flex-1 text-xs border border-main rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary-600"
                         />
                         <ButtonComponent variant="confirmation" size="xs" label="Add"    onClick={applyLink} />
                         <ButtonComponent variant="ghost"        size="xs" label="Cancel" onClick={() => { setShowLinkInput(false); setLinkUrl(''); }} />

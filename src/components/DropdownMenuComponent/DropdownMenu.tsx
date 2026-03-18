@@ -14,7 +14,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = memo(
 
         return (
             <div
-                className="absolute left-0 top-full z-50 mt-1 w-56 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                className="absolute left-0 top-full z-50 mt-1 w-56 rounded-lg border border-main bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 role="menu"

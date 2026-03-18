@@ -7,9 +7,10 @@ import { useTranslation } from 'react-i18next';
 interface SidebarListProps {
     onLinkClick?: () => void;
     collapsed?  : boolean;
+    parseCollapseAction? : (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const SidebarListComponent = memo(({ onLinkClick, collapsed = false }: SidebarListProps) => {
+const SidebarListComponent = memo(({ onLinkClick, collapsed = false, parseCollapseAction }: SidebarListProps) => {
     const { t } = useTranslation();
     const location = useLocation();
     const [activeNavItem, setActiveNavItem] = useState<string | undefined>();
@@ -19,9 +20,12 @@ const SidebarListComponent = memo(({ onLinkClick, collapsed = false }: SidebarLi
         [location.pathname]
     );
 
-    const handleToggle = useCallback((id: string) => {
+    const handleToggle = useCallback((id: string, e?: React.MouseEvent<HTMLButtonElement>) => {
         setActiveNavItem(prev => prev === id ? undefined : id);
-    }, []);
+        if (collapsed && parseCollapseAction && e) {
+            parseCollapseAction(e);
+        }
+    }, [collapsed, parseCollapseAction]);
 
     return (
         <ul className="flex-1 overflow-y-auto space-y-2 font-medium">
@@ -34,7 +38,7 @@ const SidebarListComponent = memo(({ onLinkClick, collapsed = false }: SidebarLi
                                 aria-label={`sublist-${item.id}`}
                                 aria-controls={`sublist-${item.id}`}
                                 data-collapse-toggle={`sublist-${item.id}`}
-                                onClick={() => handleToggle(item.id)}
+                                onClick={(e) => handleToggle(item.id, e)}
                                 title={collapsed ? t(item.label) : undefined}
                                 className="flex items-center w-full h-9 px-2 text-primary hover:bg-base rounded-md"
                             >
@@ -70,7 +74,7 @@ const SidebarListComponent = memo(({ onLinkClick, collapsed = false }: SidebarLi
                             title={collapsed ? t(item.label) : undefined}
                             className={`flex items-center h-9 px-2 text-primary hover:bg-base rounded-md ${isActive(item.link) ? 'font-semibold' : ''}`}
                         >
-                            {item.icon && <item.icon size={18} className="shrink-0" />}
+                            {item.icon && <item.icon size={18} className={`shrink-0 ${isActive(item.link) ? 'text-black/90' : ''}`} />}
                             <span className={`whitespace-nowrap overflow-hidden transition-[max-width,opacity] duration-300 ms-2 ${collapsed ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100'}`}>
                                 {t(item.label)}
                             </span>

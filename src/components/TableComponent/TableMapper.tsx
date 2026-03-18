@@ -1,41 +1,6 @@
-import type { TableColumn, TableAction, BadgeColor } from './TableComponent';
-import { TableBadge, TableImageCell } from './TableComponent';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-export interface ColumnDef<T> {
-    key          : keyof T | string;
-    label        : string;
-    sortable?    : boolean;
-    headerClass? : string;
-    cellClass?   : string;
-    width?       : string;
-    /** 'text'  — raw string value (default)                           */
-    /** 'badge' — renders a TableBadge; supply colorMap                */
-    /** 'image' — renders a TableImageCell; supply imageKey/subtitleKey */
-    /** 'date'  — formats value with toLocaleDateString                */
-    type?        : 'text' | 'badge' | 'image' | 'date';
-    /** For type='badge': maps cell value → BadgeColor */
-    colorMap?    : Record<string, BadgeColor>;
-    /** For type='badge': fallback color when value not in colorMap */
-    defaultColor?: BadgeColor;
-    /** For type='image': key of the image src field */
-    imageKey?    : keyof T;
-    /** For type='image': key used as the subtitle */
-    subtitleKey? : keyof T;
-    /** For type='date': locale string options */
-    dateOptions? : Intl.DateTimeFormatOptions;
-    /** Custom render — overrides type */
-    render?      : TableColumn<T>['render'];
-}
-
-export interface ActionDef<T> {
-    label    : string;
-    icon?    : TableAction<T>['icon'];
-    variant? : TableAction<T>['variant'];
-    onClick  : (row: T) => void;
-    disabled?: (row: T) => boolean;
-}
+import {ActionDef, ColumnDef, TableAction, TableColumn} from '@/models/TablesModel';
+import { TableBadge } from './TableBadge';
+import { TableImageCell } from './TableImageCell';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -48,11 +13,11 @@ function formatDate(value: unknown, options?: Intl.DateTimeFormatOptions): strin
 
 // ─── mapColumns ───────────────────────────────────────────────────────────────
 
-export function mapColumns<T extends Record<string, unknown>>(
-    defs: ColumnDef<T>[]
-): TableColumn<T>[] {
+export function mapColumns(
+    defs: ColumnDef[]
+): TableColumn<any>[] {
     return defs.map(def => {
-        const base: TableColumn<T> = {
+        const base: TableColumn<any> = {
             key        : def.key,
             label      : def.label,
             sortable   : def.sortable,
@@ -68,8 +33,8 @@ export function mapColumns<T extends Record<string, unknown>>(
             case 'badge':
                 return {
                     ...base,
-                    render: (row) => {
-                        const value = String(row[def.key as keyof T] ?? '');
+                    render: (row: any) => {
+                        const value = String(row[def.key] ?? '');
                         const color = def.colorMap?.[value] ?? def.defaultColor ?? 'gray';
                         return <TableBadge label={value} color={color} />;
                     },
@@ -78,10 +43,10 @@ export function mapColumns<T extends Record<string, unknown>>(
             case 'image':
                 return {
                     ...base,
-                    render: (row) => (
+                    render: (row: any) => (
                         <TableImageCell
                             src={def.imageKey ? String(row[def.imageKey] ?? '') : undefined}
-                            name={String(row[def.key as keyof T] ?? '')}
+                            name={String(row[def.key] ?? '')}
                             subtitle={def.subtitleKey ? String(row[def.subtitleKey] ?? '') : undefined}
                         />
                     ),
@@ -90,7 +55,7 @@ export function mapColumns<T extends Record<string, unknown>>(
             case 'date':
                 return {
                     ...base,
-                    render: (row) => formatDate(row[def.key as keyof T], def.dateOptions),
+                    render: (row: any) => formatDate(row[def.key], def.dateOptions),
                 };
 
             default:
@@ -110,4 +75,3 @@ export function mapActions<T>(defs: ActionDef<T>[]): TableAction<T>[] {
         disabled: def.disabled,
     }));
 }
-
