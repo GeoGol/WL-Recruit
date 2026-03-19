@@ -61,7 +61,7 @@ const config = {
         DEFAULT:    "var(--border-default)",
         main:       "var(--border-main)",
         light:      "var(--border-light)",
-        focus:      "var(--border-focus)",
+        focus:      "var(--border-primary)",
         link:       "var(--border-link)",
         'link-dark':"var(--border-link-dark)",
       },

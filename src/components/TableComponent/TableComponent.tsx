@@ -3,6 +3,28 @@ import TablePagination from './TablePagination';
 import TableBody from './TableBody';
 import TableHead from './TableHead';
 import { SortDirection, TableProps} from "@/models";
+import SelectComponent from "@/components/FormComponents/SelectComponent";
+
+// ─── Smart comparator ────────────────────────────────────────────────────────
+const DATE_REGEX = /^\d{1,2}\/\d{1,2}\/\d{4}/;
+
+function smartCompare(a: unknown, b: unknown): number {
+    // Both numbers
+    if (typeof a === 'number' && typeof b === 'number') return a - b;
+
+    const aStr = String(a ?? '');
+    const bStr = String(b ?? '');
+
+    // Both look like dates (MM/DD/YYYY ...)
+    if (DATE_REGEX.test(aStr) && DATE_REGEX.test(bStr)) {
+        const aTime = new Date(aStr).getTime();
+        const bTime = new Date(bStr).getTime();
+        if (!isNaN(aTime) && !isNaN(bTime)) return aTime - bTime;
+    }
+
+    // Fallback: locale string comparison (handles accents, case, etc.)
+    return aStr.localeCompare(bStr, undefined, { numeric: true, sensitivity: 'base' });
+}
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -31,23 +53,17 @@ function TableComponent<T extends Record<string, unknown>>({
 
     const [sortKey, setSortKey] = useState<string | null>(null);
     const [sortDir, setSortDir] = useState<SortDirection>(null);
-    // Add internal pagination state
+
     const [page, setPage] = useState(initialPage);
     const [pageSize, setPageSize] = useState(initialPageSize);
     const total = data.length;
 
+    // ── Sorting data ─────────────────────────────────────────────────────────
     const sortedData = useMemo(() => {
         if (!clientSort || !sortKey || !sortDir) return data;
         return [...data].sort((a, b) => {
-            const av = a[sortKey];
-            const bv = b[sortKey];
-            if (av === bv) {
-                return 0;
-            } else if ((av ?? '') < (bv ?? '')) {
-                return sortDir === 'asc' ? -1 : 1;
-            } else {
-                return sortDir === 'asc' ? 1 : -1;
-            }
+            const result = smartCompare(a[sortKey], b[sortKey]);
+            return sortDir === 'asc' ? result : -result;
         });
     }, [data, clientSort, sortKey, sortDir]);
 
@@ -58,20 +74,17 @@ function TableComponent<T extends Record<string, unknown>>({
 
     // ── Sorting ──────────────────────────────────────────────────────────────
     const handleSort = useCallback((key: string) => {
+        setPage(1);
         if (sortKey !== key) {
             setSortKey(key);
             setSortDir('asc');
-        } else if (sortDir === 'asc') {
-            setSortDir('desc');
         } else {
-            setSortKey(null);
-            setSortDir(null);
+            setSortDir(prev => prev === 'asc' ? 'desc' : 'asc');
         }
-    }, [sortKey, sortDir]);
+    }, [sortKey]);
 
     // ── Selection ─────────────────────────────────────────────────────────────
     const allSelected  = data.length > 0 && data.every(row => selectedKeys.includes(row[rowKey] as string | number));
-    const someSelected = !allSelected && data.some(row => selectedKeys.includes(row[rowKey] as string | number));
 
     const toggleAll = useCallback(() => {
         if (!onSelectionChange) return;
@@ -94,12 +107,11 @@ function TableComponent<T extends Record<string, unknown>>({
 
     const colCount = columns.length + (selectable ? 1 : 0) + (actions?.length ? 1 : 0);
 
-
     // ── Render ────────────────────────────────────────────────────────────────
     return (
         <div className={`w-full bg-surface rounded-lg border border-main ${className}`}>
 
-            {/* ── Card header: title + toolbar ─────────────────────────── */}
+            {/* ── title ────────────────────────── */}
             {(title || toolbar) && (
                 <div className="flex max-md:flex-col items-start md:items-center justify-between gap-3 p-3 border-b border-main">
                     {title && (
@@ -108,13 +120,29 @@ function TableComponent<T extends Record<string, unknown>>({
                             {subtitle && <p className="text-sm text-muted">{subtitle}</p>}
                         </div>
                     )}
-                    {toolbar && <div className="flex items-center gap-2 w-full md:w-auto">{toolbar}</div>}
+                </div>
+            )}
+
+            {/* ── toolbar ───────────────────────── */}
+            {(toolbar) && (
+                <div className="flex items-end justify-between gap-3 p-3">
+                    {toolbar}
+                    <div className={'flex items-center gap-1'}>
+                        <SelectComponent
+                            options={pageSizeOptions?.map(size => ({ label: `${size}`, value: size })) || []}
+                            value={pageSize}
+                            onChange={(value) => setPageSize(Number(value))}
+                            className={''}
+                        />
+
+                        <span className={'text-xs text-gray-500'}>entries per page</span>
+                    </div>
                 </div>
             )}
 
             {/* ── Table ────────────────────────────────────────────────── */}
             <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500">
+                <table className="w-full text-sm text-left text-primary">
 
                     {/* Head */}
                     <TableHead
@@ -122,7 +150,6 @@ function TableComponent<T extends Record<string, unknown>>({
                         handleSort={handleSort}
                         selectable={selectable}
                         allSelected={allSelected}
-                        someSelected={someSelected}
                         toggleAll={toggleAll}
                         actions={actions}
                     />
@@ -152,8 +179,6 @@ function TableComponent<T extends Record<string, unknown>>({
                 pageSize,
                 total,
                 onPageChange: setPage,
-                pageSizeOptions,
-                onPageSizeChange: (s: number) => { setPageSize(s); setPage(1); },
             }} />
         </div>
     );

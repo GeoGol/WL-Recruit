@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import TableComponent from '@/components/TableComponent/TableComponent';
 import { mapColumns, mapActions } from '@/components/TableComponent/TableMapper';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
@@ -14,12 +15,14 @@ const actions = mapActions(actionDefs);
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BillingHistory() {
+    const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([]);
+
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
             <TableComponent
                 data={MOCK_DATA}
                 columns={columns}
-                actions={actions}
+                // actions={actions}
                 rowKey="id"
                 title={t('mnoBillingHistory')}
                 subtitle="Subtitle"
@@ -33,6 +36,9 @@ export default function BillingHistory() {
                         onClick={() => console.log('export')}
                     />
                 }
+                // selectable={true}
+                // selectedKeys={selectedKeys}
+                // onSelectionChange={setSelectedKeys}
                 emptyMessage={t('msgNoRecordsFoundForCriteria')}
                 initialPage={1}
                 initialPageSize={5}

@@ -57,6 +57,16 @@ export interface TablePaginationProps {
     };
 }
 
+export interface TableHeadProps {
+    columns: any[];
+    handleSort: (key: string) => void;
+    selectable: boolean;
+    allSelected: boolean;
+    someSelected: boolean;
+    toggleAll: () => void;
+    actions?: any[];
+}
+
 
 
 

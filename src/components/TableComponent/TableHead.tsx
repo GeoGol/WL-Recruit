@@ -1,48 +1,36 @@
-import { RiCheckboxLine, RiCheckboxBlankLine } from '@/components/IconComponent/Icons';
+import {RiExpandUpDownLine} from '@/components/IconComponent/Icons';
+import type { TableColumn } from "@/models";
+import CheckboxComponent from "@/components/FormComponents/CheckboxComponent";
 
-interface TableHeadProps {
-  columns: any[];
-  handleSort: (key: string) => void;
-  selectable: boolean;
-  allSelected: boolean;
-  someSelected: boolean;
-  toggleAll: () => void;
-  actions?: any[];
-}
-
-function TableHead({
+function TableHead<T>({
   columns,
   handleSort,
   selectable,
   allSelected,
-  someSelected,
   toggleAll,
   actions,
-}: Readonly<Omit<TableHeadProps, 'sortKey' | 'sortDir'>>) {
-  let headerCheckboxIcon;
-  if (allSelected) {
-    headerCheckboxIcon = <RiCheckboxLine size={18} className="text-primary-600" />;
-  } else if (someSelected) {
-    headerCheckboxIcon = <RiCheckboxLine size={18} className="text-primary-300" />;
-  } else {
-    headerCheckboxIcon = <RiCheckboxBlankLine size={18} />;
-  }
+}: Readonly<{
+  columns: TableColumn<T>[];
+  handleSort: (key: string) => void;
+  selectable: boolean;
+  allSelected: boolean;
+  toggleAll: () => void;
+  actions?: any[];
+}>) {
 
   return (
-    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <thead className="text-sm text-secondary uppercase bg-surface">
       <tr>
         {selectable && (
-          <th scope="col" className="w-10 p-4">
-            <button
-              type="button"
-              onClick={toggleAll}
-              aria-label="Select all"
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-            >
-              {headerCheckboxIcon}
-            </button>
+          <th scope="col" className="px-4 py-3">
+            <CheckboxComponent
+                name={'select-all'}
+                checked={allSelected}
+                onChange={(_checked, _name) => toggleAll()}
+            />
           </th>
         )}
+
         {columns.map(col => (
           <th
             key={String(col.key)}
@@ -52,22 +40,22 @@ function TableHead({
               'px-4 py-3',
               col.width ?? '',
               col.headerClass ?? '',
-              col.sortable ? 'cursor-pointer select-none hover:bg-gray-100 dark:hover:bg-gray-600' : '',
+              col.sortable ? 'cursor-pointer select-none group hover:text-primary' : '',
             ].filter(Boolean).join(' ')}
           >
-            <span className="inline-flex items-center gap-1">
+            <span className="inline-flex items-center gap-1 group-hover:text-primary">
               {col.label}
               {col.sortable && (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
+                  <RiExpandUpDownLine className={'w-3 h-3 text-secondary group-hover:text-primary'}/>
               )}
             </span>
           </th>
         ))}
+
         {actions && actions.length > 0 && (
-          <th scope="col" className="px-4 py-3 text-right">
-            <span className="sr-only">Actions</span>
+          <th scope="col" className="px-4 py-3 text-left">
+            {/*<span className="sr-only">Actions</span>*/}
+            <span>Actions</span>
           </th>
         )}
       </tr>
