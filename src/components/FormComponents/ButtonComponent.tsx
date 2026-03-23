@@ -2,7 +2,7 @@ import { memo } from 'react';
 import type { ReactNode } from 'react';
 import type { RemixiconComponentType } from '@/components/IconComponent/Icons';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'confirmation' | 'ghost' | 'danger' | 'link';
+export type ButtonVariant = 'primary' | 'secondary' | 'main' | 'outline' | 'confirmation' | 'ghost' | 'danger' | 'link';
 export type ButtonSize    = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonType    = 'button' | 'submit' | 'reset';
 export type ButtonIcon    = RemixiconComponentType | ReactNode;
@@ -53,6 +53,7 @@ interface ButtonProps {
 const variantClasses: Record<ButtonVariant, string> = {
     primary:        'bg-primary text-primary hover:bg-base focus:ring-light-gray-focus',
     secondary:      'bg-secondary text-primary hover:bg-light-gray-focus hover:text-inverse focus:ring-light-gray-focus',
+    main:           'bg-surface text-primary border border-main hover:bg-tertiary focus:ring-light-gray',
     outline:        'bg-transparent text-primary border border-main hover:bg-primary focus:ring-light-gray',
     confirmation:   'bg-blue-700 text-inverse hover:bg-blue-800 focus:ring-primary-300',
     ghost:          'bg-white border border-transparent focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0',

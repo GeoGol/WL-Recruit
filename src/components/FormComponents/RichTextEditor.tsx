@@ -253,7 +253,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
 
             {/* Label */}
             {label && (
-                <label className="mb-2 block text-sm font-medium text-primary">
+                <label className="mb-2 text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
                     {label}
                 </label>
             )}

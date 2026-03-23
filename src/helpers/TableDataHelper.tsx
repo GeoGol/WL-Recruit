@@ -1,6 +1,6 @@
 import {ActionDef, ColumnDef, TableAction, TableColumn} from '@/models/TablesModel';
-import { TableBadge } from './TableBadge';
-import { TableImageCell } from './TableImageCell';
+import { TableBadge } from '@/components/TableComponent/TableBadge';
+import { TableImageCell } from '@/components/TableComponent/TableImageCell';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

@@ -1,66 +1,13 @@
 import { memo, useId } from 'react';
-import type { RemixiconComponentType } from '@/components/IconComponent/Icons';
+import {InputProps, InputSize, InputVariant} from "@/models";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-export type InputSize    = 'sm' | 'md' | 'lg';
-export type InputType    = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local';
-export type InputVariant = 'default' | 'success' | 'error';
-
-export interface InputProps {
-    // Content
-    id?             : string;
-    name?           : string;
-    value?          : string | number;
-    defaultValue?   : string | number;
-    placeholder?    : string;
-    label?          : string;
-    helperText?     : string;   // shown in variant color (error/success/gray)
-    hint?           : string;   // always shown in gray, below helperText
-
-    // Appearance
-    type?           : InputType;
-    size?           : InputSize;
-    variant?        : InputVariant;
-    className?      : string;
-    fullWidth?      : boolean;
-
-    // Icons / addons
-    leftIcon?       : RemixiconComponentType;
-    rightIcon?      : RemixiconComponentType;
-    leftAddon?      : string;
-    rightAddon?     : string;
-
-    // States
-    disabled?       : boolean;
-    readOnly?       : boolean;
-    required?       : boolean;
-    autoFocus?      : boolean;
-    autoComplete?   : string;
-
-    // Form
-    form?           : string;
-    min?            : number | string;
-    max?            : number | string;
-    minLength?      : number;
-    maxLength?      : number;
-    pattern?        : string;
-    step?           : number | string;
-
-    // Events
-    onChange?       : (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onBlur?         : (e: React.FocusEvent<HTMLInputElement>) => void;
-    onFocus?        : (e: React.FocusEvent<HTMLInputElement>) => void;
-    onKeyDown?      : (e: React.KeyboardEvent<HTMLInputElement>) => void;
-    onKeyUp?        : (e: React.KeyboardEvent<HTMLInputElement>) => void;
-}
 
 // ─── Style maps ───────────────────────────────────────────────────────────────
 
-const sizeClasses: Record<InputSize, { input: string; icon: number; addon: string }> = {
-    sm: { input: 'p-2 text-sm',    icon: 14, addon: 'px-3 py-2 text-xs' },
-    md: { input: 'p-2.5 text-md',  icon: 16, addon: 'px-3 py-2.5 text-sm' },
-    lg: { input: 'p-4 text-base',  icon: 18, addon: 'px-4 py-4 text-base' },
+const sizeClasses: Record<InputSize, { input: string; icon: number; addon: string; height: string }> = {
+    sm: { input: 'p-2 text-sm',    icon: 14, addon: 'px-3 py-2 text-xs', height: 'h-8'  },
+    md: { input: 'p-2.5 text-md',  icon: 16, addon: 'px-3 py-2.5 text-sm', height: 'h-9'  },
+    lg: { input: 'p-2.5 text-lg',  icon: 18, addon: 'px-4 py-4 text-base', height: 'h-10' },
 };
 
 const variantClasses: Record<InputVariant, { input: string; helper: string }> = {
@@ -118,7 +65,7 @@ const InputComponent = memo<InputProps>(({
 }) => {
     const generatedId = useId();
     const inputId     = id ?? generatedId;
-    const { input: sizeInput, icon: iconSize, addon: addonClass } = sizeClasses[size];
+    const { input: sizeInput, icon: iconSize, addon: addonClass, height: heightClass } = sizeClasses[size];
     const { input: variantInput, helper: helperClass }            = variantClasses[variant];
 
     const hasLeftAddon  = Boolean(leftAddon);
@@ -130,12 +77,13 @@ const InputComponent = memo<InputProps>(({
                        : (hasRightAddon ? 'rounded-l-lg rounded-r-none' : 'rounded-lg');
 
     const inputClasses = [
-        'block border focus:outline-none focus:ring-1 transition-colors duration-150 h-9',
+        'block border focus:outline-none focus:ring-1 transition-colors duration-150',
         'disabled:cursor-not-allowed disabled:opacity-50',
         borderRadius,
         hasLeftIcon   ? 'pl-10'  : '',
         hasRightIcon  ? 'pr-10'  : '',
         fullWidth     ? 'w-full' : '',
+        heightClass,
         sizeInput,
         variantInput,
         className,
@@ -146,13 +94,12 @@ const InputComponent = memo<InputProps>(({
 
             {/* Label */}
             {label && (
-                <label
-                    htmlFor={inputId}
-                    className="mb-2 block text-sm font-medium text-primary"
-                >
-                    {label}
-                    {required && <span className="ml-1 text-danger" aria-hidden="true">*</span>}
-                </label>
+                <div className="justify-start items-center gap-1 flex mb-1">
+                    <label className="text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
+                        {label}
+                    </label>
+                    {required && <span className="ml-1 text-danger text-sm" aria-hidden="true">*</span>}
+                </div>
             )}
 
             {/* Input wrapper (handles addons + icons) */}

@@ -67,6 +67,11 @@ export interface TableHeadProps {
     actions?: any[];
 }
 
+export interface TableActionCellProps<T> {
+    row    : T;
+    actions: any[];
+}
+
 
 
 

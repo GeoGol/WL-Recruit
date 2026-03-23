@@ -109,15 +109,15 @@ function TableComponent<T extends Record<string, unknown>>({
 
     // ── Render ────────────────────────────────────────────────────────────────
     return (
-        <div className={`w-full bg-surface rounded-lg border border-main ${className}`}>
+        <div className={`w-full bg-surface rounded-lg ${className} border border-main`}>
 
             {/* ── title ────────────────────────── */}
             {(title || toolbar) && (
-                <div className="flex max-md:flex-col items-start md:items-center justify-between gap-3 p-3 border-b border-main">
+                <div className="flex max-md:flex-col items-start md:items-center justify-between gap-3 p-4 border-b border-main">
                     {title && (
                         <div>
-                            <h5 className="font-semibold text-primary ">{title}</h5>
-                            {subtitle && <p className="text-sm text-muted">{subtitle}</p>}
+                            <h5 className="text-xl md:text-2xl font-bold text-primary ">{title}</h5>
+                            {subtitle && <p className="text-md text-muted">{subtitle}</p>}
                         </div>
                     )}
                 </div>
@@ -125,12 +125,13 @@ function TableComponent<T extends Record<string, unknown>>({
 
             {/* ── toolbar ───────────────────────── */}
             {(toolbar) && (
-                <div className="flex items-end justify-between gap-3 p-3">
+                <div className="flex items-end justify-between gap-3 p-4">
                     {toolbar}
                     <div className={'flex items-center gap-1'}>
                         <SelectComponent
                             options={pageSizeOptions?.map(size => ({ label: `${size}`, value: size })) || []}
                             value={pageSize}
+                            size={"sm"}
                             onChange={(value) => setPageSize(Number(value))}
                             className={''}
                         />

@@ -19,7 +19,7 @@ function TableHead<T>({
 }>) {
 
   return (
-    <thead className="text-sm text-secondary uppercase bg-surface">
+    <thead className="text-base text-secondary uppercase bg-surface border-b-2 border-main">
       <tr>
         {selectable && (
           <th scope="col" className="px-4 py-3">
@@ -40,13 +40,13 @@ function TableHead<T>({
               'px-4 py-3',
               col.width ?? '',
               col.headerClass ?? '',
-              col.sortable ? 'cursor-pointer select-none group hover:text-primary' : '',
+              col.sortable ? 'cursor-pointer select-none group text-primary' : '',
             ].filter(Boolean).join(' ')}
           >
-            <span className="inline-flex items-center gap-1 group-hover:text-primary">
+            <span className="inline-flex items-center gap-1 text-primary">
               {col.label}
               {col.sortable && (
-                  <RiExpandUpDownLine className={'w-3 h-3 text-secondary group-hover:text-primary'}/>
+                  <RiExpandUpDownLine className={'w-3 h-3 text-primary'}/>
               )}
             </span>
           </th>
@@ -55,7 +55,7 @@ function TableHead<T>({
         {actions && actions.length > 0 && (
           <th scope="col" className="px-4 py-3 text-left">
             {/*<span className="sr-only">Actions</span>*/}
-            <span>Actions</span>
+            {/*<span>Actions</span>*/}
           </th>
         )}
       </tr>

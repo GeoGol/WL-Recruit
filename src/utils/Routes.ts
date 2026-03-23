@@ -20,8 +20,8 @@ const DiversityReport        = lazy(() => import('@/pages/reports/DiversityRepor
 const JobsReport             = lazy(() => import('@/pages/reports/JobsReport'));
 const Export                 = lazy(() => import('@/pages/reports/Export'));
 
-// Settings
-const Settings           = lazy(() => import('@/pages/settings/Settings'));
+// ApplicationSettings
+const Settings           = lazy(() => import('@/pages/settings/ApplicationSettings'));
 const Users              = lazy(() => import('@/pages/settings/Users'));
 const Organizations      = lazy(() => import('@/pages/settings/Organizations'));
 const Departments        = lazy(() => import('@/pages/settings/Departments'));

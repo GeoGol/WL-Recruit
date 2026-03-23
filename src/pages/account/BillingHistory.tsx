@@ -1,28 +1,25 @@
-import { useState } from 'react';
 import TableComponent from '@/components/TableComponent/TableComponent';
-import { mapColumns, mapActions } from '@/components/TableComponent/TableMapper';
+import { mapColumns } from '@/helpers/TableDataHelper';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
-import {PAGE_SIZE_OPTIONS} from "@/constant/CONSTANTS";
-import {t} from "i18next";
-import {actionDefs, columnDefs, MOCK_DATA} from "@/demoData";
+import { PAGE_SIZE_OPTIONS } from "@/constant/CONSTANTS";
+import { t } from "i18next";
+import { BILLING_HISTORY_columnDefs, BILLING_HISTORY_MOCK_DATA } from "@/demoData";
+import { exportToExcel } from "@/helpers/ExportHelpers";
 
-
-// ─── Column definitions ───────────────────────────────────────────────────────
-
-const columns = mapColumns(columnDefs);
-const actions = mapActions(actionDefs);
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function BillingHistory() {
-    const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([]);
+
+    const handleExport = () => {
+        exportToExcel(BILLING_HISTORY_MOCK_DATA, BILLING_HISTORY_columnDefs, 'billing-history');
+    };
+
+    const columns = mapColumns(BILLING_HISTORY_columnDefs);
 
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
             <TableComponent
-                data={MOCK_DATA}
+                data={BILLING_HISTORY_MOCK_DATA}
                 columns={columns}
-                // actions={actions}
                 rowKey="id"
                 title={t('mnoBillingHistory')}
                 subtitle="Subtitle"
@@ -33,12 +30,9 @@ export default function BillingHistory() {
                         variant="outline"
                         size="sm"
                         label="Export all"
-                        onClick={() => console.log('export')}
+                        onClick={handleExport}
                     />
                 }
-                // selectable={true}
-                // selectedKeys={selectedKeys}
-                // onSelectionChange={setSelectedKeys}
                 emptyMessage={t('msgNoRecordsFoundForCriteria')}
                 initialPage={1}
                 initialPageSize={5}

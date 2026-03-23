@@ -1,7 +1,14 @@
 import {memo, useEffect, useRef, useState, useMemo, KeyboardEvent} from 'react';
-import {SelectComponentProps, SelectOption} from "@/models";
+import ReactDOM from 'react-dom';
+import {InputSize, SelectComponentProps, SelectOption} from "@/models";
 import {RiArrowDownSLine, RiCloseLine, RiInformationLine} from "@/components/IconComponent/Icons";
 import TooltipComponent from "@/components/FormComponents/TooltipComponent";
+
+const sizeClasses: Record<InputSize, { padding: string; font: string; height: string; }> = {
+    sm: { padding: 'p-2.5',   font: 'text-sm', height: 'h-8'  },
+    md: { padding: 'p-2.5',   font: 'text-md', height: 'h-9'  },
+    lg: { padding: 'p-2.5',   font: 'text-lg', height: 'h-10' },
+};
 
 const SelectComponent = memo(({
     options,
@@ -10,7 +17,7 @@ const SelectComponent = memo(({
     placeholder = "Select...",
     isSearchable = false,
     label,
-    // name,
+    size = 'md',
     disabled = false,
     removeSelectedValue = false,
     wrapperClassName = '',
@@ -22,40 +29,80 @@ const SelectComponent = memo(({
 
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
-    const [selectedOption, setSelectedOption] = useState<SelectOption>();
     const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+    const [listStyle, setListStyle] = useState<React.CSSProperties>({});
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const triggerRef = useRef<HTMLDivElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        const initialOption = options.find((option) => option.value === value) || undefined;
-        setSelectedOption(initialOption);
-    }, [value, options]);
+    // Derived — no local state, always in sync with parent value
+    const selectedOption = useMemo(
+        () => options.find((o) => o.value === value) ?? undefined,
+        [options, value]
+    );
 
+    const DROPDOWN_MAX_HEIGHT = 160;
+
+    const calculatePosition = () => {
+        if (!triggerRef.current) return;
+        const rect = triggerRef.current.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const openUpward = spaceBelow < DROPDOWN_MAX_HEIGHT;
+        return {
+            position: 'fixed' as const,
+            width: rect.width,
+            left: rect.left,
+            ...(openUpward
+                ? { bottom: window.innerHeight - rect.top + 4 }
+                : { top: rect.bottom + 4 }),
+            zIndex: 9999,
+            maxHeight: DROPDOWN_MAX_HEIGHT,
+        };
+    };
+
+    // Always-on: close on outside click
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
                 dropdownRef.current &&
-                !dropdownRef.current.contains(event.target as Node)
+                !dropdownRef.current.contains(event.target as Node) &&
+                !listRef.current?.contains(event.target as Node)
             ) {
                 setIsOpen(false);
             }
         };
-
         document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    // Only when open: recalculate position on scroll/resize
+    useEffect(() => {
+        if (!isOpen) return;
+        const update = () => {
+            const pos = calculatePosition();
+            if (pos) setListStyle(pos);
+        };
+        window.addEventListener('resize', update);
+        window.addEventListener('scroll', update, true);
+        return () => {
+            window.removeEventListener('resize', update);
+            window.removeEventListener('scroll', update, true);
+        };
+    }, [isOpen]);
+
     const handleSelect = (option: SelectOption | undefined) => {
-        setSelectedOption(option);
         onChange(option?.value ?? undefined);
         setIsOpen(false);
         setSearch("");
     };
 
     const toggleDropdown = () => {
+        if (disabled) return;
+        if (!isOpen) {
+            const pos = calculatePosition();
+            if (pos) setListStyle(pos);
+        }
         setIsOpen((prev) => !prev);
         inputRef.current?.focus();
         setSearch("");
@@ -103,7 +150,7 @@ const SelectComponent = memo(({
     }
     else {
         selectedDisplay = (
-            <span className="text-primary text-sm line-clamp-1">
+            <span className={`${sizeClasses[size].font} ${selectedOption ? 'text-primary' : 'text-muted'} line-clamp-1`}>
                 {selectedOption?.label ?? placeholder}
             </span>
         );
@@ -116,12 +163,13 @@ const SelectComponent = memo(({
     };
 
     return (
-        <div className={`relative min-w-12 ${wrapperClassName ?? "w-full"}`} ref={dropdownRef} tabIndex={0} onKeyDown={handleKeyDown}>
+        <div className={`relative min-w-12 ${wrapperClassName ?? "w-full"}`} ref={dropdownRef}>
+            {/* ...existing label/hint code... */}
             {label && (
                 <div className="justify-between items-center gap-1 flex mb-1">
-                    <div className="text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
+                    <label className="text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
                         {label}
-                    </div>
+                    </label>
                     {hint &&
                         <TooltipComponent content={<p>{hint}</p>}>
                             <RiInformationLine className="text-muted w-4 h-4 cursor-pointer" />
@@ -130,13 +178,14 @@ const SelectComponent = memo(({
                 </div>
             )}
             <div
-                className={`w-full p-2 pr-6 bg-surface border border-main rounded-lg justify-between items-center gap-2 flex cursor-pointer h-8 
-                ${isOpen && !disabled ? "!border-secondary" : ""} ${disabled ? "cursor-not-allowed" : ""} ${className}`}
+                ref={triggerRef}
+                className={`w-full ${sizeClasses[size].padding} pr-6 bg-gray-50 text-primary border border-gray-300 rounded-lg justify-between items-center gap-2 flex cursor-pointer ${sizeClasses[size].height} 
+                    ${isOpen && !disabled ? "ring-1 border-primary-600 ring-primary-600" : ""} 
+                    ${disabled ? "cursor-not-allowed opacity-50" : ""} 
+                    ${className}`}
                 onClick={toggleDropdown}
-                role="combobox"
-                aria-expanded={isOpen}
-                aria-haspopup="listbox"
-                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                tabIndex={disabled ? -1 : 0}
             >
                 {isSearchable ? (
                     <input
@@ -144,7 +193,7 @@ const SelectComponent = memo(({
                         ref={inputRef}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="bg-transparent text-primary text-sm border-none p-0"
+                        className={`bg-transparent text-primary ${sizeClasses[size].font} border-none p-0`}
                         placeholder={selectedOption?.label ?? placeholder}
                         onClick={handleInputClick}
                     />
@@ -165,15 +214,17 @@ const SelectComponent = memo(({
                 </div>
             </div>
 
-            {isOpen && !disabled && (
+            {isOpen && !disabled && ReactDOM.createPortal(
                 <ul
-                    className={'absolute z-10 bg-surface border-blue rounded-b-sm shadow-lg mt-1 w-full max-h-40 overflow-y-scroll'}
+                    ref={listRef}
+                    style={listStyle}
+                    className="bg-surface border border-gray-200 rounded-sm shadow-lg overflow-y-auto"
                     role="listbox"
                 >
                     {filteredOptions?.map((option, idx) => (
                         <li
                             key={option.value}
-                            className={`flex items-center justify-between p-2 text-primary text-sm cursor-pointer hover:bg-blue-100 dark:hover:text-gray-500 text-left ${highlightedIndex === idx ? 'bg-blue-100' : ''}`}
+                            className={`flex items-center justify-between p-2 text-primary ${sizeClasses[size].font} cursor-pointer hover:bg-blue-100 dark:hover:text-gray-500 text-left ${highlightedIndex === idx ? 'bg-blue-100' : ''}`}
                             onClick={() => handleSelect(option)}
                             onMouseEnter={() => setHighlightedIndex(idx)}
                             role="option"
@@ -183,7 +234,8 @@ const SelectComponent = memo(({
                             <span>{option.label}</span>
                         </li>
                     ))}
-                </ul>
+                </ul>,
+                document.body
             )}
         </div>
     );
@@ -195,4 +247,3 @@ SelectComponent.displayName = 'SelectComponent';
 
 export default SelectComponent;
 
-// inline-flex items-center justify-center font-medium  rounded-lg  bg-transparent text-primary border border-main hover:bg-primary focus:ring-light-gray p-2 text-sm gap-1.5

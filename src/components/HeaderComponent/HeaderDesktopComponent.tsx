@@ -47,12 +47,12 @@ const HeaderDesktopComponent = memo(() => {
                 <div className="flex justify-end items-center gap-4 relative">
                     <LanguageToggle />
 
-                    {/* Settings */}
+                    {/* ApplicationSettings */}
                     <div className="relative" ref={settingsRef}>
                         <ButtonComponent
                             variant="ghost"
                             size="sm"
-                            aria-label="Settings"
+                            aria-label="ApplicationSettings"
                             onClick={toggleSettings}
                             aria-expanded={openId === 'settings'}
                             aria-haspopup="menu"

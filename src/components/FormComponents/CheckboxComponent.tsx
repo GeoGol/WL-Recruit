@@ -1,6 +1,12 @@
 import { memo } from 'react';
 import {RiCheckLine} from "@/components/IconComponent/Icons";
-import {CheckboxComponentProps} from "@/models";
+import {CheckboxComponentProps, InputSize} from "@/models";
+
+const sizeClasses: Record<InputSize, { font: string; height: string; }> = {
+    sm: { font: 'text-sm', height: 'h-8'  },
+    md: { font: 'text-md', height: 'h-9'  },
+    lg: { font: 'text-lg', height: 'h-10' },
+};
 
 const CheckboxComponent = memo(({
     label,
@@ -8,12 +14,12 @@ const CheckboxComponent = memo(({
     onChange,
     name,
     id,
+    size = 'md',
     className,
     wrapperClass,
     disabled = false,
 }: CheckboxComponentProps) => {
     const handleOnChange = () => {
-        console.log('aaa')
         if (onChange && !disabled) {
             onChange(!checked, name);
         }
@@ -39,7 +45,7 @@ const CheckboxComponent = memo(({
                   <RiCheckLine size={12} className={`text-white transition-opacity duration-200 ${checked ? "opacity-100" : "opacity-0"}`}/>
               </div>
 
-              {label && <span className="text-primary font-medium ">{label}</span>}
+              {label && <span className= {`text-primary font-medium ${sizeClasses[size].font}`}>{label}</span>}
           </label>
       </div>
   );

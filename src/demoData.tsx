@@ -2,7 +2,7 @@ import { RiEyeLine, RiEditLine, RiDeleteBinLine, RiDownloadLine, RiShareLine, Ri
 import { ActionDef, ColumnDef, RowTableData } from "@/models/TablesModel";
 
 
-export const MOCK_DATA: RowTableData[] = [
+export const BILLING_HISTORY_MOCK_DATA: RowTableData[] = [
     { id: 1,  date: '03/14/2019 08:22:11 AM', totalSmartCVs: 100, consumedSmartCVs: 45,  balance: 55  },
     { id: 2,  date: '07/02/2020 03:47:59 PM', totalSmartCVs: 200, consumedSmartCVs: 198, balance: 2   },
     { id: 3,  date: '11/19/2020 11:05:33 AM', totalSmartCVs: 50,  consumedSmartCVs: 12,  balance: 38  },
@@ -23,6 +23,27 @@ export const MOCK_DATA: RowTableData[] = [
     { id: 18, date: '12/01/2023 12:00:00 PM', totalSmartCVs: 500, consumedSmartCVs: 499, balance: 1   },
     { id: 19, date: '02/14/2024 07:25:43 AM', totalSmartCVs: 130, consumedSmartCVs: 55,  balance: 75  },
     { id: 20, date: '04/09/2024 02:42:17 PM', totalSmartCVs: 280, consumedSmartCVs: 140, balance: 140 },
+];
+
+export const USERS_MOCK_DATA: RowTableData[] = [
+    { id: 1,  firstName: 'Georgia',   lastName: 'Golegou',     fullName: 'Georgia Golegou',     email: 'g.golegou@acme.com',      role: 'Administrator', status: 'Active'   },
+    { id: 2,  firstName: 'Nikos',     lastName: 'Papadopoulos',fullName: 'Nikos Papadopoulos',   email: 'n.papadopoulos@acme.com', role: 'Manager',       status: 'Active'   },
+    { id: 3,  firstName: 'Maria',     lastName: 'Ioannou',     fullName: 'Maria Ioannou',        email: 'm.ioannou@acme.com',      role: 'HR',            status: 'Active'   },
+    { id: 4,  firstName: 'Dimitris',  lastName: 'Kostas',      fullName: 'Dimitris Kostas',      email: 'd.kostas@acme.com',       role: 'Manager',       status: 'Inactive' },
+    { id: 5,  firstName: 'Elena',     lastName: 'Stavrou',     fullName: 'Elena Stavrou',        email: 'e.stavrou@acme.com',      role: 'HR',            status: 'Active'   },
+    { id: 6,  firstName: 'Petros',    lastName: 'Alexiou',     fullName: 'Petros Alexiou',       email: 'p.alexiou@acme.com',      role: 'Interviewer',   status: 'Active'   },
+    { id: 7,  firstName: 'Sofia',     lastName: 'Nikolaou',    fullName: 'Sofia Nikolaou',       email: 's.nikolaou@acme.com',     role: 'HR',            status: 'Inactive' },
+    { id: 8,  firstName: 'Giorgos',   lastName: 'Dimitriou',   fullName: 'Giorgos Dimitriou',    email: 'g.dimitriou@acme.com',    role: 'Administrator', status: 'Active'   },
+    { id: 9,  firstName: 'Anna',      lastName: 'Christodoulou',fullName: 'Anna Christodoulou',  email: 'a.christodoulou@acme.com',role: 'Manager',       status: 'Active'   },
+    { id: 10, firstName: 'Kostas',    lastName: 'Georgiou',    fullName: 'Kostas Georgiou',      email: 'k.georgiou@acme.com',     role: 'Interviewer',   status: 'Inactive' },
+];
+
+export const USER_ROLE_OPTIONS = [
+    { value: 'Administrator', label: 'Administrator' },
+    { value: 'Manager',       label: 'Manager'       },
+    { value: 'HR',            label: 'HR'            },
+    { value: 'Interviewer',   label: 'Interviewer'   },
+    { value: 'Custom',        label: 'Custom'        },
 ];
 
 // Placeholder handler functions
@@ -85,7 +106,7 @@ export const actionDefs: ActionDef<RowTableData>[] = [
     },
 ];
 
-export const columnDefs: ColumnDef[] = [
+export const BILLING_HISTORY_columnDefs: ColumnDef[] = [
     {
         key        : 'date',
         label      : 'Date',
@@ -112,4 +133,142 @@ export const columnDefs: ColumnDef[] = [
         cellClass: 'font-semibold text-right',
         headerClass: 'text-right',
     },
+];
+
+export const USERS_columnDefs: ColumnDef[] = [
+    {
+        key        : 'fullName',
+        label      : 'Full Name',
+        // sortable   : true,
+        // type       : 'image',
+        subtitleKey: 'email',
+        cellClass   : 'font-semibold',
+    },
+    {
+        key     : 'role',
+        label   : 'Role',
+        // sortable: true,
+    },
+    {
+        key         : 'status',
+        label       : 'Status',
+        // sortable    : true,
+        type        : 'badge',
+        headerClass : 'text-center',
+        cellClass   : 'text-center',
+        colorMap    : {
+            'Active'  : 'green',
+            'Inactive': 'red',
+        },
+        defaultColor: 'gray',
+    },
+];
+
+export const USERS_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        label  : 'Edit',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry(String(row.id)),
+    },
+    // {
+    //     label  : 'Delete',
+    //     icon   : <RiDeleteBinLine />,
+    //     variant: 'danger',
+    //     onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    // },
+];
+
+export const INACTIVITY_TIMEOUT_OPTIONS = [
+    { value: '5',   label: '5 minutes'  },
+    { value: '10',  label: '10 minutes' },
+    { value: '15',  label: '15 minutes' },
+    { value: '30',  label: '30 minutes' },
+    { value: '60',  label: '1 hour'     },
+    { value: '120', label: '2 hours'    },
+    { value: '0',   label: 'Never'      },
+];
+
+export const RECENT_APPS_TIMEFRAME_OPTIONS = [
+    { value: '7',  label: 'Last 7 days'  },
+    { value: '14', label: 'Last 14 days' },
+    { value: '30', label: 'Last 30 days' },
+    { value: '60', label: 'Last 60 days' },
+    { value: '90', label: 'Last 90 days' },
+];
+
+export const CANDIDATE_SORTING_OPTIONS = [
+    { value: 'name_asc',   label: 'Name (A-Z)'         },
+    { value: 'name_desc',  label: 'Name (Z-A)'         },
+    { value: 'date_desc',  label: 'Newest first'       },
+    { value: 'date_asc',   label: 'Oldest first'       },
+    { value: 'score_desc', label: 'Score (High to Low)'},
+];
+
+export const APP_LANGUAGE_OPTIONS = [
+    { value: 'en', label: 'English'  },
+    { value: 'el', label: 'Greek'    },
+    { value: 'de', label: 'German'   },
+    { value: 'fr', label: 'French'   },
+    { value: 'es', label: 'Spanish'  },
+];
+
+export const TIMEZONE_OPTIONS = [
+    { value: 'UTC',            label: 'UTC'                      },
+    { value: 'Europe/Athens',  label: 'Europe/Athens (GMT+2)'   },
+    { value: 'Europe/London',  label: 'Europe/London (GMT+0)'   },
+    { value: 'Europe/Berlin',  label: 'Europe/Berlin (GMT+1)'   },
+    { value: 'America/New_York', label: 'America/New York (GMT-5)'},
+];
+
+export const SKILLS_OPTIONS = [
+    { value: 'react',      label: 'React'      },
+    { value: 'typescript', label: 'TypeScript' },
+    { value: 'nodejs',     label: 'Node.js'    },
+    { value: 'python',     label: 'Python'     },
+    { value: 'java',       label: 'Java'       },
+];
+
+export const TAGS_OPTIONS = [
+    { value: 'senior',    label: 'Senior'    },
+    { value: 'junior',    label: 'Junior'    },
+    { value: 'remote',    label: 'Remote'    },
+    { value: 'fulltime',  label: 'Full-time' },
+    { value: 'parttime',  label: 'Part-time' },
+];
+
+export const LANGUAGES_OPTIONS = [
+    { value: 'en', label: 'English'  },
+    { value: 'el', label: 'Greek'    },
+    { value: 'de', label: 'German'   },
+    { value: 'fr', label: 'French'   },
+    { value: 'es', label: 'Spanish'  },
+];
+
+export const AUTOMATIC_LANGUAGES_OPTIONS = [
+    { value: 'en', label: 'English'  },
+    { value: 'el', label: 'Greek'    },
+    { value: 'de', label: 'German'   },
+    { value: 'fr', label: 'French'   },
+    { value: 'es', label: 'Spanish'  },
+];
+
+export const CANDIDATES_RETENTION_OPTIONS = [
+    { value: 3,   label: '3 months'  },
+    { value: 6,   label: '6 months'  },
+    { value: 12,  label: '12 months'  },
+    { value: 18,  label: '18 months'  },
+    { value: 24,  label: '24 months'  },
+    { value: 36,  label: '36 months'  },
+    { value: 48,  label: '48 months'  },
+    { value: 60,  label: '60 months'  },
+    { value: 72,  label: '72 months'  },
+    { value: 84,  label: '84 months'  },
+];
+
+export const BLIND_HIRING_ROLES_OPTIONS = [
+    { value: 'recruiter',        label: 'Recruiter'         },
+    { value: 'hiring_manager',   label: 'Hiring Manager'    },
+    { value: 'interviewer',      label: 'Interviewer'       },
+    { value: 'admin',            label: 'Administrator'     },
 ];

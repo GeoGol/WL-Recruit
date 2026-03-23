@@ -37,7 +37,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ config }) => {
   const to   = Math.min(page * pageSize, total);
 
   return (
-    <nav className="flex items-center justify-between p-3 border-t border-main" aria-label="Table navigation">
+    <nav className="flex items-center justify-between p-4 border-t border-main" aria-label="Table navigation">
       <div className="flex gap-1 text-sm font-normal text-primary">
         <span className="font-semibold">{from}-{to}</span>
         {t('lblFrom')}

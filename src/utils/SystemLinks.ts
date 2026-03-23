@@ -104,7 +104,7 @@ export const NavigationItems: NavigationItem[] = [
 export const SettingsInternalItems: NavigationItem[] = [
   {
     id: "settings",
-    label: "mnoOptions",
+    label: "lblApplicationSettings",
     className: "rounded-md text-primary hover:bg-base cursor-pointer",
     link: "settings",
   },
