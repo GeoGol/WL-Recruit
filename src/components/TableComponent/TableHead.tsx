@@ -19,7 +19,7 @@ function TableHead<T>({
 }>) {
 
   return (
-    <thead className="text-base text-secondary uppercase bg-surface border-b-2 border-main">
+    <thead className="text-md text-secondary uppercase bg-surface border-b-2 border-main">
       <tr>
         {selectable && (
           <th scope="col" className="px-4 py-3">

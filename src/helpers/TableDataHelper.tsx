@@ -16,7 +16,9 @@ function formatDate(value: unknown, options?: Intl.DateTimeFormatOptions): strin
 export function mapColumns(
     defs: ColumnDef[]
 ): TableColumn<any>[] {
-    return defs.map(def => {
+    return defs
+        .filter(def => !def.hidden)
+        .map(def => {
         const base: TableColumn<any> = {
             key        : def.key,
             label      : def.label,
@@ -43,13 +45,22 @@ export function mapColumns(
             case 'image':
                 return {
                     ...base,
-                    render: (row: any) => (
-                        <TableImageCell
-                            src={def.imageKey ? String(row[def.imageKey] ?? '') : undefined}
-                            name={String(row[def.key] ?? '')}
-                            subtitle={def.subtitleKey ? String(row[def.subtitleKey] ?? '') : undefined}
-                        />
-                    ),
+                    render: (row: any) => {
+                        const firstName = row['firstName'] ? String(row['firstName']) : '';
+                        const lastName  = row['lastName']  ? String(row['lastName'])  : '';
+                        const fallback  = String(row[def.key] ?? '');
+                        // If both firstName and lastName exist, combine them; otherwise use key value
+                        const name = firstName && lastName
+                            ? `${firstName} ${lastName}`
+                            : firstName || lastName || fallback;
+                        return (
+                            <TableImageCell
+                                src={def.imageKey ? String(row[def.imageKey] ?? '') : undefined}
+                                name={name}
+                                subtitle={def.subtitleKey ? String(row[def.subtitleKey] ?? '') : undefined}
+                            />
+                        );
+                    },
                 };
 
             case 'date':

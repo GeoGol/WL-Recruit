@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import path from 'path';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [
         react(),
         tsconfigPaths()
@@ -41,6 +41,6 @@ export default defineConfig({
         ],
     },
     esbuild: {
-        drop: ['console', 'debugger'],
+        drop: mode === 'production' ? ['console', 'debugger'] : [],
     },
-});
+}));

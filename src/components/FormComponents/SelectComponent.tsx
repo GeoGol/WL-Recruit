@@ -142,7 +142,7 @@ const SelectComponent = memo(({
     if (selectedOption?.label && selectedOption.label.length > 50) {
         selectedDisplay = (
             <TooltipComponent content={selectedOption.label ?? placeholder}>
-                <span className="text-gray-500 text-sm line-clamp-1">
+                <span className="text-muted text-sm line-clamp-1">
                   {selectedOption.label ?? placeholder}
                 </span>
             </TooltipComponent>
@@ -166,8 +166,8 @@ const SelectComponent = memo(({
         <div className={`relative min-w-12 ${wrapperClassName ?? "w-full"}`} ref={dropdownRef}>
             {/* ...existing label/hint code... */}
             {label && (
-                <div className="justify-between items-center gap-1 flex mb-1">
-                    <label className="text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
+                <div className="justify-between items-center gap-1 flex mb-2">
+                    <label className="text-muted text-base font-normal whitespace-nowrap text-ellipsis overflow-hidden">
                         {label}
                     </label>
                     {hint &&
@@ -200,7 +200,7 @@ const SelectComponent = memo(({
                 ) : selectedDisplay}
 
                 {removeSelectedValue && selectedOption && (
-                    <div className="absolute right-4 flex gap-1 items-center px-2 text-gray-500">
+                    <div className="absolute right-4 flex gap-1 items-center px-2 text-muted">
                         <RiCloseLine
                             className="w-4 h-4 hover:text-gray-400"
                             onClick={handleRemoveSelected}
@@ -224,7 +224,7 @@ const SelectComponent = memo(({
                     {filteredOptions?.map((option, idx) => (
                         <li
                             key={option.value}
-                            className={`flex items-center justify-between p-2 text-primary ${sizeClasses[size].font} cursor-pointer hover:bg-blue-100 dark:hover:text-gray-500 text-left ${highlightedIndex === idx ? 'bg-blue-100' : ''}`}
+                            className={`flex items-center justify-between p-2 text-primary ${sizeClasses[size].font} cursor-pointer hover:bg-blue-100 text-left ${highlightedIndex === idx ? 'bg-blue-100' : ''}`}
                             onClick={() => handleSelect(option)}
                             onMouseEnter={() => setHighlightedIndex(idx)}
                             role="option"

@@ -13,7 +13,7 @@ const TableSkeletonRow = memo(({ colCount, rowCount = 1, className = '' }: Reado
         <tr key={rowIdx} className={className}>
           {Array.from({ length: colCount }).map((_, colIdx) => (
             <td key={colIdx} className="px-4 py-3">
-              <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+              <div className="h-4 w-full bg-gray-200 rounded animate-pulse" />
             </td>
           ))}
         </tr>

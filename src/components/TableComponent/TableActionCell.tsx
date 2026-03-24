@@ -83,7 +83,7 @@ function TableActionCell<T extends Record<string, unknown>>({ row, actions }: Re
                             onClick={() => { action.onClick(row); setOpen(false); }}
                             className={`w-full flex items-center gap-2 px-3 py-2 text-base text-left
                                 transition-colors
-                                disabled:opacity-50 disabled:cursor-not-allowed
+                                disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:font-semibold
                                 ${action.variant === 'danger' ? 'text-danger' : 'text-primary'}
                             `}
                         >

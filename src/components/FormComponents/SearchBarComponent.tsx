@@ -57,7 +57,7 @@ const SearchBar = memo<SearchBarProps>(
         return (
             <div className={`relative ${fullWidth ? 'w-full' : maxWidth} ${className}`}>
                 <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                    <Icon size={16} className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                    <Icon size={16} className="h-4 w-4 text-muted" />
                 </div>
                 <input
                     type="search"
@@ -65,7 +65,7 @@ const SearchBar = memo<SearchBarProps>(
                     onChange={handleChange}
                     disabled={disabled}
                     placeholder={placeholder}
-                    className={`w-full rounded-lg border border-main pl-9 pr-9 text-primary focus:border-light-gray-focus focus:outline-none focus:ring-1 focus:ring-light-gray-focus disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-white [&::-webkit-search-cancel-button]:appearance-none ${sizingClasses[sizing]}`}
+                    className={`w-full rounded-lg border border-main pl-9 pr-9 text-primary focus:border-light-gray-focus focus:outline-none focus:ring-1 focus:ring-light-gray-focus disabled:cursor-not-allowed disabled:opacity-50 [&::-webkit-search-cancel-button]:appearance-none ${sizingClasses[sizing]}`}
                 />
                 {value && (
                     <ButtonComponent
@@ -74,7 +74,7 @@ const SearchBar = memo<SearchBarProps>(
                         aria-label="Clear search"
                         onClick={handleClear}
                         className="absolute inset-y-0 right-0 !p-0 pr-3 z-10 rounded-none"
-                        leftIcon={<RiCloseLine className="h-4 w-4 mr-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />}
+                        leftIcon={<RiCloseLine className="h-4 w-4 mr-2 text-gray-400 hover:text-gray-600" />}
                     />
                 )}
             </div>

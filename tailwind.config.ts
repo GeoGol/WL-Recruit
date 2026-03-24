@@ -20,6 +20,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+          'xs': '480px',
+      },
       fontSize: {
         'xs':  ['8px',  '12px'],
         'sm':  ['10px', '14px'],

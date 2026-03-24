@@ -25,30 +25,119 @@ export const BILLING_HISTORY_MOCK_DATA: RowTableData[] = [
     { id: 20, date: '04/09/2024 02:42:17 PM', totalSmartCVs: 280, consumedSmartCVs: 140, balance: 140 },
 ];
 
-export const USERS_MOCK_DATA: RowTableData[] = [
-    { id: 1,  firstName: 'Georgia',   lastName: 'Golegou',     fullName: 'Georgia Golegou',     email: 'g.golegou@acme.com',      role: 'Administrator', status: 'Active'   },
-    { id: 2,  firstName: 'Nikos',     lastName: 'Papadopoulos',fullName: 'Nikos Papadopoulos',   email: 'n.papadopoulos@acme.com', role: 'Manager',       status: 'Active'   },
-    { id: 3,  firstName: 'Maria',     lastName: 'Ioannou',     fullName: 'Maria Ioannou',        email: 'm.ioannou@acme.com',      role: 'HR',            status: 'Active'   },
-    { id: 4,  firstName: 'Dimitris',  lastName: 'Kostas',      fullName: 'Dimitris Kostas',      email: 'd.kostas@acme.com',       role: 'Manager',       status: 'Inactive' },
-    { id: 5,  firstName: 'Elena',     lastName: 'Stavrou',     fullName: 'Elena Stavrou',        email: 'e.stavrou@acme.com',      role: 'HR',            status: 'Active'   },
-    { id: 6,  firstName: 'Petros',    lastName: 'Alexiou',     fullName: 'Petros Alexiou',       email: 'p.alexiou@acme.com',      role: 'Interviewer',   status: 'Active'   },
-    { id: 7,  firstName: 'Sofia',     lastName: 'Nikolaou',    fullName: 'Sofia Nikolaou',       email: 's.nikolaou@acme.com',     role: 'HR',            status: 'Inactive' },
-    { id: 8,  firstName: 'Giorgos',   lastName: 'Dimitriou',   fullName: 'Giorgos Dimitriou',    email: 'g.dimitriou@acme.com',    role: 'Administrator', status: 'Active'   },
-    { id: 9,  firstName: 'Anna',      lastName: 'Christodoulou',fullName: 'Anna Christodoulou',  email: 'a.christodoulou@acme.com',role: 'Manager',       status: 'Active'   },
-    { id: 10, firstName: 'Kostas',    lastName: 'Georgiou',    fullName: 'Kostas Georgiou',      email: 'k.georgiou@acme.com',     role: 'Interviewer',   status: 'Inactive' },
+export const BILLING_HISTORY_columnDefs: ColumnDef[] = [
+    {
+        key        : 'date',
+        label      : 'Date',
+        sortable   : true,
+    },
+    {
+        key      : 'totalSmartCVs',
+        label    : 'Total Smart CVs',
+        sortable : true,
+        cellClass: 'text-center',
+        headerClass: 'text-center',
+    },
+    {
+        key      : 'consumedSmartCVs',
+        label    : 'Consumed Smart CVs',
+        sortable : true,
+        cellClass: 'text-center',
+        headerClass: 'text-center',
+    },
+    {
+        key      : 'balance',
+        label    : 'Balance',
+        sortable : true,
+        cellClass: 'font-semibold text-right',
+        headerClass: 'text-right',
+    },
 ];
 
-export const USER_ROLE_OPTIONS = [
-    { value: 'Administrator', label: 'Administrator' },
-    { value: 'Manager',       label: 'Manager'       },
-    { value: 'HR',            label: 'HR'            },
-    { value: 'Interviewer',   label: 'Interviewer'   },
-    { value: 'Custom',        label: 'Custom'        },
+
+export const USERS_MOCK_DATA: RowTableData[] = [
+    { id: 1,  firstName: 'Georgia',  lastName: 'Golegou',      email: 'g.golegou@acme.com',       role: 'Administrator', status: 'Active',   createdAt: '01/15/2022 09:00:00 AM' },
+    { id: 2,  firstName: 'Nikos',    lastName: 'Papadopoulos', email: 'n.papadopoulos@acme.com',  role: 'Manager',       status: 'Active',   createdAt: '03/22/2022 10:30:00 AM' },
+    { id: 3,  firstName: 'Maria',    lastName: 'Ioannou',      email: 'm.ioannou@acme.com',       role: 'HR',            status: 'Active',   createdAt: '06/08/2022 11:15:00 AM' },
+    { id: 4,  firstName: 'Dimitris', lastName: 'Kostas',       email: 'd.kostas@acme.com',        role: 'Manager',       status: 'Inactive', createdAt: '08/19/2022 02:00:00 PM' },
+    { id: 5,  firstName: 'Elena',    lastName: 'Stavrou',      email: 'e.stavrou@acme.com',       role: 'HR',            status: 'Active',   createdAt: '11/03/2022 08:45:00 AM' },
+    { id: 6,  firstName: 'Petros',   lastName: 'Alexiou',      email: 'p.alexiou@acme.com',       role: 'Interviewer',   status: 'Active',   createdAt: '01/27/2023 03:20:00 PM' },
+    { id: 7,  firstName: 'Sofia',    lastName: 'Nikolaou',     email: 's.nikolaou@acme.com',      role: 'HR',            status: 'Inactive', createdAt: '04/14/2023 09:10:00 AM' },
+    { id: 8,  firstName: 'Giorgos',  lastName: 'Dimitriou',    email: 'g.dimitriou@acme.com',     role: 'Administrator', status: 'Active',   createdAt: '07/05/2023 01:00:00 PM' },
+    { id: 9,  firstName: 'Anna',     lastName: 'Christodoulou',email: 'a.christodoulou@acme.com', role: 'Manager',       status: 'Active',   createdAt: '09/18/2023 10:00:00 AM' },
+    { id: 10, firstName: 'Kostas',   lastName: 'Georgiou',     email: 'k.georgiou@acme.com',      role: 'Interviewer',   status: 'Inactive', createdAt: '12/01/2023 04:30:00 PM' },
 ];
+
+export const USERS_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key        : 'firstName',
+        label      : 'Full Name',
+        sortable   : true,
+        type       : 'image',
+        subtitleKey: 'email',
+    },
+    {
+        key     : 'role',
+        label   : 'Role',
+        sortable: true,
+    },
+    {
+        key         : 'status',
+        label       : 'Status',
+        sortable    : true,
+        type        : 'badge',
+        headerClass : 'text-center',
+        cellClass   : 'text-center',
+        colorMap    : {
+            'Active'  : 'green',
+            'Inactive': 'red',
+        },
+        defaultColor: 'gray',
+    },
+    {
+        key        : 'createdAt',
+        label      : 'Created At',
+        sortable   : true,
+        type       : 'date',
+        hidden     : true,
+        headerClass: 'text-right',
+        cellClass  : 'text-right text-secondary',
+    },
+];
+
+export const USERS_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        label  : 'Edit modal',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry(String(row.id)),
+    },
+    {
+        label  : 'Edit drawer',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    // {
+    //     label  : 'Delete',
+    //     icon   : <RiDeleteBinLine />,
+    //     variant: 'danger',
+    //     onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    // },
+];
+
+
+
 
 // Placeholder handler functions
 const viewEntry = (id: string) => alert(`View entry ${id}`);
 const editEntry = (id: string) => alert(`Edit entry ${id}`);
+const editEntry2 = (id: string) => alert(`Edit entry ${id}`);
 const deleteEntry = (id: string) => alert(`Delete entry ${id}`);
 const toggleEntryEnabled = (id: string) => alert(`Toggle enabled for entry ${id}`);
 const shareEntry = (id: string) => alert(`Share entry ${id}`);
@@ -106,78 +195,7 @@ export const actionDefs: ActionDef<RowTableData>[] = [
     },
 ];
 
-export const BILLING_HISTORY_columnDefs: ColumnDef[] = [
-    {
-        key        : 'date',
-        label      : 'Date',
-        sortable   : true,
-    },
-    {
-        key      : 'totalSmartCVs',
-        label    : 'Total Smart CVs',
-        sortable : true,
-        cellClass: 'text-center',
-        headerClass: 'text-center',
-    },
-    {
-        key      : 'consumedSmartCVs',
-        label    : 'Consumed Smart CVs',
-        sortable : true,
-        cellClass: 'text-center',
-        headerClass: 'text-center',
-    },
-    {
-        key      : 'balance',
-        label    : 'Balance',
-        sortable : true,
-        cellClass: 'font-semibold text-right',
-        headerClass: 'text-right',
-    },
-];
 
-export const USERS_columnDefs: ColumnDef[] = [
-    {
-        key        : 'fullName',
-        label      : 'Full Name',
-        // sortable   : true,
-        // type       : 'image',
-        subtitleKey: 'email',
-        cellClass   : 'font-semibold',
-    },
-    {
-        key     : 'role',
-        label   : 'Role',
-        // sortable: true,
-    },
-    {
-        key         : 'status',
-        label       : 'Status',
-        // sortable    : true,
-        type        : 'badge',
-        headerClass : 'text-center',
-        cellClass   : 'text-center',
-        colorMap    : {
-            'Active'  : 'green',
-            'Inactive': 'red',
-        },
-        defaultColor: 'gray',
-    },
-];
-
-export const USERS_actionDefs: ActionDef<RowTableData>[] = [
-    {
-        label  : 'Edit',
-        icon   : <RiEditLine />,
-        variant: 'primary',
-        onClick: (row: RowTableData) => editEntry(String(row.id)),
-    },
-    // {
-    //     label  : 'Delete',
-    //     icon   : <RiDeleteBinLine />,
-    //     variant: 'danger',
-    //     onClick: (row: RowTableData) => deleteEntry(String(row.id)),
-    // },
-];
 
 export const INACTIVITY_TIMEOUT_OPTIONS = [
     { value: '5',   label: '5 minutes'  },
@@ -271,4 +289,17 @@ export const BLIND_HIRING_ROLES_OPTIONS = [
     { value: 'hiring_manager',   label: 'Hiring Manager'    },
     { value: 'interviewer',      label: 'Interviewer'       },
     { value: 'admin',            label: 'Administrator'     },
+];
+
+export const USER_ROLE_OPTIONS = [
+    { value: 'Administrator', label: 'Administrator' },
+    { value: 'Manager',       label: 'Manager'       },
+    { value: 'HR',            label: 'HR'            },
+    { value: 'Interviewer',   label: 'Interviewer'   },
+    { value: 'Custom',        label: 'Custom'        },
+];
+
+export const USER_STATUS = [
+    { value: 'active',      label: 'Active'     },
+    { value: 'inactive',    label: 'Inactive'   },
 ];

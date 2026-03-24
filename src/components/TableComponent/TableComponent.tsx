@@ -109,7 +109,7 @@ function TableComponent<T extends Record<string, unknown>>({
 
     // ── Render ────────────────────────────────────────────────────────────────
     return (
-        <div className={`w-full bg-surface rounded-lg ${className} border border-main`}>
+        <div className={`w-full min-w-0 bg-surface rounded-lg ${className} border border-main`}>
 
             {/* ── title ────────────────────────── */}
             {(title || toolbar) && (
@@ -125,9 +125,9 @@ function TableComponent<T extends Record<string, unknown>>({
 
             {/* ── toolbar ───────────────────────── */}
             {(toolbar) && (
-                <div className="flex items-end justify-between gap-3 p-4">
+                <div className="flex items-end max-sm:flex-wrap justify-between gap-3 p-4">
                     {toolbar}
-                    <div className={'flex items-center gap-1'}>
+                    <div className={'flex items-center max-sm:justify-end gap-1'}>
                         <SelectComponent
                             options={pageSizeOptions?.map(size => ({ label: `${size}`, value: size })) || []}
                             value={pageSize}
@@ -136,7 +136,7 @@ function TableComponent<T extends Record<string, unknown>>({
                             className={''}
                         />
 
-                        <span className={'text-xs text-gray-500'}>entries per page</span>
+                        <span className={'text-sm text-muted'}>entries per page</span>
                     </div>
                 </div>
             )}

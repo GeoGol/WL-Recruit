@@ -94,8 +94,8 @@ const InputComponent = memo<InputProps>(({
 
             {/* Label */}
             {label && (
-                <div className="justify-start items-center gap-1 flex mb-1">
-                    <label className="text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
+                <div className="justify-start items-center gap-1 flex mb-2">
+                    <label className="text-muted text-base font-normal whitespace-nowrap text-ellipsis overflow-hidden">
                         {label}
                     </label>
                     {required && <span className="ml-1 text-danger text-sm" aria-hidden="true">*</span>}
@@ -116,7 +116,7 @@ const InputComponent = memo<InputProps>(({
                     {/* Left icon */}
                     {hasLeftIcon && LeftIcon && (
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <LeftIcon size={iconSize} className="text-gray-500" aria-hidden="true" />
+                            <LeftIcon size={iconSize} className="text-muted" aria-hidden="true" />
                         </div>
                     )}
 
@@ -152,7 +152,7 @@ const InputComponent = memo<InputProps>(({
                     {/* Right icon */}
                     {hasRightIcon && RightIcon && (
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                            <RightIcon size={iconSize} className="text-gray-500" aria-hidden="true" />
+                            <RightIcon size={iconSize} className="text-muted" aria-hidden="true" />
                         </div>
                     )}
                 </div>
@@ -174,7 +174,7 @@ const InputComponent = memo<InputProps>(({
 
             {/* Hint — always gray, independent of variant */}
             {hint && (
-                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                <p className="mt-2 text-xs text-muted">
                     {hint}
                 </p>
             )}

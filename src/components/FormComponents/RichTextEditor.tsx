@@ -137,7 +137,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
                 type="button"
                 title="Open link"
                 onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
-                className="text-gray-500 hover:text-primary-600 transition-colors"
+                className="text-muted hover:text-primary-600 transition-colors"
                 onMouseDown={e => e.preventDefault()}
             >
                 <RiExternalLinkLine size={13} />
@@ -146,7 +146,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
                 type="button"
                 title="Edit link"
                 onClick={onEdit}
-                className="text-gray-500 hover:text-primary-600 transition-colors"
+                className="text-muted hover:text-primary-600 transition-colors"
                 onMouseDown={e => e.preventDefault()}
             >
                 <RiPencilLine size={13} />
@@ -155,7 +155,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
                 type="button"
                 title="Remove link"
                 onClick={onRemove}
-                className="text-gray-500 hover:text-danger transition-colors"
+                className="text-muted hover:text-danger transition-colors"
                 onMouseDown={e => e.preventDefault()}
             >
                 <RiLinkUnlink size={13} />
@@ -394,7 +394,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
 
             {/* Helper text */}
             {helperText && (
-                <p className="mt-2 text-xs text-gray-500">{helperText}</p>
+                <p className="mt-2 text-xs text-muted">{helperText}</p>
             )}
         </div>
     );

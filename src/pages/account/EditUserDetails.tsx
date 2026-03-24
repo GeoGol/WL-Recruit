@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AccordionComponent from '@/components/AccordionComponent/AccordionComponent';
-import ButtonComponent from '@/components/FormComponents/ButtonComponent';
-import { getEditUserDetailsMapper } from '@/helpers/EditUserDetailsHelper';
-import {EditUserFormState} from "@/models";
+import { EditUserFormState } from '@/models';
+import EditUserDetailsForm from '@/forms/account/EditUserDetailsForm';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -37,39 +35,19 @@ export default function EditUserDetails() {
         console.log('Form submitted:', form);
     };
 
-    const accordionItems = getEditUserDetailsMapper(form, setField, t);
-
     // ── Render ────────────────────────────────────────────────────────────────
 
     return (
         <div className="w-full flex flex-col gap-4 p-4 bg-surface rounded-lg">
-
             <h2 className="text-xl md:text-2xl font-bold text-primary">
                 {t('lblChangeUserDetails')}
             </h2>
-
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
-                <AccordionComponent
-                    items={accordionItems}
-                    multiple
-                    defaultOpen={['personal', 'options', 'filterOptions', 'security']}
-                />
-
-                <div className="flex justify-end gap-2 pt-2">
-                    <ButtonComponent
-                        type="button"
-                        variant="main"
-                        label={t('btnCancel') || 'Cancel'}
-                        onClick={() => console.log('cancelled')}
-                    />
-                    <ButtonComponent
-                        type="submit"
-                        variant="confirmation"
-                        label={t('btnSave') || 'Save changes'}
-                    />
-                </div>
-            </form>
-
+            <EditUserDetailsForm
+                form={form}
+                setField={setField}
+                onSubmit={handleSubmit}
+                onCancel={() => console.log('cancelled')}
+            />
         </div>
     );
 }

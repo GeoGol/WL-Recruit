@@ -10,27 +10,28 @@ export function exportToExcel(
     columnDefs: ColumnDef[],
     fileName = 'export'
 ): void {
-    // Build header map: key → label
-    const headers = columnDefs.map(c => c.label);
-    const keys    = columnDefs.map(c => c.key);
-
     // Map each row to an ordered array matching headers
     const rows = data.map(row =>
-        keys.reduce<Record<string, unknown>>((acc, key, idx) => {
-            acc[headers[idx]] = row[key] ?? '';
+        columnDefs.reduce<Record<string, unknown>>((acc, def) => {
+            const rawValue = row[def.key];
+            // image type combines firstName + lastName if lastName exists in the row
+            const value = def.type === 'image' && row['lastName']
+                ? `${rawValue ?? ''} ${row['lastName']}`.trim()
+                : rawValue ?? '';
+            acc[def.label] = value;
             return acc;
         }, {})
     );
 
-    const worksheet  = XLSX.utils.json_to_sheet(rows);
-    const workbook   = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const workbook  = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
     // Auto-fit column widths based on content length
-    const colWidths = headers.map((h, i) => {
+    const colWidths = columnDefs.map(def => {
         const maxLen = Math.max(
-            h.length,
-            ...data.map(row => String(row[keys[i]] ?? '').length)
+            def.label.length,
+            ...data.map(row => String(row[def.key] ?? '').length)
         );
         return { wch: maxLen + 2 };
     });

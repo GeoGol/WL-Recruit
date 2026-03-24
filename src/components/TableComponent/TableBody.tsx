@@ -57,7 +57,7 @@ function TableBody<T extends Record<string, unknown>>({
     }
 
     return (
-        <tbody className="text-base text-primary bg-surface">
+        <tbody className="text-md text-primary bg-surface">
             {data.map((row, idx) => {
                 const key        = row[rowKey] as string | number;
                 const isSelected = selectable && selectedKeys?.includes(key);

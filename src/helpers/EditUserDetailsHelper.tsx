@@ -38,7 +38,6 @@ export function getEditUserDetailsMapper(
                         value={form.firstName}
                         onChange={e => setField('firstName', e.target.value)}
                         placeholder="Enter first name"
-                        size={'lg'}
                         fullWidth
                     />
                     <InputComponent
@@ -58,53 +57,52 @@ export function getEditUserDetailsMapper(
             content: (
                 <div className={'w-full flex flex-col gap-3 '}>
                     <div className="grid md:grid-cols-2 gap-3">
-                    <SelectComponent
-                        label={t('lblUserInactivityTimeout')}
-                        options={INACTIVITY_TIMEOUT_OPTIONS}
-                        value={form.inactivityTimeout}
-                        size={'lg'}
-                        onChange={v => setField('inactivityTimeout', v ?? '')}
-                    />
-                    <SelectComponent
-                        label={t('lblRecentApplicationsTimeframe')}
-                        options={RECENT_APPS_TIMEFRAME_OPTIONS}
-                        value={form.recentAppsTimeframe}
-                        onChange={v => setField('recentAppsTimeframe', v ?? '')}
-                    />
-                    <InputComponent
-                        label={t('lblEmailSender')}
-                        value={form.senderDisplayName}
-                        onChange={e => setField('senderDisplayName', e.target.value)}
-                        placeholder="Enter sender display name"
-                        fullWidth
-                    />
-                    <InputComponent
-                        label={t('lblEmailAddress')}
-                        type="email"
-                        value={form.senderEmail}
-                        onChange={e => setField('senderEmail', e.target.value)}
-                        placeholder="Enter sender email"
-                        fullWidth
-                    />
-                    <SelectComponent
-                        label={t('lblDefaultCandidatesSorting')}
-                        options={CANDIDATE_SORTING_OPTIONS}
-                        value={form.candidateSorting}
-                        onChange={v => setField('candidateSorting', v ?? '')}
-                    />
-                    <SelectComponent
-                        label={t('lblUiLanguage')}
-                        options={APP_LANGUAGE_OPTIONS}
-                        value={form.appLanguage}
-                        onChange={v => setField('appLanguage', v ?? '')}
-                    />
-                    <SelectComponent
-                        label={t('lblTimezone')}
-                        options={TIMEZONE_OPTIONS}
-                        value={form.timezone}
-                        onChange={v => setField('timezone', v ?? '')}
-                    />
-                </div>
+                        <SelectComponent
+                            label={t('lblUserInactivityTimeout')}
+                            options={INACTIVITY_TIMEOUT_OPTIONS}
+                            value={form.inactivityTimeout}
+                            onChange={v => setField('inactivityTimeout', v ?? '')}
+                        />
+                        <SelectComponent
+                            label={t('lblRecentApplicationsTimeframe')}
+                            options={RECENT_APPS_TIMEFRAME_OPTIONS}
+                            value={form.recentAppsTimeframe}
+                            onChange={v => setField('recentAppsTimeframe', v ?? '')}
+                        />
+                        <InputComponent
+                            label={t('lblEmailSender')}
+                            value={form.senderDisplayName}
+                            onChange={e => setField('senderDisplayName', e.target.value)}
+                            placeholder="Enter sender display name"
+                            fullWidth
+                        />
+                        <InputComponent
+                            label={t('lblEmailAddress')}
+                            type="email"
+                            value={form.senderEmail}
+                            onChange={e => setField('senderEmail', e.target.value)}
+                            placeholder="Enter sender email"
+                            fullWidth
+                        />
+                        <SelectComponent
+                            label={t('lblDefaultCandidatesSorting')}
+                            options={CANDIDATE_SORTING_OPTIONS}
+                            value={form.candidateSorting}
+                            onChange={v => setField('candidateSorting', v ?? '')}
+                        />
+                        <SelectComponent
+                            label={t('lblUiLanguage')}
+                            options={APP_LANGUAGE_OPTIONS}
+                            value={form.appLanguage}
+                            onChange={v => setField('appLanguage', v ?? '')}
+                        />
+                        <SelectComponent
+                            label={t('lblTimezone')}
+                            options={TIMEZONE_OPTIONS}
+                            value={form.timezone}
+                            onChange={v => setField('timezone', v ?? '')}
+                        />
+                    </div>
 
                     <div className="w-full flex flex-col gap-3">
                         <CheckboxComponent

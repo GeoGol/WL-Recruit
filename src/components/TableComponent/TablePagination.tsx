@@ -48,7 +48,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ config }) => {
         <ul className="inline-flex items-center -space-x-px text-sm">
           <li>
             <button
-                className="block px-1.5 py-1 h-6 leading-tight text-gray-500 bg-surface border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="block px-1.5 py-1 h-6 leading-tight text-muted bg-surface border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 disabled={page === 1}
                 onClick={() => onPageChange(1)}
                 aria-label="First page"
@@ -58,7 +58,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ config }) => {
           </li>
           <li>
             <button
-                className="block px-1.5 py-1 h-6 leading-tight text-gray-500 bg-surface border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="block px-1.5 py-1 h-6 leading-tight text-muted bg-surface border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 disabled={page === 1}
                 onClick={() => onPageChange(page - 1)}
                 aria-label="Previous page"
@@ -79,7 +79,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ config }) => {
                   {String(item)}
                 </button>
               ) : (
-                <span className="block px-2 py-1 h-6 leading-tight border min-w-6 border-gray-300 bg-surface text-gray-500 select-none text-center">
+                <span className="block px-2 py-1 h-6 leading-tight border min-w-6 border-gray-300 bg-surface text-muted select-none text-center">
                   ...
                 </span>
               )}
@@ -88,7 +88,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ config }) => {
 
           <li>
             <button
-                className="block px-1.5 py-1 h-6 leading-tight text-gray-500 bg-surface border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="block px-1.5 py-1 h-6 leading-tight text-muted bg-surface border border-gray-300 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 disabled={page === pageCount}
                 onClick={() => onPageChange(page + 1)}
                 aria-label="Next page"
@@ -98,7 +98,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({ config }) => {
           </li>
           <li>
             <button
-                className="block px-1.5 py-1 h-6 leading-tight text-gray-500 bg-surface border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="block px-1.5 py-1 h-6 leading-tight text-muted bg-surface border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 disabled={page === pageCount}
                 onClick={() => onPageChange(pageCount)}
                 aria-label="Last page"

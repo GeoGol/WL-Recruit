@@ -1,10 +1,10 @@
-import { t } from "i18next";
-import { useState } from "react";
-import { ApplicationSettingsFormState } from "@/models";
-import { getApplicationSettingsMapper } from "@/helpers/ApplicationSettingsHelper";
-import ButtonComponent from "@/components/FormComponents/ButtonComponent";
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ApplicationSettingsFormState } from '@/models';
+import ApplicationSettingsForm from '@/forms/settings/ApplicationSettingsForm';
 
 export default function ApplicationSettings() {
+    const { t } = useTranslation();
 
     const [form, setForm] = useState<ApplicationSettingsFormState>({
         automaticTextsLanguage      : 'el',
@@ -28,47 +28,17 @@ export default function ApplicationSettings() {
         console.log('Form submitted:', form);
     };
 
-    const applicationSettingsItems = getApplicationSettingsMapper(form, setField, t);
-
     return (
         <div className="w-full flex flex-col gap-4 p-4 bg-surface rounded-lg">
-
             <h2 className="text-xl md:text-2xl font-bold text-primary">
                 {t('lblApplicationSettings')}
             </h2>
-
-            <form className={'flex gap-3 items-center flex-wrap'} onSubmit={handleSubmit} noValidate>
-
-                {applicationSettingsItems.map((section, idx) => (
-                    <div key={section.id} className={'w-full flex flex-col gap-5'}>
-                        <div className="flex items-center gap-3 text-left font-medium text-primary text-lg">
-                            {section.icon}
-                            <h3 className="text-primary font-semibold">{t(section.title)}</h3>
-                        </div>
-
-                        {section.content}
-
-                        {idx < applicationSettingsItems.length - 1 && (
-                            <hr className="border-main" />
-                        )}
-                    </div>
-                ))}
-
-                <div className="w-full flex justify-end gap-2 pt-2">
-                    <ButtonComponent
-                        type="button"
-                        variant="main"
-                        label={t('btnCancel') || 'Cancel'}
-                        onClick={() => console.log('cancelled')}
-                    />
-                    <ButtonComponent
-                        type="submit"
-                        variant="confirmation"
-                        label={t('btnSave') || 'Save changes'}
-                    />
-                </div>
-            </form>
-
+            <ApplicationSettingsForm
+                form={form}
+                setField={setField}
+                onSubmit={handleSubmit}
+                onCancel={() => console.log('cancelled')}
+            />
         </div>
     );
 }

@@ -9,10 +9,6 @@ import { exportToExcel } from "@/helpers/ExportHelpers";
 
 export default function BillingHistory() {
 
-    const handleExport = () => {
-        exportToExcel(BILLING_HISTORY_MOCK_DATA, BILLING_HISTORY_columnDefs, 'billing-history');
-    };
-
     const columns = mapColumns(BILLING_HISTORY_columnDefs);
 
     return (
@@ -28,9 +24,9 @@ export default function BillingHistory() {
                 toolbar={
                     <ButtonComponent
                         variant="outline"
-                        size="sm"
+                        size="md"
                         label="Export all"
-                        onClick={handleExport}
+                        onClick={() => exportToExcel(BILLING_HISTORY_MOCK_DATA, BILLING_HISTORY_columnDefs, 'billing-history')}
                     />
                 }
                 emptyMessage={t('msgNoRecordsFoundForCriteria')}

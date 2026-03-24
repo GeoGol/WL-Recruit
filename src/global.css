@@ -30,7 +30,7 @@ body {
         --text-secondary:   hsla(244, 7%, 52%, 1);     /* #7E7D8D */
         --text-tertiary:    hsla(208, 25%, 53%, 1);    /* #6889A5 */
         --text-quaternary:  hsla(244, 7%, 46%, 1);     /* #6E6D7E */
-        --text-muted:       hsla(217, 10%, 60%, 1);    /* #8C95A3 */
+        --text-muted:       hsla(220, 9%, 46%, 1);     /* #6B7280 */
         --text-inverse:     hsla(0, 0%, 100%, 1);      /* #FFFFFF */
         --text-link:        hsla(206, 100%, 38%, 1);   /* #006DC0 */
         --text-link-dark:   hsla(215, 100%, 34%, 1);   /* #0047AB */
