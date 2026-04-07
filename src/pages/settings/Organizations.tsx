@@ -16,7 +16,7 @@ export default function Organizations() {
     const [selectedOrganization, setSelectedOrganization] = useState<RowTableData | null>(null);
     const [organizationToDelete, setOrganizationToDelete] = useState<RowTableData | null>(null);
 
-    const columns      = mapColumns(ORGANIZATIONS_columnDefs);
+    const columns      = useMemo(() => mapColumns(ORGANIZATIONS_columnDefs), []);
     const createDrawer = useModal();
     const editDrawer   = useModal();
 

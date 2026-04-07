@@ -13,6 +13,7 @@ export const TableImageCell = memo(({ src, alt, name, subtitle }: TableImageCell
             <img
                 src={src}
                 alt={alt ?? name}
+                loading="lazy"
                 className="w-10 h-10 rounded-lg object-cover border border-main bg-gray-100 flex-shrink-0"
             />
         )}

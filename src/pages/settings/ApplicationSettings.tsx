@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ApplicationSettingsFormState } from '@/models';
 import ApplicationSettingsForm from '@/forms/settings/ApplicationSettingsForm';
@@ -21,9 +21,9 @@ export default function ApplicationSettings() {
         hideDates                   : false,
     });
 
-    const setField = <K extends keyof ApplicationSettingsFormState>(key: K, value: ApplicationSettingsFormState[K]) => {
+    const setField = useCallback(<K extends keyof ApplicationSettingsFormState>(key: K, value: ApplicationSettingsFormState[K]) => {
         setForm(prev => ({ ...prev, [key]: value }));
-    };
+    }, []);
 
     const modal = useActionModal({
         toastMessages: {

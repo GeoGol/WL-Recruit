@@ -86,7 +86,10 @@ function TableComponent<T extends Record<string, unknown>>({
     }, [sortKey]);
 
     // ── Selection ─────────────────────────────────────────────────────────────
-    const allSelected  = data.length > 0 && data.every(row => selectedKeys.includes(row[rowKey] as string | number));
+    const allSelected  = useMemo(
+        () => data.length > 0 && data.every(row => selectedKeys.includes(row[rowKey] as string | number)),
+        [data, selectedKeys, rowKey]
+    );
 
     const toggleAll = useCallback(() => {
         if (!onSelectionChange) return;

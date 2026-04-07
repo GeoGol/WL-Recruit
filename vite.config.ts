@@ -21,14 +21,25 @@ export default defineConfig(({ mode }) => ({
         rollupOptions: {
             output: {
                 manualChunks: {
-                    'react-vendor': ['react', 'react-dom'],
-                    'router': ['react-router-dom'],
-                    'i18n': ['i18next', 'react-i18next'],
-                    'query': ['@tanstack/react-query'],
+                    'react-vendor' : ['react', 'react-dom'],
+                    'router'       : ['react-router-dom'],
+                    'i18n'         : ['i18next', 'react-i18next', 'i18next-http-backend'],
+                    'query'        : ['@tanstack/react-query'],
+                    'flowbite'     : ['flowbite-react'],
+                    'tiptap'       : [
+                        '@tiptap/react',
+                        '@tiptap/starter-kit',
+                        '@tiptap/extension-character-count',
+                        '@tiptap/extension-link',
+                        '@tiptap/extension-placeholder',
+                        '@tiptap/extension-text-align',
+                        '@tiptap/extension-underline',
+                        '@tiptap/pm',
+                    ],
                 },
             },
         },
-        chunkSizeWarningLimit: 600,
+        chunkSizeWarningLimit: 500,
     },
     optimizeDeps: {
         include: [

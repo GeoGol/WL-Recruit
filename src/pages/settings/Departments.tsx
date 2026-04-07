@@ -15,7 +15,7 @@ export default function Departments() {
     const [departmentToEdit,   setDepartmentToEdit  ] = useState<RowTableData | null>(null);
     const [departmentToDelete, setDepartmentToDelete] = useState<RowTableData | null>(null);
 
-    const columns      = mapColumns(DEPARTMENTS_columnDefs);
+    const columns      = useMemo(() => mapColumns(DEPARTMENTS_columnDefs), []);
     const createDrawer = useModal();
     const editDrawer   = useModal();
     const modal        = useActionModal({

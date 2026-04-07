@@ -164,7 +164,7 @@ export const RiMailLine: RemixiconComponentType = ({ size = 24, ...props }) => (
 
 export const RiGroupLine: RemixiconComponentType = ({ size = 24, ...props }) => (
     <svg {...iconDefaults(size)} {...props}>
-        <path xmlns="http://www.w3.org/2000/svg" d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79 12.21 3 10 3C7.79 3 6 4.79 6 7C6 9.21 7.79 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"/>
+        <path xmlns="http://www.w3.org/2000/svg" d="M2 22C2 17.5817 5.58172 14 10 14C14.4183 14 18 17.5817 18 22H16C16 18.6863 13.3137 16 10 16C6.68629 16 4 18.6863 4 22H2ZM10 13C6.685 13 4 10.315 4 7C4 3.685 6.685 1 10 1C13.315 1 16 3.685 16 7C16 10.315 13.315 13 10 13ZM10 11C12.21 11 14 9.21 14 7C14 4.79086 12.21 3 10 3C7.79086 3 6 4.79086 6 7C6 9.21 7.79086 11 10 11ZM18.2837 14.7028C21.0644 15.9561 23 18.752 23 22H21C21 19.564 19.5483 17.4671 17.4628 16.5271L18.2837 14.7028ZM17.5962 3.41321C19.5944 4.23703 21 6.20361 21 8.5C21 11.3702 18.8042 13.7252 16 13.9776V11.9646C17.6967 11.7222 19 10.264 19 8.5C19 7.11935 18.2016 5.92603 17.041 5.35635L17.5962 3.41321Z"/>
     </svg>
 );
 
@@ -312,4 +312,50 @@ export const RiFolderAddLine: RemixiconComponentType = ({ size = 24, ...props })
     </svg>
 );
 
+export const RiEyeLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M12 3c5.392 0 9.878 3.88 10.819 9-.94 5.12-5.427 9-10.819 9-5.392 0-9.878-3.88-10.819-9C2.121 6.88 6.608 3 12 3zm0 16a9.005 9.005 0 0 0 8.777-7 9.005 9.005 0 0 0-17.554 0A9.005 9.005 0 0 0 12 19zm0-2.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-2a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+    </svg>
+);
 
+export const RiEditLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M6.414 16L16.556 5.858l-1.414-1.414L5 14.586V16h1.414zm.829 2H3v-4.243L14.435 2.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 18zM3 20h18v2H3v-2z"/>
+    </svg>
+);
+
+export const RiDeleteBinLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4h5zM6 6v14h12V6H6zm3 3h2v8H9V9zm4 0h2v8h-2V9z"/>
+    </svg>
+);
+
+export const RiDownloadLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M3 19h18v2H3v-2zm10-5.828L19.071 7.1l1.414 1.414L12 17 3.515 8.515 4.929 7.1 11 13.17V2h2v11.172z"/>
+    </svg>
+);
+
+export const RiShareLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z"/>
+    </svg>
+);
+
+export const RiExportLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M13 10h5l-6 6-6-6h5V3h2v7zm-9 9h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7z"/>
+    </svg>
+);
+
+export const RiLockUnlockLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M7 10h13a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h1V9a7 7 0 0 1 13.262-3.131l-1.789.894A5 5 0 0 0 7 9v1zm-2 2v8h14v-8H5zm6 2h2v4h-2v-4z"/>
+    </svg>
+);
+
+export const RiToggleLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M8 7a5 5 0 1 0 0 10A5 5 0 0 0 8 7zM2 12C2 8.134 5.134 5 9 5h6a7 7 0 0 1 0 14H9c-3.866 0-7-3.134-7-7zm9-1h6v2h-6v-2zm0 4h6v2h-6v-2zm0-8h6v2h-6V7z"/>
+    </svg>
+);

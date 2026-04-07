@@ -1,5 +1,12 @@
-import { RiEyeLine, RiEditLine, RiDeleteBinLine, RiDownloadLine, RiShareLine, RiExportLine, RiLockUnlockLine, RiToggleLine } from 'react-icons/ri';
 import { ActionDef, ColumnDef, RowTableData } from "@/models/TablesModel";
+import {
+    RiDeleteBinLine,
+    RiDownloadLine,
+    RiEditLine, RiExportLine,
+    RiEyeLine, RiLockUnlockLine,
+    RiShareLine,
+    RiToggleLine
+} from "@/components/IconComponent/Icons";
 
 
 export const BILLING_HISTORY_MOCK_DATA: RowTableData[] = [

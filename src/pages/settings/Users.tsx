@@ -15,7 +15,7 @@ import ModalComponent from "@/components/ModalComponent/ModalComponent";
 export default function Users() {
     const [selectedUser, setSelectedUser] = useState<RowTableData | null>(null);
 
-    const columns      = mapColumns(USERS_columnDefs);
+    const columns      = useMemo(() => mapColumns(USERS_columnDefs), []);
     const createDrawer = useModal();
     const editDrawer   = useModal();
     const modal        = useActionModal({

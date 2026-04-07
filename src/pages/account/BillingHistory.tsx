@@ -1,4 +1,5 @@
 import TableComponent from '@/components/TableComponent/TableComponent';
+import { useMemo } from 'react';
 import { mapColumns } from '@/helpers/TableDataHelper';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import { PAGE_SIZE_OPTIONS } from "@/constant/CONSTANTS";
@@ -9,7 +10,7 @@ import { exportToExcel } from "@/helpers/ExportHelpers";
 
 export default function BillingHistory() {
 
-    const columns = mapColumns(BILLING_HISTORY_columnDefs);
+    const columns = useMemo(() => mapColumns(BILLING_HISTORY_columnDefs), []);
 
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
