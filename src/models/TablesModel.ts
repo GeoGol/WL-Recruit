@@ -38,6 +38,8 @@ export interface TableProps<T> {
     striped?          : boolean;
     hoverable?        : boolean;
     onRowClick?       : (row: T) => void;
+    /** Callback for the empty-state "Add new" button (only shown when edit/delete actions exist) */
+    onAddNew?         : () => void;
     /** Optional toolbar slot rendered above the table */
     toolbar?          : ReactNode;
     /** Table caption / title shown in the top-left of the card */
@@ -79,11 +81,12 @@ export interface TableActionCellProps<T> {
 export type RowTableData = { [key: string]: unknown };
 
 export type ActionDef<T> = {
-    label: string;
-    icon?: React.ReactNode;
-    variant?: "primary" | "secondary" | "outline" | "confirmation" | "ghost" | "danger" | "link";
-    onClick: (row: T) => void;
+    label    : string;
+    icon?    : React.ReactNode;
+    variant? : "primary" | "secondary" | "outline" | "confirmation" | "ghost" | "danger" | "link";
+    onClick  : (row: T) => void;
     disabled?: (row: T) => boolean;
+    type?    : 'edit' | 'delete' | 'view' | 'toggle' | 'download' | 'share' | 'export' | 'lock' | string;
 };
 
 export type ColumnDef = {

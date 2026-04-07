@@ -20,6 +20,15 @@ export interface EditUserFormState {
     enable2FA            : boolean;
 }
 
+export interface CreateUserFormState {
+    firstName   : string;
+    lastName    : string;
+    email       : string;
+    role        : number | string;
+    status     ?: number | string;
+    appLanguage : number | string;
+}
+
 export interface ApplicationSettingsFormState {
     // general settings
     automaticTextsLanguage        : string | number,
@@ -35,4 +44,38 @@ export interface ApplicationSettingsFormState {
     hideLocation                  : boolean,
     hideSchoolName                : boolean,
     hideDates                     : boolean,
+}
+
+export interface DepartmentFormState {
+    departmentName : string;
+}
+
+export interface OrganizationFormState {
+    // general settings
+    organizationName            : string, //input
+    // career site settings
+    careerSiteStatus            : string, //radio button
+    careerSiteAddress           : string, //input
+    organizationLogo            : string, //image preview
+    organizationLogoName        : string, //image preview
+    changeOrganizationLogo      : string, //select file
+    corporateWebsiteAddress     : string, //input
+    careerSiteLanguage          : string | number, //dropdown list
+    showAdmissionJobLink        : boolean, //radio button
+    jobsGrouping                : string | number, //dropdown list
+    companyProfileDEFAULT       : string, //richtext editor
+    companyProfileGR            : string, //richtext editor
+    companyProfileEN            : string, //richtext editor
+    bgImage                     : string, //select file
+    bgImageName                 : string, //select file
+    // colors settings
+    linkColor                   : string, //color selection with preview
+    buttonColor                 : string, //color selection with preview
+    // gdpr settings
+    acceptTerms                 : boolean, //checkbox
+    privacyPolicyText           : string, //richtext editor
+    privacyPolicyLink           : string, //input
+    generalTermsText            : string, //richtext editor
+    // other settings
+    autoReplyTemplate           : string | number, //dropdown list
 }

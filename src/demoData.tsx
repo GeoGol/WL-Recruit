@@ -111,25 +111,161 @@ export const USERS_columnDefs: ColumnDef[] = [
 ];
 
 export const USERS_actionDefs: ActionDef<RowTableData>[] = [
+    // {
+    //     type   : 'edit',
+    //     label  : 'Edit modal',
+    //     icon   : <RiEditLine />,
+    //     variant: 'primary',
+    //     onClick: (row: RowTableData) => editEntry(String(row.id)),
+    // },
     {
-        label  : 'Edit modal',
-        icon   : <RiEditLine />,
-        variant: 'primary',
-        onClick: (row: RowTableData) => editEntry(String(row.id)),
-    },
-    {
-        label  : 'Edit drawer',
+        type   : 'edit',
+        label  : 'Edit',
         icon   : <RiEditLine />,
         variant: 'primary',
         onClick: (row: RowTableData) => editEntry2(String(row.id)),
     },
     // {
+    //     type   : 'delete',
     //     label  : 'Delete',
     //     icon   : <RiDeleteBinLine />,
     //     variant: 'danger',
     //     onClick: (row: RowTableData) => deleteEntry(String(row.id)),
     // },
 ];
+
+
+export const ORGANIZATIONS_HISTORY_MOCK_DATA: RowTableData[] = [
+    { id: 1,  organizationName: 'Acme Corp',          careerSiteAddress: 'careers.acme.com',           createdAt: '01/15/2022 09:00:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.acme.com',          careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#1B91FF', buttonColor: '#1B91FF', acceptTerms: true,  autoReplyTemplate: 'default',  smsSenderName: 'Acme',       organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-acme.jpg',          companyProfileDEFAULT: '<div><h1>Example Domain</h1><p>This domain is for use in documentation examples without needing permission. Avoid use in operations.</p><p><a href="https://iana.org/domains/example">Learn more</a></p></div>', companyProfileGR: '<p>Η Acme Corp είναι κορυφαίος πάροχος καινοτόμων λύσεων.</p>',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      companyProfileEN: '<p>Acme Corp is a leading provider of innovative solutions.</p>',          privacyPolicyText: '<p>We respect your privacy and protect your personal data.</p>',          privacyPolicyLink: 'www.acme.com/privacy',           generalTermsText: '<p>By using our services you agree to our terms and conditions.</p>'          },
+    { id: 2,  organizationName: 'Globex Inc',          careerSiteAddress: 'jobs.globex.com',            createdAt: '03/22/2022 10:30:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.globex.com',         careerSiteLanguage: 'en', showAdmissionJobLink: true,  jobsGrouping: 'department', linkColor: '#E63946', buttonColor: '#E63946', acceptTerms: true,  autoReplyTemplate: 'formal',   smsSenderName: 'Globex',     organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-globex.jpg',        companyProfileDEFAULT: '<p>Globex Inc drives global excellence in technology.</p>',           companyProfileGR: '<p>Η Globex Inc οδηγεί την παγκόσμια αριστεία στην τεχνολογία.</p>',      companyProfileEN: '<p>Globex Inc drives global excellence in technology.</p>',           privacyPolicyText: '<p>Your data is safe with us. Read our full privacy policy online.</p>',  privacyPolicyLink: 'www.globex.com/privacy',         generalTermsText: '<p>All users must comply with Globex terms of service.</p>'                },
+    { id: 3,  organizationName: 'Initech Solutions',   careerSiteAddress: 'careers.initech.com',        createdAt: '06/08/2022 11:15:00 AM', status: 'Inactive', careerSiteStatus: 'inactive', corporateWebsiteAddress: 'www.initech.com',        careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#2A9D8F', buttonColor: '#2A9D8F', acceptTerms: false, autoReplyTemplate: 'none',     smsSenderName: 'Initech',    organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-initech.jpg',       companyProfileDEFAULT: '<p>Initech Solutions specialises in enterprise software.</p>',       companyProfileGR: '<p>Η Initech Solutions ειδικεύεται σε επιχειρησιακό λογισμικό.</p>',      companyProfileEN: '<p>Initech Solutions specialises in enterprise software.</p>',       privacyPolicyText: '<p>We are committed to safeguarding your personal information.</p>',       privacyPolicyLink: 'www.initech.com/privacy',        generalTermsText: '<p>Terms and conditions apply. Please review before proceeding.</p>'       },
+    { id: 4,  organizationName: 'Umbrella Ltd',        careerSiteAddress: 'careers.umbrella.com',       createdAt: '08/19/2022 02:00:00 PM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.umbrella.com',       careerSiteLanguage: 'el', showAdmissionJobLink: true,  jobsGrouping: 'location',   linkColor: '#E9C46A', buttonColor: '#E9C46A', acceptTerms: true,  autoReplyTemplate: 'casual',   smsSenderName: 'Umbrella',   organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Umbrella Ltd is a multinational pharmaceutical company.</p>',     companyProfileGR: '<p>Η Umbrella Ltd είναι πολυεθνική φαρμακευτική εταιρεία.</p>',           companyProfileEN: '<h1>Welcome to the Rich Text Editor</h1> <p>This is a <strong>bold</strong> word, this is <em>italic</em>, and this is <u>underlined</u>.</p> <h2>Lists</h2> <ul> <li>First unordered item</li> <li>Second unordered item</li> <li>Third unordered item</li> </ul> <ol> <li>First ordered item</li> <li>Second ordered item</li> <li>Third ordered item</li> </ol> <h2>Links</h2> <p> Visit <a href="https://example.com" target="_blank">Example Website</a> for more info. </p>', privacyPolicyText: '<p>Umbrella Ltd is fully GDPR compliant.</p>',                             privacyPolicyLink: 'www.umbrella.com/privacy',       generalTermsText: '<p>Use of our career portal implies acceptance of our terms.</p>'          },
+    { id: 5,  organizationName: 'Stark Industries',    careerSiteAddress: 'work.stark.com',             createdAt: '11/03/2022 08:45:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.stark.com',          careerSiteLanguage: 'en', showAdmissionJobLink: true,  jobsGrouping: 'category',   linkColor: '#F4A261', buttonColor: '#F4A261', acceptTerms: true,  autoReplyTemplate: 'default',  smsSenderName: 'Stark',      organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Stark Industries is at the forefront of clean energy.</p>',      companyProfileGR: '<p>Η Stark Industries βρίσκεται στην πρωτοπορία της καθαρής ενέργειας.</p>', companyProfileEN: '<p>Stark Industries is at the forefront of clean energy.</p>',      privacyPolicyText: '<p>We value your privacy. No data is shared without consent.</p>',        privacyPolicyLink: 'www.stark.com/privacy',          generalTermsText: '<p>All employment terms are governed by Stark Industries policy.</p>'      },
+    { id: 6,  organizationName: 'Wayne Enterprises',   careerSiteAddress: 'careers.wayne.com',          createdAt: '01/27/2023 03:20:00 PM', status: 'Inactive', careerSiteStatus: 'inactive', corporateWebsiteAddress: 'www.wayne.com',          careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#264653', buttonColor: '#264653', acceptTerms: false, autoReplyTemplate: 'none',     smsSenderName: 'Wayne',      organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-wayne.jpg',         companyProfileDEFAULT: '<p>Wayne Enterprises is a diversified global conglomerate.</p>',    companyProfileGR: '<p>Η Wayne Enterprises είναι ένας διαφοροποιημένος παγκόσμιος όμιλος.</p>', companyProfileEN: '<p>Wayne Enterprises is a diversified global conglomerate.</p>',   privacyPolicyText: '<p>Wayne Enterprises complies with all applicable data laws.</p>',        privacyPolicyLink: 'www.wayne.com/privacy',          generalTermsText: '<p>General terms are available at our official website.</p>'               },
+    { id: 7,  organizationName: 'Cyberdyne Systems',   careerSiteAddress: 'jobs.cyberdyne.com',         createdAt: '04/14/2023 09:10:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.cyberdyne.com',      careerSiteLanguage: 'de', showAdmissionJobLink: false, jobsGrouping: 'type',       linkColor: '#457B9D', buttonColor: '#457B9D', acceptTerms: true,  autoReplyTemplate: 'custom_1', smsSenderName: 'Cyberdyne',  organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Cyberdyne Systems is a pioneer in artificial intelligence.</p>',  companyProfileGR: '<p>Η Cyberdyne Systems είναι πρωτοπόρος στην τεχνητή νοημοσύνη.</p>',     companyProfileEN: '<p>Cyberdyne Systems is a pioneer in artificial intelligence.</p>',  privacyPolicyText: '<p>All candidate data is stored securely and confidentially.</p>',        privacyPolicyLink: 'www.cyberdyne.com/privacy',      generalTermsText: '<p>By applying you accept our standard terms of engagement.</p>'           },
+    { id: 8,  organizationName: 'Soylent Corp',        careerSiteAddress: 'careers.soylent.com',        createdAt: '07/05/2023 01:00:00 PM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.soylent.com',        careerSiteLanguage: 'fr', showAdmissionJobLink: true,  jobsGrouping: 'department', linkColor: '#A8DADC', buttonColor: '#A8DADC', acceptTerms: true,  autoReplyTemplate: 'formal',   smsSenderName: 'Soylent',    organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Soylent Corp is committed to sustainable food solutions.</p>',   companyProfileGR: '<p>Η Soylent Corp δεσμεύεται σε βιώσιμες λύσεις τροφίμων.</p>',          companyProfileEN: '<p>Soylent Corp is committed to sustainable food solutions.</p>',   privacyPolicyText: '<p>We handle your data with care and transparency.</p>',                  privacyPolicyLink: 'www.soylent.com/privacy',        generalTermsText: '<p>Our terms of use are updated regularly. Please review them.</p>'        },
+    { id: 9,  organizationName: 'Weyland-Yutani',      careerSiteAddress: 'jobs.weyland-yutani.com',    createdAt: '09/18/2023 10:00:00 AM', status: 'Inactive', careerSiteStatus: 'inactive', corporateWebsiteAddress: 'www.weyland-yutani.com', careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#6D6875', buttonColor: '#6D6875', acceptTerms: false, autoReplyTemplate: 'none',     smsSenderName: 'Weyland',    organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-weyland.jpg',       companyProfileDEFAULT: '<p>Weyland-Yutani leads in space exploration technology.</p>',     companyProfileGR: '<p>Η Weyland-Yutani ηγείται στην τεχνολογία εξερεύνησης διαστήματος.</p>', companyProfileEN: '<p>Weyland-Yutani leads in space exploration technology.</p>',    privacyPolicyText: '<p>Privacy is a core value at Weyland-Yutani.</p>',                       privacyPolicyLink: 'www.weyland-yutani.com/privacy', generalTermsText: '<p>All legal terms are enforceable under applicable law.</p>'               },
+    { id: 10, organizationName: 'Massive Dynamic',     careerSiteAddress: 'careers.massivedynamic.com', createdAt: '12/01/2023 04:30:00 PM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.massivedynamic.com', careerSiteLanguage: 'en', showAdmissionJobLink: true,  jobsGrouping: 'category',   linkColor: '#B5838D', buttonColor: '#B5838D', acceptTerms: true,  autoReplyTemplate: 'default',  smsSenderName: 'MassiveDyn', organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Massive Dynamic is a technology and research conglomerate.</p>',  companyProfileGR: '<p>Η Massive Dynamic είναι όμιλος τεχνολογίας και έρευνας.</p>',          companyProfileEN: '<p>Massive Dynamic is a technology and research conglomerate.</p>',  privacyPolicyText: '<p>We comply with all GDPR regulations and data protection laws.</p>',   privacyPolicyLink: 'www.massivedynamic.com/privacy', generalTermsText: '<p>Terms of service are binding upon registration.</p>'                    },
+    { id: 11, organizationName: 'Rekall Inc',          careerSiteAddress: 'careers.rekall.com',         createdAt: '02/10/2024 08:00:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.rekall.com',         careerSiteLanguage: 'es', showAdmissionJobLink: false, jobsGrouping: 'location',   linkColor: '#1B91FF', buttonColor: '#1B91FF', acceptTerms: true,  autoReplyTemplate: 'casual',   smsSenderName: 'Rekall',     organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Rekall Inc specialises in memory and cognitive solutions.</p>',   companyProfileGR: '<p>Η Rekall Inc ειδικεύεται σε λύσεις μνήμης και γνωστικής επιστήμης.</p>', companyProfileEN: '<p>Rekall Inc specialises in memory and cognitive solutions.</p>',   privacyPolicyText: '<p>Your personal information is never sold to third parties.</p>',        privacyPolicyLink: 'www.rekall.com/privacy',         generalTermsText: '<p>Please read our terms carefully before submitting an application.</p>'  },
+    { id: 12, organizationName: 'Tyrell Corporation',  careerSiteAddress: 'work.tyrell.com',            createdAt: '03/15/2024 11:30:00 AM', status: 'Inactive', careerSiteStatus: 'inactive', corporateWebsiteAddress: 'www.tyrell.com',         careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#FF6B6B', buttonColor: '#FF6B6B', acceptTerms: false, autoReplyTemplate: 'none',     smsSenderName: 'Tyrell',     organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Tyrell Corporation designs advanced bio-synthetic systems.</p>',  companyProfileGR: '<p>Η Tyrell Corporation σχεδιάζει προηγμένα βιοσυνθετικά συστήματα.</p>', companyProfileEN: '<p>Tyrell Corporation designs advanced bio-synthetic systems.</p>',  privacyPolicyText: '<p>Data collected is used solely for recruitment purposes.</p>',          privacyPolicyLink: 'www.tyrell.com/privacy',         generalTermsText: '<p>All applicants must agree to the terms before proceeding.</p>'          },
+    { id: 13, organizationName: 'Omni Consumer',       careerSiteAddress: 'careers.omni.com',           createdAt: '04/20/2024 02:15:00 PM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.omni.com',           careerSiteLanguage: 'en', showAdmissionJobLink: true,  jobsGrouping: 'type',       linkColor: '#4ECDC4', buttonColor: '#4ECDC4', acceptTerms: true,  autoReplyTemplate: 'custom_2', smsSenderName: 'Omni',       organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Omni Consumer Products delivers everyday innovations.</p>',      companyProfileGR: '<p>Η Omni Consumer Products προσφέρει καθημερινές καινοτομίες.</p>',      companyProfileEN: '<p>Omni Consumer Products delivers everyday innovations.</p>',      privacyPolicyText: '<p>We take privacy seriously and act in accordance with the law.</p>',   privacyPolicyLink: 'www.omni.com/privacy',           generalTermsText: '<p>Terms are subject to change. Check back regularly.</p>'                },
+    { id: 14, organizationName: 'Bluth Company',       careerSiteAddress: 'jobs.bluth.com',             createdAt: '05/05/2024 09:45:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.bluth.com',          careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'department', linkColor: '#45B7D1', buttonColor: '#45B7D1', acceptTerms: true,  autoReplyTemplate: 'default',  smsSenderName: 'Bluth',      organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-bluth.jpg',         companyProfileDEFAULT: '<p>Bluth Company is a family-owned real estate developer.</p>',     companyProfileGR: '<p>Η Bluth Company είναι οικογενειακή εταιρεία ανάπτυξης ακινήτων.</p>', companyProfileEN: '<p>Bluth Company is a family-owned real estate developer.</p>',    privacyPolicyText: '<p>We are transparent about how we use your information.</p>',            privacyPolicyLink: 'www.bluth.com/privacy',          generalTermsText: '<p>All applications are subject to standard Bluth terms.</p>'              },
+    { id: 15, organizationName: 'Dunder Mifflin',      careerSiteAddress: 'careers.dundermifflin.com',  createdAt: '06/12/2024 03:00:00 PM', status: 'Inactive', careerSiteStatus: 'inactive', corporateWebsiteAddress: 'www.dundermifflin.com',  careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#96CEB4', buttonColor: '#96CEB4', acceptTerms: false, autoReplyTemplate: 'none',     smsSenderName: 'Dunder',     organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Dunder Mifflin is a regional paper and office supply company.</p>', companyProfileGR: '<p>Η Dunder Mifflin είναι εταιρεία χαρτιού και γραφικής ύλης.</p>',    companyProfileEN: '<p>Dunder Mifflin is a regional paper and office supply company.</p>',  privacyPolicyText: '<p>Your application data is kept confidential at all times.</p>',        privacyPolicyLink: 'www.dundermifflin.com/privacy',  generalTermsText: '<p>Employment terms follow standard Dunder Mifflin guidelines.</p>'       },
+    { id: 16, organizationName: 'Vandelay Industries', careerSiteAddress: 'work.vandelay.com',          createdAt: '07/18/2024 10:20:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.vandelay.com',       careerSiteLanguage: 'en', showAdmissionJobLink: true,  jobsGrouping: 'category',   linkColor: '#FFEAA7', buttonColor: '#FFEAA7', acceptTerms: true,  autoReplyTemplate: 'formal',   smsSenderName: 'Vandelay',   organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Vandelay Industries is an importer and exporter of latex.</p>',  companyProfileGR: '<p>Η Vandelay Industries είναι εισαγωγέας και εξαγωγέας latex.</p>',      companyProfileEN: '<p>Vandelay Industries is an importer and exporter of latex.</p>',   privacyPolicyText: '<p>We handle all personal data in compliance with GDPR.</p>',            privacyPolicyLink: 'www.vandelay.com/privacy',       generalTermsText: '<p>Standard terms apply to all job applicants.</p>'                       },
+    { id: 17, organizationName: 'Pied Piper',          careerSiteAddress: 'careers.piedpiper.com',      createdAt: '08/22/2024 01:00:00 PM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.piedpiper.com',      careerSiteLanguage: 'en', showAdmissionJobLink: false, jobsGrouping: 'location',   linkColor: '#DDA0DD', buttonColor: '#DDA0DD', acceptTerms: true,  autoReplyTemplate: 'custom_1', smsSenderName: 'PiedPiper',  organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Pied Piper is a revolutionary compression technology startup.</p>', companyProfileGR: '<p>Η Pied Piper είναι επαναστατική startup τεχνολογίας συμπίεσης.</p>', companyProfileEN: '<p>Pied Piper is a revolutionary compression technology startup.</p>',  privacyPolicyText: '<p>We are committed to protecting your right to privacy.</p>',           privacyPolicyLink: 'www.piedpiper.com/privacy',      generalTermsText: '<p>By applying you agree to our terms of recruitment.</p>'                },
+    { id: 18, organizationName: 'Hooli Tech',          careerSiteAddress: 'jobs.hooli.com',             createdAt: '09/30/2024 08:30:00 AM', status: 'Inactive', careerSiteStatus: 'inactive', corporateWebsiteAddress: 'www.hooli.com',          careerSiteLanguage: 'de', showAdmissionJobLink: false, jobsGrouping: 'none',       linkColor: '#98D8C8', buttonColor: '#98D8C8', acceptTerms: false, autoReplyTemplate: 'none',     smsSenderName: 'Hooli',      organizationLogo: '', organizationLogoName: '', bgImage: 'https://smartcv.blob.core.windows.net/org-background-images/bb6457da-4a3a-42dc-8232-56eed85613d9.jpg', bgImageName: 'background-hooli.jpg',         companyProfileDEFAULT: '<p>Hooli Tech is a Silicon Valley technology giant.</p>',           companyProfileGR: '<p>Η Hooli Tech είναι τεχνολογικός γίγαντας της Silicon Valley.</p>',    companyProfileEN: '<p>Hooli Tech is a Silicon Valley technology giant.</p>',          privacyPolicyText: '<p>Hooli Tech processes data in line with global standards.</p>',        privacyPolicyLink: 'www.hooli.com/privacy',          generalTermsText: '<p>All terms are available in full on our corporate website.</p>'          },
+    { id: 19, organizationName: 'Prestige Worldwide',  careerSiteAddress: 'careers.prestige.com',       createdAt: '10/14/2024 04:45:00 PM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.prestige.com',       careerSiteLanguage: 'fr', showAdmissionJobLink: true,  jobsGrouping: 'type',       linkColor: '#F7DC6F', buttonColor: '#F7DC6F', acceptTerms: true,  autoReplyTemplate: 'custom_2', smsSenderName: 'Prestige',   organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Prestige Worldwide is a global entertainment company.</p>',     companyProfileGR: '<p>Η Prestige Worldwide είναι παγκόσμια εταιρεία ψυχαγωγίας.</p>',       companyProfileEN: '<p>Prestige Worldwide is a global entertainment company.</p>',     privacyPolicyText: '<p>We ensure all data is handled responsibly and securely.</p>',         privacyPolicyLink: 'www.prestige.com/privacy',       generalTermsText: '<p>Prestige Worldwide terms govern all recruitment activities.</p>'        },
+    { id: 20, organizationName: 'Gekko & Co',          careerSiteAddress: 'work.gekko.com',             createdAt: '11/28/2024 11:00:00 AM', status: 'Active',   careerSiteStatus: 'active',   corporateWebsiteAddress: 'www.gekko.com',          careerSiteLanguage: 'en', showAdmissionJobLink: true,  jobsGrouping: 'department', linkColor: '#BB8FCE', buttonColor: '#BB8FCE', acceptTerms: true,  autoReplyTemplate: 'default',  smsSenderName: 'Gekko',      organizationLogo: '', organizationLogoName: '', bgImage: '', bgImageName: '',                                                                                                                                                     companyProfileDEFAULT: '<p>Gekko & Co is a premier investment and trading firm.</p>',      companyProfileGR: '<p>Η Gekko & Co είναι κορυφαία εταιρεία επενδύσεων και συναλλαγών.</p>', companyProfileEN: '<p>Gekko & Co is a premier investment and trading firm.</p>',      privacyPolicyText: '<p>Gekko & Co is fully compliant with financial data regulations.</p>',  privacyPolicyLink: 'www.gekko.com/privacy',          generalTermsText: '<p>All candidates must review and accept our terms before applying.</p>'  },
+];
+
+export const ORGANIZATIONS_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key     : 'organizationName',
+        label   : 'Organization',
+        sortable: true,
+    },
+    {
+        key     : 'careerSiteAddress',
+        label   : 'Career Site',
+        sortable: true,
+        render  : (row: RowTableData) => (
+            <a
+                href={`https://${String(row.careerSiteAddress)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link hover:underline hover:text-link-dark truncate"
+                onClick={e => e.stopPropagation()}
+            >
+                {String(row.careerSiteAddress)}
+            </a>
+        ),
+    },
+    {
+        key    : 'createdAt',
+        label  : 'Created At',
+        hidden : true,
+        type   : 'date',
+    },
+    {
+        key    : 'status',
+        label  : 'Status',
+        hidden : true,
+    },
+    {
+        key    : 'careerSiteStatus',
+        label  : 'Career Site Status',
+        hidden : true,
+    },
+];
+
+export const ORGANIZATIONS_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'Edit',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'Delete',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+export const DEPARTMENTS_MOCK_DATA: RowTableData[] = [
+    { id: 1,  departmentName: 'Engineering'         },
+    { id: 2,  departmentName: 'Human Resources'     },
+    { id: 3,  departmentName: 'Marketing'           },
+    { id: 4,  departmentName: 'Sales'               },
+    { id: 5,  departmentName: 'Finance'             },
+    { id: 6,  departmentName: 'Legal'               },
+    { id: 7,  departmentName: 'Operations'          },
+    { id: 8,  departmentName: 'Product Management'  },
+    { id: 9,  departmentName: 'Design'              },
+    { id: 10, departmentName: 'Customer Support'    },
+    { id: 11, departmentName: 'IT Infrastructure'   },
+    { id: 12, departmentName: 'Research & Development' },
+];
+
+export const DEPARTMENTS_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key     : 'departmentName',
+        label   : 'Department',
+        sortable: true,
+    },
+];
+
+export const DEPARTMENTS_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'Edit',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'Delete',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+
 
 
 
@@ -302,4 +438,21 @@ export const USER_ROLE_OPTIONS = [
 export const USER_STATUS = [
     { value: 'active',      label: 'Active'     },
     { value: 'inactive',    label: 'Inactive'   },
+];
+
+export const JOBS_GROUPING_OPTIONS = [
+    { value: 'none',        label: 'None'               },
+    { value: 'department',  label: 'By Department'      },
+    { value: 'location',    label: 'By Location'        },
+    { value: 'category',    label: 'By Category'        },
+    { value: 'type',        label: 'By Employment Type' },
+];
+
+export const AUTO_REPLY_TEMPLATE_OPTIONS = [
+    { value: 'default',     label: 'Default Template'        },
+    { value: 'formal',      label: 'Formal Reply'            },
+    { value: 'casual',      label: 'Casual Reply'            },
+    { value: 'custom_1',    label: 'Custom Template 1'       },
+    { value: 'custom_2',    label: 'Custom Template 2'       },
+    { value: 'none',        label: 'No Auto Reply'           },
 ];

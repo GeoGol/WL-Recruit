@@ -42,7 +42,7 @@ const NewSupportRequest = lazy(() => import('@/pages/account/NewSupportRequest')
 
 export interface AppRoute {
     path: string;
-    component: LazyExoticComponent<() => JSX.Element>;
+    component: LazyExoticComponent<(props: any) => JSX.Element>;
 }
 
 export const routes: AppRoute[] = [

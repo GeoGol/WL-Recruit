@@ -1,5 +1,8 @@
 import CheckboxComponent from "@/components/FormComponents/CheckboxComponent";
 import TableActionCell from "@/components/TableComponent/TableActionCell";
+import {RiAddLine, RiFolderAddLine} from "@/components/IconComponent/Icons";
+import ButtonComponent from "@/components/FormComponents/ButtonComponent";
+import {t} from "i18next";
 
 // ─── TableBody ────────────────────────────────────────────────────────────────
 
@@ -17,6 +20,7 @@ interface TableBodyProps<T> {
     onRowClick?  : (row: T) => void;
     onToggleRow? : (key: string | number) => void;
     rowKey       : keyof T;
+    onAddNew?    : () => void;
 }
 
 function TableBody<T extends Record<string, unknown>>({
@@ -33,23 +37,37 @@ function TableBody<T extends Record<string, unknown>>({
     onRowClick,
     onToggleRow,
     rowKey,
+    onAddNew,
 }: Readonly<TableBodyProps<T>>) {
-    if (loading) {
-        return (
-            <tbody>
-                <tr>
-                    <td colSpan={colCount} className="text-center py-4">Loading...</td>
-                </tr>
-            </tbody>
-        );
-    }
+    if (loading) return null;
 
-    if (!data.length) {
+    if (data.length === 0) {
         return (
             <tbody>
                 <tr>
-                    <td colSpan={colCount} className="text-center text-md text-primary py-4">
-                        {emptyMessage ?? 'No data available.'}
+                    <td colSpan={colCount} className="text-center text-md text-primary py-6">
+                        {onAddNew ? (
+                            <div className={'flex flex-col justify-center items-center gap-3 border-2 border-dashed rounded-lg border-main cursor-pointer p-5 mx-4'} onClick={onAddNew}>
+                                <RiFolderAddLine className={'text-muted'} size={48}/>
+
+                                <div className={'flex flex-col gap-1 text-md'}>
+                                    <span className={'font-semibold text-primary'}>{t('msgNoRecords')}</span>
+                                    <span className={'font-medium text-secondary'}>{t('msgCreateNewEntry')}</span>
+                                </div>
+
+                                <ButtonComponent
+                                    type={'button'}
+                                    variant={'confirmation'}
+                                    label={t('lblNewEntry')}
+                                    onClick={onAddNew}
+                                    leftIcon={<RiAddLine size={18}/>}
+                                />
+
+                            </div>
+                        ) : (
+                            emptyMessage ?? 'No data available.'
+                        )}
+
                     </td>
                 </tr>
             </tbody>
@@ -89,7 +107,7 @@ function TableBody<T extends Record<string, unknown>>({
                             </td>
                         ))}
 
-                        {actions && actions.length > 0 && (
+                        {!!actions?.length && (
                             <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
                                 <TableActionCell row={row} actions={actions} />
                             </td>

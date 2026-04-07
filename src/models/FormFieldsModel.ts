@@ -90,7 +90,6 @@ export interface InputProps {
     onKeyUp?        : (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-
 export interface TooltipComponentProps {
     content: ReactNode;
     children: ReactNode;
@@ -98,7 +97,6 @@ export interface TooltipComponentProps {
     className?: string;
     delay?: number;
 }
-
 
 export interface CheckboxComponentProps{
     label?: string;
@@ -110,4 +108,63 @@ export interface CheckboxComponentProps{
     className?: string;
     wrapperClass?: string;
     disabled?: boolean;
+}
+
+export interface RadioOption {
+    value    : string | number;
+    label    : string;
+    disabled?: boolean;
+    helper?  : string;
+}
+
+export interface RadioComponentProps {
+    name        : string;
+    options     : RadioOption[];
+    value       : string | number;
+    onChange    : (value: string | number) => void;
+    label?      : string;
+    helperText? : string;
+    layout?     : 'horizontal' | 'vertical';
+    size?       : InputSize;
+    disabled?   : boolean;
+    bordered?   : boolean;
+    className?  : string;
+}
+
+export interface RadioItemProps {
+    option     : RadioOption;
+    name       : string;
+    checked    : boolean;
+    disabled   : boolean;
+    bordered   : boolean;
+    size       : InputSize;
+    onChange   : (value: string | number) => void;
+    baseId     : string;
+}
+
+export interface FileInputComponentProps {
+    // Content
+    id?           : string;
+    name?         : string;
+    label?        : string;
+    helperText?   : string;
+    hint?         : string;
+    value?        : string;       // existing URL/path to pre-populate
+    valueName?    : string;       // friendly filename to display for the existing value
+
+    // Behaviour
+    accept?       : string;       // e.g. 'image/*' or '.pdf,.docx'
+    multiple?     : boolean;
+    maxSizeMB?    : number;       // client-side size guard
+    disabled?     : boolean;
+    required?     : boolean;
+
+    // Appearance
+    size?         : InputSize;
+    variant?      : InputVariant;
+    fullWidth?    : boolean;
+    className?    : string;
+
+    // Events
+    onChange?     : (files: FileList | null) => void;
 }

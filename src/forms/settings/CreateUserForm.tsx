@@ -3,17 +3,9 @@ import { useTranslation } from 'react-i18next';
 import InputComponent from '@/components/FormComponents/InputComponent';
 import SelectComponent from '@/components/FormComponents/SelectComponent';
 import {APP_LANGUAGE_OPTIONS, USER_ROLE_OPTIONS, USER_STATUS} from '@/demoData';
+import {CreateUserFormState} from "@/models";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-
-export interface CreateUserFormState {
-    firstName   : string;
-    lastName    : string;
-    email       : string;
-    role        : number | string;
-    status     ?: number | string;
-    appLanguage : number | string;
-}
 
 const initialState: CreateUserFormState = {
     firstName   : '',
@@ -53,7 +45,7 @@ export default function CreateUserForm({ onSubmit, type, initialData, formId = '
 
     return (
         <form id={formId} onSubmit={handleSubmit} noValidate>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
                 <InputComponent
                     label={t('lblFirstName')}
                     value={form.firstName}

@@ -5,45 +5,43 @@ import ButtonComponent from "@/components/FormComponents/ButtonComponent";
 import { PAGE_SIZE_OPTIONS } from "@/constant/CONSTANTS";
 import { mapColumns, mapActions } from "@/helpers/TableDataHelper";
 import { exportToExcel } from "@/helpers/ExportHelpers";
-import ModalComponent from "@/components/ModalComponent/ModalComponent";
 import DrawerComponent from "@/components/DrawerComponent/DrawerComponent";
-import { useModal } from "@/hooks/useModal";
-import CreateUserForm, { CreateUserFormState } from "@/forms/settings/CreateUserForm";
+import { useModal, useActionModal } from "@/hooks/useModal";
+import CreateUserForm from "@/forms/settings/CreateUserForm";
 import { useState, useMemo } from "react";
-import { RowTableData } from "@/models";
+import {CreateUserFormState, RowTableData} from "@/models";
+import ModalComponent from "@/components/ModalComponent/ModalComponent";
 
 export default function Users() {
     const [selectedUser, setSelectedUser] = useState<RowTableData | null>(null);
 
     const columns      = mapColumns(USERS_columnDefs);
-    const createModal  = useModal();
     const createDrawer = useModal();
-    const editModal    = useModal();
     const editDrawer   = useModal();
+    const modal        = useActionModal({
+        toastMessages: {
+            delete  : { type: 'success', message: t('msgActionSuccess') },
+            confirm : { type: 'success', message: t('msgActionSuccess') },
+        },
+    });
 
     const actions = useMemo(() => mapActions(
         USERS_actionDefs.map(a => {
-            if (a.label === 'Edit modal') return {
-                ...a,
-                onClick: (row: RowTableData) => { setSelectedUser(row); editModal.open(); },
-            };
-            if (a.label === 'Edit drawer') return {
+            if (a.label === 'Edit') return {
                 ...a,
                 onClick: (row: RowTableData) => { setSelectedUser(row); editDrawer.open(); },
             };
             return a;
         })
-    ), [editModal, editDrawer]);
+    ), [editDrawer]);
 
     const handleCreateUser = (data: CreateUserFormState) => {
         console.log('Create user:', data);
-        createModal.close();
         createDrawer.close();
     };
 
     const handleEditUser = (data: CreateUserFormState) => {
         console.log('Update user:', data);
-        editModal.close();
         editDrawer.close();
         setSelectedUser(null);
     };
@@ -68,15 +66,9 @@ export default function Users() {
                     <div className="flex items-center max-xs:w-full max-xs:flex-wrap gap-2">
                         <ButtonComponent
                             variant="confirmation"
-                            label={t("lblCreateUser") + ' Drawer'}
+                            label={t("lblCreateUser")}
                             className="max-xs:w-full"
                             onClick={() => createDrawer.open()}
-                        />
-                        <ButtonComponent
-                            variant="confirmation"
-                            label={t("lblCreateUser") + ' Modal'}
-                            className="max-xs:w-full"
-                            onClick={() => createModal.open()}
                         />
                         <ButtonComponent
                             variant="outline"
@@ -92,54 +84,22 @@ export default function Users() {
                 pageSizeOptions={PAGE_SIZE_OPTIONS}
             />
 
-            {/* ── Create Modal ────────────────────────────────────────────── */}
-            <ModalComponent
-                isOpen={createModal.isOpen}
-                onClose={createModal.close}
-                title={t("lblCreateUser")}
-                size="md"
-                footer={
-                    <div className="flex gap-3">
-                        <ButtonComponent type="button" variant="main"          label={t("btnCancel")} onClick={createModal.close} />
-                        <ButtonComponent type="submit" form="create-user-modal-form" variant="confirmation" label={t("btnSave")} />
-                    </div>
-                }
-            >
-                <CreateUserForm onSubmit={handleCreateUser} type="create" formId="create-user-modal-form" />
-            </ModalComponent>
-
             {/* ── Create Drawer ───────────────────────────────────────────── */}
             <DrawerComponent
                 isOpen={createDrawer.isOpen}
                 onClose={createDrawer.close}
                 title={t("lblCreateUser")}
                 placement="right"
-                size="lg"
+                size="xl"
                 footer={
                     <div className="flex gap-3">
-                        <ButtonComponent type="button" variant="main"          label={t("btnCancel")} onClick={createDrawer.close} />
-                        <ButtonComponent type="submit" form="create-user-drawer-form" variant="confirmation" label={t("btnSave")} />
+                        <ButtonComponent type="button" variant="main"         label={t("btnCancel")} onClick={createDrawer.close} />
+                        <ButtonComponent type="button" variant="confirmation" label={t("btnSave")}   onClick={() => modal.openConfirm('create-user-drawer-form')} />
                     </div>
                 }
             >
                 <CreateUserForm onSubmit={handleCreateUser} type="create" formId="create-user-drawer-form" />
             </DrawerComponent>
-
-            {/* ── Edit Modal ──────────────────────────────────────────────── */}
-            <ModalComponent
-                isOpen={editModal.isOpen}
-                onClose={editModal.close}
-                title={t("mnoEditUserDetails")}
-                size="md"
-                footer={
-                    <div className="flex gap-3">
-                        <ButtonComponent type="button" variant="main"          label={t("btnCancel")} onClick={editModal.close} />
-                        <ButtonComponent type="submit" form="edit-user-modal-form" variant="confirmation" label={t("btnSave")} />
-                    </div>
-                }
-            >
-                <CreateUserForm onSubmit={handleEditUser} type="edit" initialData={selectedUserData} formId="edit-user-modal-form" />
-            </ModalComponent>
 
             {/* ── Edit Drawer ─────────────────────────────────────────────── */}
             <DrawerComponent
@@ -147,16 +107,22 @@ export default function Users() {
                 onClose={editDrawer.close}
                 title={t("mnoEditUserDetails")}
                 placement="right"
-                size="lg"
+                size="xl"
                 footer={
                     <div className="flex gap-3">
-                        <ButtonComponent type="button" variant="main"          label={t("btnCancel")} onClick={editDrawer.close} />
-                        <ButtonComponent type="submit" form="edit-user-drawer-form" variant="confirmation" label={t("btnSave")} />
+                        <ButtonComponent type="button" variant="main"         label={t("btnCancel")} onClick={editDrawer.close} />
+                        <ButtonComponent type="button" variant="confirmation" label={t("btnSave")}   onClick={() => modal.openConfirm('edit-user-drawer-form')} />
                     </div>
                 }
             >
                 <CreateUserForm onSubmit={handleEditUser} type="edit" initialData={selectedUserData} formId="edit-user-drawer-form" />
             </DrawerComponent>
+
+            <ModalComponent {...modal.modalProps} size="md">
+                {modal.variant === 'confirm' && (
+                    <p className="text-primary text-md">{t("msgConfirmAction")}</p>
+                )}
+            </ModalComponent>
         </div>
     );
 }

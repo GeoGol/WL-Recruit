@@ -7,7 +7,7 @@ import {DrawerProps} from "@/models";
 // ─── Size map (width for left/right, height for top/bottom) ──────────────────
 
 const sizeMap = {
-    horizontal: { sm: 'w-64', md: 'w-80', lg: 'w-96', xl: 'w-[480px]', full: 'w-full' },
+    horizontal: { sm: 'md:w-64', md: 'md:w-80', lg: 'md:w-96', xl: 'md:w-[480px]', full: 'md:w-full' },
     vertical  : { sm: 'h-48', md: 'h-64', lg: 'h-96', xl: 'h-[480px]', full: 'h-full' },
 };
 
@@ -72,7 +72,7 @@ const DrawerComponent = memo(({
             <div
                 className={`fixed z-[1001] flex flex-col bg-surface shadow-xl
                     transition-transform duration-300 ease-in-out
-                    ${base} ${sizeClass}
+                    ${base} w-full ${sizeClass}
                     ${isOpen ? open : closed}
                     ${className}`}
                 aria-labelledby={title ? 'drawer-title' : undefined}
@@ -80,7 +80,7 @@ const DrawerComponent = memo(({
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-main shrink-0">
                     {title && (
-                        <h3 id="drawer-title" className="text-lg font-semibold text-primary">
+                        <h3 id="drawer-title" className="text-xl md:text-2xl font-bold text-primary ">
                             {title}
                         </h3>
                     )}
@@ -88,8 +88,8 @@ const DrawerComponent = memo(({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="ml-auto text-muted hover:text-primary hover:bg-primary rounded-lg p-1.5 transition-colors"
-                            aria-label="Close drawer"
+                            className="ml-auto text-muted hover:text-primary hover:bg-primary rounded-lg transition-colors"
+                            aria-label="Close"
                         >
                             <RiCloseLine size={20} />
                         </button>

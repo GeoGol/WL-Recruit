@@ -10,14 +10,13 @@ function TableHead<T>({
   toggleAll,
   actions,
 }: Readonly<{
-  columns: TableColumn<T>[];
-  handleSort: (key: string) => void;
-  selectable: boolean;
-  allSelected: boolean;
-  toggleAll: () => void;
-  actions?: any[];
+  columns     : TableColumn<T>[];
+  handleSort  : (key: string) => void;
+  selectable  : boolean;
+  allSelected : boolean;
+  toggleAll   : () => void;
+  actions?    : any[];
 }>) {
-
   return (
     <thead className="text-md text-secondary uppercase bg-surface border-b-2 border-main">
       <tr>
@@ -54,8 +53,6 @@ function TableHead<T>({
 
         {actions && actions.length > 0 && (
           <th scope="col" className="px-4 py-3 text-left">
-            {/*<span className="sr-only">Actions</span>*/}
-            {/*<span>Actions</span>*/}
           </th>
         )}
       </tr>

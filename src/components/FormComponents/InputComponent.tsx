@@ -12,7 +12,7 @@ const sizeClasses: Record<InputSize, { input: string; icon: number; addon: strin
 
 const variantClasses: Record<InputVariant, { input: string; helper: string }> = {
     default: {
-        input:  'border-gray-300 bg-gray-50 text-primary placeholder-gray-400 focus:border-primary-600 focus:ring-primary-600',
+        input:  'border-gray-300 bg-gray-50 text-primary placeholder-gray-400 focus:border-primary-700 focus:ring-primary-700',
         helper: 'text-primary',
     },
     success: {
@@ -167,14 +167,14 @@ const InputComponent = memo<InputProps>(({
 
             {/* Helper / error text */}
             {helperText && (
-                <p id={`${inputId}-helper`} className={`mt-2 text-xs ${helperClass}`}>
+                <p id={`${inputId}-helper`} className={`mt-2 text-sm ${helperClass}`}>
                     {helperText}
                 </p>
             )}
 
             {/* Hint — always gray, independent of variant */}
             {hint && (
-                <p className="mt-2 text-xs text-muted">
+                <p className="mt-2 text-sm text-muted">
                     {hint}
                 </p>
             )}

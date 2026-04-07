@@ -56,7 +56,7 @@ export function getEditUserDetailsMapper(
             icon : <RiSettings3Line className="w-4 h-4" />,
             content: (
                 <div className={'w-full flex flex-col gap-3 '}>
-                    <div className="grid md:grid-cols-2 gap-3">
+                    <div className="grid md:grid-cols-2 gap-4">
                         <SelectComponent
                             label={t('lblUserInactivityTimeout')}
                             options={INACTIVITY_TIMEOUT_OPTIONS}
@@ -104,7 +104,7 @@ export function getEditUserDetailsMapper(
                         />
                     </div>
 
-                    <div className="w-full flex flex-col gap-3">
+                    <div className="w-full flex flex-col gap-4">
                         <CheckboxComponent
                             name="simplifiedResumeView"
                             label={t('lblSimplifiedResumeView')}

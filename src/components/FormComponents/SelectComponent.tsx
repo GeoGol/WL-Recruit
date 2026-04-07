@@ -180,7 +180,7 @@ const SelectComponent = memo(({
             <div
                 ref={triggerRef}
                 className={`w-full ${sizeClasses[size].padding} pr-6 bg-gray-50 text-primary border border-gray-300 rounded-lg justify-between items-center gap-2 flex cursor-pointer ${sizeClasses[size].height} 
-                    ${isOpen && !disabled ? "ring-1 border-primary-600 ring-primary-600" : ""} 
+                    ${isOpen && !disabled ? "ring-1 border-primary-700 ring-primary-700" : ""} 
                     ${disabled ? "cursor-not-allowed opacity-50" : ""} 
                     ${className}`}
                 onClick={toggleDropdown}

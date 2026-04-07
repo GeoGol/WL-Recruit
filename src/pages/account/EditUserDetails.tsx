@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EditUserFormState } from '@/models';
 import EditUserDetailsForm from '@/forms/account/EditUserDetailsForm';
+import { useActionModal } from '@/hooks/useModal';
+import ModalComponent from '@/components/ModalComponent/ModalComponent';
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -30,6 +32,13 @@ export default function EditUserDetails() {
         setForm(prev => ({ ...prev, [key]: value }));
     };
 
+    const modal = useActionModal({
+        toastMessages: {
+            confirm: { type: 'success', message: t('msgActionSuccess') },
+        },
+        onConfirm: () => console.log('Settings saved:', form),
+    });
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Form submitted:', form);
@@ -47,7 +56,14 @@ export default function EditUserDetails() {
                 setField={setField}
                 onSubmit={handleSubmit}
                 onCancel={() => console.log('cancelled')}
+                onSave={() => modal.openConfirm('edit-user-details-form')}
             />
+
+            <ModalComponent {...modal.modalProps} size="md">
+                {modal.variant === 'confirm' && (
+                    <p className="text-primary text-md">{t('msgConfirmAction')}</p>
+                )}
+            </ModalComponent>
         </div>
     );
 }

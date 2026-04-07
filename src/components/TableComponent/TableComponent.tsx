@@ -2,6 +2,7 @@ import { memo, useState, useMemo, useCallback } from 'react';
 import TablePagination from './TablePagination';
 import TableBody from './TableBody';
 import TableHead from './TableHead';
+import TableSkeleton from './TableSkeleton';
 import { SortDirection, TableProps} from "@/models";
 import SelectComponent from "@/components/FormComponents/SelectComponent";
 
@@ -49,6 +50,7 @@ function TableComponent<T extends Record<string, unknown>>({
     toolbar,
     title,
     subtitle,
+    onAddNew,
 }: Readonly<TableProps<T>>) {
 
     const [sortKey, setSortKey] = useState<string | null>(null);
@@ -143,44 +145,55 @@ function TableComponent<T extends Record<string, unknown>>({
 
             {/* ── Table ────────────────────────────────────────────────── */}
             <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-primary">
-
-                    {/* Head */}
-                    <TableHead
-                        columns={columns}
-                        handleSort={handleSort}
-                        selectable={selectable}
-                        allSelected={allSelected}
-                        toggleAll={toggleAll}
-                        actions={actions}
+                {loading ? (
+                    <TableSkeleton
+                        colCount={columns.length + (selectable ? 1 : 0)}
+                        rowCount={5}
+                        hasActions={!!actions?.length}
                     />
+                ) : (
+                    <>
+                        <table className="w-full text-sm text-left text-primary">
 
-                    {/* Body */}
-                    <TableBody
-                        data={paginatedData}
-                        columns={columns}
-                        actions={actions}
-                        selectable={selectable}
-                        selectedKeys={selectedKeys}
-                        striped={striped}
-                        hoverable={hoverable}
-                        loading={loading}
-                        emptyMessage={emptyMessage}
-                        colCount={colCount}
-                        onRowClick={onRowClick}
-                        onToggleRow={toggleRow}
-                        rowKey={rowKey}
-                    />
-                </table>
+                            {/* Head */}
+                            <TableHead
+                                columns={columns}
+                                handleSort={handleSort}
+                                selectable={selectable}
+                                allSelected={allSelected}
+                                toggleAll={toggleAll}
+                                actions={actions}
+                            />
+
+                            {/* Body */}
+                            <TableBody
+                                data={paginatedData}
+                                columns={columns}
+                                actions={actions}
+                                selectable={selectable}
+                                selectedKeys={selectedKeys}
+                                striped={striped}
+                                hoverable={hoverable}
+                                loading={loading}
+                                emptyMessage={emptyMessage}
+                                colCount={colCount}
+                                onRowClick={onRowClick}
+                                onToggleRow={toggleRow}
+                                rowKey={rowKey}
+                                onAddNew={onAddNew}
+                            />
+                        </table>
+
+                        {/* ── Pagination ───────────────────────────────────────────── */}
+                        <TablePagination config={{
+                            page,
+                            pageSize,
+                            total,
+                            onPageChange: setPage,
+                        }} />
+                    </>
+                )}
             </div>
-
-            {/* ── Pagination ───────────────────────────────────────────── */}
-            <TablePagination config={{
-                page,
-                pageSize,
-                total,
-                onPageChange: setPage,
-            }} />
         </div>
     );
 }

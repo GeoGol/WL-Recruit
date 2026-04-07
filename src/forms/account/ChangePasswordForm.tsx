@@ -19,11 +19,12 @@ const validatePassword = (password: string): string | null => {
 interface ChangePasswordFormProps {
     onSubmit?: (currentPassword: string, newPassword: string) => void;
     onCancel?: () => void;
+    formId?: string
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ChangePasswordForm({ onSubmit, onCancel }: Readonly<ChangePasswordFormProps>) {
+export default function ChangePasswordForm({ onSubmit, onCancel, formId = 'change-password-form' }: Readonly<ChangePasswordFormProps>) {
     const { t } = useTranslation();
 
     const [currentPassword, setCurrentPassword] = useState('');
@@ -87,68 +88,72 @@ export default function ChangePasswordForm({ onSubmit, onCancel }: Readonly<Chan
     };
 
     return (
-        <form className="space-y-4" onSubmit={handleSubmit} noValidate>
-            <InputComponent
-                type="password"
-                id="current-password"
-                name="current-password"
-                label={t('lblCurrentPassword')}
-                placeholder="••••••••"
-                value={currentPassword}
-                onChange={handleCurrentPasswordChange}
-                variant={errors.currentPassword ? 'error' : 'default'}
-                helperText={errors.currentPassword || undefined}
-                size="sm"
-                required
-                fullWidth
-            />
-            <InputComponent
-                type="password"
-                id="new-password"
-                name="new-password"
-                label={t('lblNewPassword')}
-                placeholder="••••••••"
-                value={newPassword}
-                onChange={handleNewPasswordChange}
-                variant={errors.newPassword ? 'error' : 'default'}
-                helperText={errors.newPassword || undefined}
-                size="sm"
-                required
-                fullWidth
-            />
-            <InputComponent
-                type="password"
-                id="confirm-password"
-                name="confirm-password"
-                label={t('lblRepeatNewPassword')}
-                placeholder="••••••••"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                variant={errors.confirmPassword ? 'error' : 'default'}
-                helperText={errors.confirmPassword || undefined}
-                size="sm"
-                required
-                fullWidth
-            />
-            <p className="text-xs text-danger">(*) {t('lblIsMandatory')}</p>
+        <form id={formId} onSubmit={handleSubmit} noValidate>
 
-            <div className="flex gap-2">
-                {onCancel && (
-                    <ButtonComponent
-                        type="button"
-                        variant="main"
-                        fullWidth
-                        label={t('btnCancel') || 'Cancel'}
-                        onClick={onCancel}
-                    />
-                )}
-                <ButtonComponent
-                    type="submit"
-                    variant="confirmation"
+            <div className="flex flex-col gap-4">
+                <InputComponent
+                    type="password"
+                    id="current-password"
+                    name="current-password"
+                    label={t('lblCurrentPassword')}
+                    placeholder="••••••••"
+                    value={currentPassword}
+                    onChange={handleCurrentPasswordChange}
+                    variant={errors.currentPassword ? 'error' : 'default'}
+                    helperText={errors.currentPassword || undefined}
+                    size="sm"
+                    required
                     fullWidth
-                    label={t('lblChangePassword')}
                 />
+                <InputComponent
+                    type="password"
+                    id="new-password"
+                    name="new-password"
+                    label={t('lblNewPassword')}
+                    placeholder="••••••••"
+                    value={newPassword}
+                    onChange={handleNewPasswordChange}
+                    variant={errors.newPassword ? 'error' : 'default'}
+                    helperText={errors.newPassword || undefined}
+                    size="sm"
+                    required
+                    fullWidth
+                />
+                <InputComponent
+                    type="password"
+                    id="confirm-password"
+                    name="confirm-password"
+                    label={t('lblRepeatNewPassword')}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                    variant={errors.confirmPassword ? 'error' : 'default'}
+                    helperText={errors.confirmPassword || undefined}
+                    size="sm"
+                    required
+                    fullWidth
+                />
+                <p className="text-xs text-danger">(*) {t('lblIsMandatory')}</p>
+
+                <div className="flex gap-2">
+                    {onCancel && (
+                        <ButtonComponent
+                            type="button"
+                            variant="main"
+                            fullWidth
+                            label={t('btnCancel')}
+                            onClick={onCancel}
+                        />
+                    )}
+                    <ButtonComponent
+                        type="submit"
+                        variant="confirmation"
+                        fullWidth
+                        label={t('lblChangePassword')}
+                    />
+                </div>
             </div>
+
         </form>
     );
 }

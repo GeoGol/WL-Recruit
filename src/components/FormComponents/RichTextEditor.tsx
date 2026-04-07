@@ -127,7 +127,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-600 underline max-w-[200px] truncate hover:text-primary-800"
+                className="text-primary-700 underline max-w-[200px] truncate hover:text-primary-800"
                 title={url}
             >
                 {display}
@@ -137,7 +137,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
                 type="button"
                 title="Open link"
                 onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
-                className="text-muted hover:text-primary-600 transition-colors"
+                className="text-muted hover:text-primary-700 transition-colors"
                 onMouseDown={e => e.preventDefault()}
             >
                 <RiExternalLinkLine size={13} />
@@ -146,7 +146,7 @@ const LinkBubble = memo(({ url, onEdit, onRemove, anchorRef }: LinkBubbleProps) 
                 type="button"
                 title="Edit link"
                 onClick={onEdit}
-                className="text-muted hover:text-primary-600 transition-colors"
+                className="text-muted hover:text-primary-700 transition-colors"
                 onMouseDown={e => e.preventDefault()}
             >
                 <RiPencilLine size={13} />
@@ -182,6 +182,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
     const [activeLink, setActiveLink]       = useState<string | null>(null);
     const editorWrapperRef                  = useRef<HTMLDivElement>(null);
     const savedSelection                    = useRef<{ from: number; to: number } | null>(null);
+    const isSyncedRef                       = useRef(false);
 
     const editor = useEditor({
         extensions: [
@@ -201,6 +202,22 @@ const RichTextEditor = memo<RichTextEditorProps>(({
             setActiveLink(href ?? null);
         },
     });
+
+    // Sync editor content when value prop changes externally (e.g. form pre-fill)
+    useEffect(() => {
+        isSyncedRef.current = false;
+    }, [value]);
+
+    useEffect(() => {
+        if (!editor || isSyncedRef.current) return;
+        const current = editor.getHTML();
+        const normalized = value ?? '';
+        const isEmpty = current === '<p></p>' || current === '';
+        if (isEmpty && !normalized) { isSyncedRef.current = true; return; }
+        if (current === normalized) { isSyncedRef.current = true; return; }
+        editor.commands.setContent(normalized, { emitUpdate: false });
+        isSyncedRef.current = true;
+    }, [value, editor]);
 
     const applyLink = useCallback(() => {
         if (!editor) return;
@@ -253,13 +270,15 @@ const RichTextEditor = memo<RichTextEditorProps>(({
 
             {/* Label */}
             {label && (
-                <label className="mb-2 text-muted text-sm font-normal whitespace-nowrap text-ellipsis overflow-hidden">
-                    {label}
-                </label>
+                <div className="justify-start items-center gap-1 flex mb-2">
+                    <label className="text-muted text-base font-normal whitespace-nowrap text-ellipsis overflow-hidden">
+                        {label}
+                    </label>
+                </div>
             )}
 
             {/* Editor wrapper */}
-            <div ref={editorWrapperRef} className="relative flex flex-col rounded-lg border border-main bg-surface focus-within:border-primary-600 focus-within:ring-1 focus-within:ring-primary-600 transition-colors duration-150">
+            <div ref={editorWrapperRef} className="relative flex flex-col rounded-lg border border-main bg-surface focus-within:border-primary-700 focus-within:ring-1 focus-within:ring-primary-700 transition-colors duration-150">
 
                 {/* ── Toolbar ─────────────────────────────────────────── */}
                 <div className="flex flex-wrap items-center gap-0.5 border-b border-main px-2 py-1.5 flex-shrink-0">
@@ -344,7 +363,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                             }}
                             placeholder="https://..."
                             autoFocus
-                            className="flex-1 text-xs border border-main rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary-600"
+                            className="flex-1 text-xs border border-main rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-primary-700"
                         />
                         <ButtonComponent variant="confirmation" size="xs" label="Add"    onClick={applyLink} />
                         <ButtonComponent variant="ghost"        size="xs" label="Cancel" onClick={() => { setShowLinkInput(false); setLinkUrl(''); }} />
@@ -394,7 +413,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
 
             {/* Helper text */}
             {helperText && (
-                <p className="mt-2 text-xs text-muted">{helperText}</p>
+                <p className="mt-2 text-sm text-muted">{helperText}</p>
             )}
         </div>
     );
