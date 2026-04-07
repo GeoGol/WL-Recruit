@@ -48,9 +48,13 @@ export interface ModalProps {
      */
     variantConfig?  : ModalVariantConfig;
     /** Confirm-button label override (used by built-in variants) */
-    confirmLabel?   : string;
+    confirmLabel?    : string;
     /** Cancel-button label override (used by built-in variants) */
-    cancelLabel?    : string;
+    cancelLabel?     : string;
+    /** Shows spinner on the confirm button while true */
+    confirmLoading?  : boolean;
+    /** Disables the confirm button while true */
+    confirmDisabled? : boolean;
     /** Called when the confirm action of a built-in variant is clicked */
-    onConfirm?      : () => void;
+    onConfirm?       : () => void;
 }

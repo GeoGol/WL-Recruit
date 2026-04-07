@@ -18,35 +18,37 @@ const sizeClasses: Record<NonNullable<ModalProps['size']>, string> = {
 // ─── Built-in variant presets ─────────────────────────────────────────────────
 
 type BuiltInResolver = (opts: {
-    onClose    : () => void;
-    onConfirm? : () => void;
-    confirmLabel? : string;
-    cancelLabel?  : string;
+    onClose         : () => void;
+    onConfirm?      : () => void;
+    confirmLabel?   : string;
+    cancelLabel?    : string;
+    confirmLoading? : boolean;
+    confirmDisabled?: boolean;
 }) => ModalVariantConfig;
 
 const BUILT_IN_VARIANTS: Record<string, BuiltInResolver> = {
-    delete: ({ onClose, onConfirm, confirmLabel = 'Delete', cancelLabel = 'Cancel' }) => ({
+    delete: ({ onClose, onConfirm, confirmLabel = 'Delete', cancelLabel = 'Cancel', confirmLoading, confirmDisabled }) => ({
         icon        : <RiErrorWarningLine size={32} className="text-danger" />,
         headerClass : 'bg-danger/10',
         actions     : [
-            { label: cancelLabel, variant: 'main',   onClick: onClose },
-            { label: confirmLabel, variant: 'danger', onClick: onConfirm ?? onClose },
+            { label: cancelLabel,  variant: 'main',   onClick: onClose,              disabled: confirmLoading },
+            { label: confirmLabel, variant: 'danger',  onClick: onConfirm ?? onClose, loading: confirmLoading, disabled: confirmDisabled },
         ],
     }),
-    confirm: ({ onClose, onConfirm, confirmLabel = 'Confirm', cancelLabel = 'Cancel' }) => ({
+    confirm: ({ onClose, onConfirm, confirmLabel = 'Confirm', cancelLabel = 'Cancel', confirmLoading, confirmDisabled }) => ({
         icon        : <RiCheckboxCircleLine size={32} className="text-success" />,
         headerClass : 'bg-success/10',
         actions     : [
-            { label: cancelLabel,  variant: 'main',         onClick: onClose },
-            { label: confirmLabel, variant: 'confirmation', onClick: onConfirm ?? onClose },
+            { label: cancelLabel,  variant: 'main',         onClick: onClose,              disabled: confirmLoading },
+            { label: confirmLabel, variant: 'confirmation',  onClick: onConfirm ?? onClose, loading: confirmLoading, disabled: confirmDisabled },
         ],
     }),
-    cancel: ({ onClose, onConfirm, confirmLabel = 'Yes, cancel', cancelLabel = 'Go back' }) => ({
+    cancel: ({ onClose, onConfirm, confirmLabel = 'Yes, cancel', cancelLabel = 'Go back', confirmLoading, confirmDisabled }) => ({
         icon        : <RiCloseCircleLine size={32} className="text-warning" />,
         headerClass : 'bg-warning/10',
         actions     : [
-            { label: cancelLabel,  variant: 'main',    onClick: onClose },
-            { label: confirmLabel, variant: 'outline', onClick: onConfirm ?? onClose },
+            { label: cancelLabel,  variant: 'main',    onClick: onClose,              disabled: confirmLoading },
+            { label: confirmLabel, variant: 'outline',  onClick: onConfirm ?? onClose, loading: confirmLoading, disabled: confirmDisabled },
         ],
     }),
 };
@@ -69,6 +71,8 @@ const ModalComponent = memo(({
     variantConfig,
     confirmLabel,
     cancelLabel,
+    confirmLoading  = false,
+    confirmDisabled = false,
     onConfirm,
 }: ModalProps) => {
 
@@ -77,21 +81,20 @@ const ModalComponent = memo(({
         if (!variant) return {};
         const builtIn = BUILT_IN_VARIANTS[variant];
         const base: ModalVariantConfig = builtIn
-            ? builtIn({ onClose, onConfirm, confirmLabel, cancelLabel })
+            ? builtIn({ onClose, onConfirm, confirmLabel, cancelLabel, confirmLoading, confirmDisabled })
             : {};
-        // variantConfig overrides (or fully replaces) the built-in
         return { ...base, ...variantConfig };
-    }, [variant, variantConfig, onClose, onConfirm, confirmLabel, cancelLabel]);
+    }, [variant, variantConfig, onClose, onConfirm, confirmLabel, cancelLabel, confirmLoading, confirmDisabled]);
 
     // Explicit icon / actions props take highest priority
     const resolvedIcon    = icon    ?? resolved.icon;
     const resolvedActions = actions ?? resolved.actions;
     const headerClass     = resolved.headerClass ?? '';
 
-    // Close on Escape key
+    // Close on Escape key — blocked while loading
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (e.key === 'Escape' && closable) onClose();
-    }, [closable, onClose]);
+        if (e.key === 'Escape' && closable && !confirmLoading) onClose();
+    }, [closable, confirmLoading, onClose]);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -113,7 +116,7 @@ const ModalComponent = memo(({
                     type="button"
                     aria-label="Close modal"
                     className="fixed inset-0 z-[1003] bg-gray-900/50 cursor-default w-full border-0 p-0"
-                    onClick={onClose}
+                    onClick={!confirmLoading ? onClose : undefined}
                 />
             ) : (
                 <div className="fixed inset-0 z-[1003] bg-gray-900/50" aria-hidden="true" />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import InputComponent from '@/components/FormComponents/InputComponent';
@@ -24,7 +24,7 @@ interface ChangePasswordFormProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ChangePasswordForm({ onSubmit, onCancel, formId = 'change-password-form' }: Readonly<ChangePasswordFormProps>) {
+const ChangePasswordForm = memo(function ChangePasswordForm({ onSubmit, onCancel, formId = 'change-password-form' }: Readonly<ChangePasswordFormProps>) {
     const { t } = useTranslation();
 
     const [currentPassword, setCurrentPassword] = useState('');
@@ -156,5 +156,7 @@ export default function ChangePasswordForm({ onSubmit, onCancel, formId = 'chang
 
         </form>
     );
-}
+});
 
+ChangePasswordForm.displayName = 'ChangePasswordForm';
+export default ChangePasswordForm;

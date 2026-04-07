@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCreateOrganizationMapper } from '@/helpers/CreateOrganizationHelper';
 import { OrganizationFormState } from '@/models';
@@ -42,7 +42,7 @@ interface CreateOrganizationFormProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function CreateOrganizationForm({ onSubmit, type: _type, initialData, formId = 'create-organization-form' }: Readonly<CreateOrganizationFormProps>) {
+const CreateOrganizationForm = memo(function CreateOrganizationForm({ onSubmit, type: _type, initialData, formId = 'create-organization-form' }: Readonly<CreateOrganizationFormProps>) {
     const { t } = useTranslation();
 
     const [form, setForm] = useState<OrganizationFormState>({ ...initialState, ...initialData });
@@ -85,5 +85,7 @@ export default function CreateOrganizationForm({ onSubmit, type: _type, initialD
             </div>
         </form>
     );
-}
+});
 
+CreateOrganizationForm.displayName = 'CreateOrganizationForm';
+export default CreateOrganizationForm;

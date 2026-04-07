@@ -15,6 +15,12 @@ const queryClient = new QueryClient({
     },
 });
 
+const I18nFallback = () => (
+    <div className="flex items-center justify-center w-screen h-screen">
+        <div className="animate-pulse text-secondary text-sm">Loading...</div>
+    </div>
+);
+
 const PageFallback = () => (
     <div className="flex items-center justify-center w-full h-32">
         <div className="animate-pulse text-secondary text-sm">Loading...</div>
@@ -23,22 +29,26 @@ const PageFallback = () => (
 
 export default function App() {
     return (
-        <MediaQueryProvider>
-            <QueryClientProvider client={queryClient}>
-                <BrowserRouter>
-                    <Suspense fallback={<PageFallback />}>
-                        <Routes>
-                            {routes.map(({ path, component: Page }) => (
-                                <Route
-                                    key={path}
-                                    path={path}
-                                    element={<LayoutComponent><Page /></LayoutComponent>}
-                                />
-                            ))}
-                        </Routes>
-                    </Suspense>
-                </BrowserRouter>
-            </QueryClientProvider>
-        </MediaQueryProvider>
+        // Outer Suspense — waits for i18n translations to load before rendering anything
+        <Suspense fallback={<I18nFallback />}>
+            <MediaQueryProvider>
+                <QueryClientProvider client={queryClient}>
+                    <BrowserRouter>
+                        {/* Inner Suspense — waits for lazy-loaded page chunks */}
+                        <Suspense fallback={<PageFallback />}>
+                            <Routes>
+                                {routes.map(({ path, component: Page }) => (
+                                    <Route
+                                        key={path}
+                                        path={path}
+                                        element={<LayoutComponent><Page /></LayoutComponent>}
+                                    />
+                                ))}
+                            </Routes>
+                        </Suspense>
+                    </BrowserRouter>
+                </QueryClientProvider>
+            </MediaQueryProvider>
+        </Suspense>
     );
 }

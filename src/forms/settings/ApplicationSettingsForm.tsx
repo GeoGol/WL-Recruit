@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import React, { memo } from 'react';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import { getApplicationSettingsMapper } from '@/helpers/ApplicationSettingsHelper';
 import { ApplicationSettingsFormState } from '@/models';
-import React from "react";
 
 interface ApplicationSettingsFormProps {
     form     : ApplicationSettingsFormState;
@@ -13,7 +13,7 @@ interface ApplicationSettingsFormProps {
     formId?  : string;
 }
 
-export default function ApplicationSettingsForm({ form, setField, onSubmit, onCancel, onSave, formId = 'application-settings-form' }: Readonly<ApplicationSettingsFormProps>) {
+const ApplicationSettingsForm = memo(function ApplicationSettingsForm({ form, setField, onSubmit, onCancel, onSave, formId = 'application-settings-form' }: Readonly<ApplicationSettingsFormProps>) {
     const { t } = useTranslation();
 
     const items = getApplicationSettingsMapper(form, setField, t);
@@ -58,5 +58,7 @@ export default function ApplicationSettingsForm({ form, setField, onSubmit, onCa
             </div>
         </form>
     );
-}
+});
 
+ApplicationSettingsForm.displayName = 'ApplicationSettingsForm';
+export default ApplicationSettingsForm;

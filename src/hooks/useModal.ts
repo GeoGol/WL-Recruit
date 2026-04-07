@@ -49,12 +49,12 @@ export interface ActionModalConfig {
     confirmLabels?: Partial<Record<ActionModalVariant, string>>;
     /** Override the cancel-button label */
     cancelLabel?: string;
-    /** Called when the user confirms the 'delete' variant */
-    onDelete?: () => void;
-    /** Called when the user confirms the 'confirm' variant (before form submit) */
-    onConfirm?: () => void;
-    /** Called when the user confirms the 'cancel' variant */
-    onCancel?: () => void;
+    /** Called when the user confirms the 'delete' variant — can be async */
+    onDelete?: () => void | Promise<void>;
+    /** Called when the user confirms the 'confirm' variant — can be async */
+    onConfirm?: () => void | Promise<void>;
+    /** Called when the user confirms the 'cancel' variant — can be async */
+    onCancel?: () => void | Promise<void>;
     toast?: (type: ToastType, message: string) => void;
     /** Per-variant toast config — type defaults to 'success', message to a sensible default */
     toastMessages?: Partial<Record<ActionModalVariant, { type?: ToastType; message: string }>>;
@@ -90,10 +90,11 @@ export function useActionModal(config: ActionModalConfig = {}) {
     const { show: showToast }               = useToast();
     const inner                             = useVariantModal<ActionModalVariant>();
     const [pendingFormId, setPendingFormId] = useState<string | null>(null);
+    const [isLoading,     setIsLoading    ] = useState(false);
 
     // ── Fire toast helper ─────────────────────────────────────────────────────
     const fireToast = useCallback((variant: ActionModalVariant) => {
-        const cfg     = toastMessages[variant];
+        const cfg = toastMessages[variant];
         if (!cfg) return;
         showToast(cfg.type ?? 'success', cfg.message);
     }, [showToast, toastMessages]);
@@ -116,27 +117,33 @@ export function useActionModal(config: ActionModalConfig = {}) {
 
     // ── Handlers ──────────────────────────────────────────────────────────────
 
-    const handleConfirm = useCallback(() => {
-        if (inner.variant === 'delete') {
-            onDelete?.();
-            fireToast('delete');
-        }
-        if (inner.variant === 'confirm') {
-            if (pendingFormId) {
-                document.getElementById(pendingFormId)?.dispatchEvent(
-                    new Event('submit', { bubbles: true, cancelable: true })
-                );
+    const handleConfirm = useCallback(async () => {
+        if (isLoading) return;
+        setIsLoading(true);
+        try {
+            if (inner.variant === 'delete') {
+                await onDelete?.();
+                fireToast('delete');
             }
-            onConfirm?.();
-            fireToast('confirm');
+            if (inner.variant === 'confirm') {
+                if (pendingFormId) {
+                    document.getElementById(pendingFormId)?.dispatchEvent(
+                        new Event('submit', { bubbles: true, cancelable: true })
+                    );
+                }
+                await onConfirm?.();
+                fireToast('confirm');
+            }
+            if (inner.variant === 'cancel') {
+                await onCancel?.();
+                fireToast('cancel');
+            }
+            inner.close();
+            setPendingFormId(null);
+        } finally {
+            setIsLoading(false);
         }
-        if (inner.variant === 'cancel') {
-            onCancel?.();
-            fireToast('cancel');
-        }
-        inner.close();
-        setPendingFormId(null);
-    }, [inner, pendingFormId, onDelete, onConfirm, onCancel, fireToast]);
+    }, [inner, isLoading, pendingFormId, onDelete, onConfirm, onCancel, fireToast]);
 
     const handleClose = useCallback(() => {
         inner.close();
@@ -166,13 +173,15 @@ export function useActionModal(config: ActionModalConfig = {}) {
     // ── Prop spread ───────────────────────────────────────────────────────────
 
     const modalProps = {
-        isOpen       : inner.isOpen,
-        onClose      : handleClose,
-        onConfirm    : handleConfirm,
-        variant      : inner.variant ?? undefined,
-        title        : resolvedTitle,
-        confirmLabel : resolvedConfirmLabel,
-        cancelLabel  : resolvedCancelLabel,
+        isOpen          : inner.isOpen,
+        onClose         : handleClose,
+        onConfirm       : handleConfirm,
+        variant         : inner.variant ?? undefined,
+        title           : resolvedTitle,
+        confirmLabel    : resolvedConfirmLabel,
+        cancelLabel     : resolvedCancelLabel,
+        confirmLoading  : isLoading,
+        confirmDisabled : isLoading,
     } as const;
 
     return {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputComponent from '@/components/FormComponents/InputComponent';
 import { DepartmentFormState } from '@/models';
@@ -20,7 +20,7 @@ interface CreateDepartmentFormProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function CreateDepartmentForm({
+const CreateDepartmentForm = memo(function CreateDepartmentForm({
     onSubmit,
     type: _type,
     initialData,
@@ -56,5 +56,7 @@ export default function CreateDepartmentForm({
             </div>
         </form>
     );
-}
+});
 
+CreateDepartmentForm.displayName = 'CreateDepartmentForm';
+export default CreateDepartmentForm;

@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useMemo, useState, useRef, useCallback} from "react";
 import {OrganizationFormState, RowTableData} from "@/models";
 import {mapActions, mapColumns} from "@/helpers/TableDataHelper";
 import {ORGANIZATIONS_actionDefs, ORGANIZATIONS_columnDefs, ORGANIZATIONS_HISTORY_MOCK_DATA} from "@/demoData";
@@ -12,23 +12,39 @@ import DrawerComponent from "@/components/DrawerComponent/DrawerComponent";
 import ModalComponent from "@/components/ModalComponent/ModalComponent";
 import CreateOrganizationForm from "@/forms/settings/CreateOrganizationForm";
 
+// ── Dummy async request simulator ────────────────────────────────────────────
+const fakeRequest = (ms = 2000) => new Promise<void>(res => setTimeout(res, ms));
+
 export default function Organizations() {
     const [selectedOrganization, setSelectedOrganization] = useState<RowTableData | null>(null);
     const [organizationToDelete, setOrganizationToDelete] = useState<RowTableData | null>(null);
+
+    const createFormRef = useRef<OrganizationFormState | null>(null);
+    const editFormRef   = useRef<OrganizationFormState | null>(null);
 
     const columns      = useMemo(() => mapColumns(ORGANIZATIONS_columnDefs), []);
     const createDrawer = useModal();
     const editDrawer   = useModal();
 
-    const modal  = useActionModal({
+    const modal = useActionModal({
         toastMessages: {
             warning : { type: 'warning', message: t('msgActionWarning') },
-            delete  : { type: 'error',   message: t('msgActionError') },
+            delete  : { type: 'error',   message: t('msgActionError')   },
             confirm : { type: 'success', message: t('msgActionSuccess') },
         },
-        onDelete: () => {
-            console.log('Delete organization:', organizationToDelete);
+        // ── Delete: simulate API call, then clear selection ───────────────────
+        onDelete: async () => {
+            await fakeRequest();
+            console.log('Deleted organization:', organizationToDelete);
             setOrganizationToDelete(null);
+        },
+        // ── Confirm (save): simulate API call, then close drawer ─────────────
+        onConfirm: async () => {
+            await fakeRequest();
+            console.log('Saved:', createFormRef.current ?? editFormRef.current);
+            createDrawer.close();
+            editDrawer.close();
+            setSelectedOrganization(null);
         },
     });
 
@@ -46,16 +62,13 @@ export default function Organizations() {
         })
     ), [editDrawer, modal]);
 
-    const handleCreateOrganization = (data: any) => {
-        console.log('Create user:', data);
-        createDrawer.close();
-    };
+    const handleCreateOrganization = useCallback((data: OrganizationFormState) => {
+        createFormRef.current = data;
+    }, []);
 
-    const handleEditOrganization = (data: any) => {
-        console.log('Update user:', data);
-        editDrawer.close();
-        setSelectedOrganization(null);
-    };
+    const handleEditOrganization = useCallback((data: OrganizationFormState) => {
+        editFormRef.current = data;
+    }, []);
 
     const selectedOrganizationData: Partial<OrganizationFormState> | undefined = selectedOrganization
         ? (selectedOrganization as unknown as Partial<OrganizationFormState>)

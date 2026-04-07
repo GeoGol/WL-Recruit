@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputComponent from '@/components/FormComponents/InputComponent';
 import SelectComponent from '@/components/FormComponents/SelectComponent';
@@ -26,7 +26,7 @@ interface CreateUserFormProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function CreateUserForm({ onSubmit, type, initialData, formId = 'create-user-form' }: Readonly<CreateUserFormProps>) {
+const CreateUserForm = memo(function CreateUserForm({ onSubmit, type, initialData, formId = 'create-user-form' }: Readonly<CreateUserFormProps>) {
     const { t } = useTranslation();
 
     const [form, setForm] = useState<CreateUserFormState>({ ...initialState, ...initialData });
@@ -95,5 +95,7 @@ export default function CreateUserForm({ onSubmit, type, initialData, formId = '
             </div>
         </form>
     );
-}
+});
 
+CreateUserForm.displayName = 'CreateUserForm';
+export default CreateUserForm;

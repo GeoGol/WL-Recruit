@@ -32,10 +32,18 @@ export default function ApplicationSettings() {
         onConfirm: () => console.log('Settings saved:', form),
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = useCallback((e: React.FormEvent) => {
         e.preventDefault();
         console.log('Form submitted:', form);
-    };
+    }, [form]);
+
+    const handleCancel = useCallback(() => {
+        console.log('cancelled');
+    }, []);
+
+    const handleSave = useCallback(() => {
+        modal.openConfirm('application-settings-form');
+    }, [modal]);
 
     return (
         <div className="w-full flex flex-col gap-4 p-4 bg-surface rounded-lg">
@@ -46,8 +54,8 @@ export default function ApplicationSettings() {
                 form={form}
                 setField={setField}
                 onSubmit={handleSubmit}
-                onCancel={() => console.log('cancelled')}
-                onSave={() => modal.openConfirm('application-settings-form')}
+                onCancel={handleCancel}
+                onSave={handleSave}
             />
 
             <ModalComponent {...modal.modalProps} size="md">

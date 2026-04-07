@@ -8,20 +8,35 @@ import { exportToExcel } from "@/helpers/ExportHelpers";
 import DrawerComponent from "@/components/DrawerComponent/DrawerComponent";
 import { useModal, useActionModal } from "@/hooks/useModal";
 import CreateUserForm from "@/forms/settings/CreateUserForm";
-import { useState, useMemo } from "react";
-import {CreateUserFormState, RowTableData} from "@/models";
+import { useState, useMemo, useRef, useCallback } from "react";
+import { CreateUserFormState, RowTableData } from "@/models";
 import ModalComponent from "@/components/ModalComponent/ModalComponent";
+
+// ── Dummy async request simulator ────────────────────────────────────────────
+const fakeRequest = (ms = 10000) => new Promise<void>(res => setTimeout(res, ms));
 
 export default function Users() {
     const [selectedUser, setSelectedUser] = useState<RowTableData | null>(null);
 
+    // Store latest form data so the modal's onConfirm can access it
+    const createFormRef = useRef<CreateUserFormState | null>(null);
+    const editFormRef   = useRef<CreateUserFormState | null>(null);
+
     const columns      = useMemo(() => mapColumns(USERS_columnDefs), []);
     const createDrawer = useModal();
     const editDrawer   = useModal();
-    const modal        = useActionModal({
+
+    const modal = useActionModal({
         toastMessages: {
-            delete  : { type: 'success', message: t('msgActionSuccess') },
-            confirm : { type: 'success', message: t('msgActionSuccess') },
+            confirm: { type: 'success', message: t('msgActionSuccess') },
+        },
+        // ── This is the async action — spinner shows until it resolves ────────
+        onConfirm: async () => {
+            // Todo: use real api call
+            await fakeRequest();
+            createDrawer.close();
+            editDrawer.close();
+            setSelectedUser(null);
         },
     });
 
@@ -35,16 +50,14 @@ export default function Users() {
         })
     ), [editDrawer]);
 
-    const handleCreateUser = (data: CreateUserFormState) => {
-        console.log('Create user:', data);
-        createDrawer.close();
-    };
+    // Called by the form on submit — just captures data, actual save is in onConfirm
+    const handleCreateUser = useCallback((data: CreateUserFormState) => {
+        createFormRef.current = data;
+    }, []);
 
-    const handleEditUser = (data: CreateUserFormState) => {
-        console.log('Update user:', data);
-        editDrawer.close();
-        setSelectedUser(null);
-    };
+    const handleEditUser = useCallback((data: CreateUserFormState) => {
+        editFormRef.current = data;
+    }, []);
 
     const selectedUserData: Partial<CreateUserFormState> | undefined = selectedUser ? {
         firstName: String(selectedUser.firstName ?? ''),

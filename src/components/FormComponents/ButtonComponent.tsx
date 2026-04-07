@@ -51,14 +51,14 @@ interface ButtonProps {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-    primary:        'bg-primary text-primary hover:bg-base focus:ring-light-gray-focus',
-    secondary:      'bg-secondary text-primary hover:bg-light-gray-focus hover:text-inverse focus:ring-light-gray-focus',
-    main:           'bg-surface text-primary border border-main hover:bg-tertiary focus:ring-light-gray',
-    outline:        'bg-transparent text-primary border border-main hover:bg-primary focus:ring-light-gray',
-    confirmation:   'bg-blue-700 text-inverse hover:bg-blue-800 focus:ring-primary-300',
+    primary:        'min-w-28 bg-primary text-primary hover:bg-base focus:ring-light-gray-focus',
+    secondary:      'min-w-28 bg-secondary text-primary hover:bg-light-gray-focus hover:text-inverse focus:ring-light-gray-focus',
+    main:           'min-w-28 bg-surface text-primary border border-main hover:bg-tertiary focus:ring-light-gray',
+    outline:        'min-w-28 bg-transparent text-primary border border-main hover:bg-primary focus:ring-light-gray',
+    confirmation:   'min-w-28 bg-blue-700 text-inverse hover:bg-blue-800 focus:ring-primary-300',
     ghost:          'bg-white border border-transparent focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0',
-    danger:         'bg-danger text-inverse hover:bg-danger-bg border border-transparent focus:ring-danger',
-    link:           'bg-transparent text-link underline hover:text-link-dark border border-transparent focus:!ring-0 focus:ring-offset-0',
+    danger:         'min-w-28 bg-danger text-inverse hover:bg-danger-bg border border-transparent focus:ring-danger',
+    link:           'min-w-28 bg-transparent text-link underline hover:text-link-dark border border-transparent focus:!ring-0 focus:ring-offset-0',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

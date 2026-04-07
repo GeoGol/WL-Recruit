@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import React, { memo } from 'react';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import { getEditUserDetailsMapper } from '@/helpers/EditUserDetailsHelper';
 import { EditUserFormState } from '@/models';
-import React from 'react';
 
 interface EditUserDetailsFormProps {
     form      : EditUserFormState;
@@ -13,7 +13,7 @@ interface EditUserDetailsFormProps {
     formId?   : string;
 }
 
-export default function EditUserDetailsForm({ form, setField, onSubmit, onCancel, onSave, formId = 'edit-user-details-form' }: Readonly<EditUserDetailsFormProps>) {
+const EditUserDetailsForm = memo(function EditUserDetailsForm({ form, setField, onSubmit, onCancel, onSave, formId = 'edit-user-details-form' }: Readonly<EditUserDetailsFormProps>) {
     const { t } = useTranslation();
 
     const userDetailsItems = getEditUserDetailsMapper(form, setField, t);
@@ -57,5 +57,7 @@ export default function EditUserDetailsForm({ form, setField, onSubmit, onCancel
             </div>
         </form>
     );
-}
+});
 
+EditUserDetailsForm.displayName = 'EditUserDetailsForm';
+export default EditUserDetailsForm;
