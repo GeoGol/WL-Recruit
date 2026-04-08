@@ -87,7 +87,7 @@ export default function Users() {
                             variant="outline"
                             label="Export all"
                             className="max-xs:w-full"
-                            onClick={() => exportToExcel(USERS_MOCK_DATA, USERS_columnDefs, "users")}
+                            onClick={async () => exportToExcel(USERS_MOCK_DATA, USERS_columnDefs, "users")}
                         />
                     </div>
                 }

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import InputComponent from '@/components/FormComponents/InputComponent';
-import RichTextEditor from '@/components/FormComponents/RichTextEditor';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import { useActionModal } from '@/hooks/useModal';
 import ModalComponent from '@/components/ModalComponent/ModalComponent';
+
+const RichTextEditor = lazy(() => import('@/components/FormComponents/RichTextEditor'));
 
 export default function NewSupportRequest({formId = 'new-support-request-form'}: Readonly<{ formId?: string }>) {
     const { t } = useTranslation();
@@ -51,13 +52,15 @@ export default function NewSupportRequest({formId = 'new-support-request-form'}:
                         required
                         fullWidth
                     />
-                    <RichTextEditor
-                        label={t('lblMessage')}
-                        placeholder={t('lblWriteYourMessage')}
-                        maxLength={2000}
-                        onChange={setBody}
-                        value={body}
-                    />
+                    <Suspense fallback={<div className="h-32 bg-secondary animate-pulse rounded-lg" />}>
+                        <RichTextEditor
+                            label={t('lblMessage')}
+                            placeholder={t('lblWriteYourMessage')}
+                            maxLength={2000}
+                            onChange={setBody}
+                            value={body}
+                        />
+                    </Suspense>
                     <div className="flex justify-end">
                         <ButtonComponent
                             type="button"

@@ -11,9 +11,8 @@ import {PAGE_SIZE_OPTIONS} from "@/constant/CONSTANTS";
 import DrawerComponent from "@/components/DrawerComponent/DrawerComponent";
 import ModalComponent from "@/components/ModalComponent/ModalComponent";
 import CreateOrganizationForm from "@/forms/settings/CreateOrganizationForm";
-
-// ── Dummy async request simulator ────────────────────────────────────────────
-const fakeRequest = (ms = 2000) => new Promise<void>(res => setTimeout(res, ms));
+import useFetch from "@/hooks/useFetch";
+import api from "@/api/api";
 
 export default function Organizations() {
     const [selectedOrganization, setSelectedOrganization] = useState<RowTableData | null>(null);
@@ -22,30 +21,65 @@ export default function Organizations() {
     const createFormRef = useRef<OrganizationFormState | null>(null);
     const editFormRef   = useRef<OrganizationFormState | null>(null);
 
+    const { request, toast } = useFetch();
+
     const columns      = useMemo(() => mapColumns(ORGANIZATIONS_columnDefs), []);
     const createDrawer = useModal();
     const editDrawer   = useModal();
 
-    const modal = useActionModal({
-        toastMessages: {
-            warning : { type: 'warning', message: t('msgActionWarning') },
-            delete  : { type: 'error',   message: t('msgActionError')   },
-            confirm : { type: 'success', message: t('msgActionSuccess') },
-        },
-        // ── Delete: simulate API call, then clear selection ───────────────────
-        onDelete: async () => {
-            await fakeRequest();
-            console.log('Deleted organization:', organizationToDelete);
+    // ── API actions ───────────────────────────────────────────────────────────
+
+    const handleDelete = useCallback(async () => {
+        if (!organizationToDelete) return;
+        const res = await request(() =>
+            api.delete(`/organizations/${organizationToDelete.id}`)
+        );
+        if (!res.error) {
+            toast.success(t('msgActionSuccess'));
             setOrganizationToDelete(null);
-        },
-        // ── Confirm (save): simulate API call, then close drawer ─────────────
-        onConfirm: async () => {
-            await fakeRequest();
-            console.log('Saved:', createFormRef.current ?? editFormRef.current);
+        }
+    }, [organizationToDelete, request, toast]);
+
+    const handleCreate = useCallback(async () => {
+        if (!createFormRef.current) return;
+        const res = await request(() =>
+            api.post('/organizations', createFormRef.current!)
+        );
+        if (!res.error) {
+            toast.success(t('msgActionSuccess'));
             createDrawer.close();
+        }
+    }, [createDrawer, request, toast]);
+
+    const handleEdit = useCallback(async () => {
+        if (!editFormRef.current || !selectedOrganization) return;
+        const res = await request(() =>
+            api.put(`/organizations/${selectedOrganization.id}`, editFormRef.current!)
+        );
+        if (!res.error) {
+            toast.success(t('msgActionSuccess'));
             editDrawer.close();
             setSelectedOrganization(null);
-        },
+        }
+    }, [editDrawer, request, selectedOrganization, toast]);
+
+    // ── onConfirm must be async to trigger loading state in modal ─────────────
+    const handleConfirm = useCallback(async () => {
+        if (createDrawer.isOpen) return handleCreate();
+        return handleEdit();
+    }, [createDrawer.isOpen, handleCreate, handleEdit]);
+
+    // ── Drawer close handlers (stable refs) ───────────────────────────────────
+    const handleEditDrawerClose = useCallback(() => {
+        editDrawer.close();
+        setSelectedOrganization(null);
+    }, [editDrawer]);
+
+    // ── Modal ─────────────────────────────────────────────────────────────────
+    const modal = useActionModal({
+        toastMessages : {},
+        onDelete      : handleDelete,
+        onConfirm     : handleConfirm,
     });
 
     const actions = useMemo(() => mapActions(
@@ -74,7 +108,6 @@ export default function Organizations() {
         ? (selectedOrganization as unknown as Partial<OrganizationFormState>)
         : undefined;
 
-
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
             <TableComponent
@@ -89,13 +122,13 @@ export default function Organizations() {
                             variant="confirmation"
                             label={t("lblCreateOrganization")}
                             className="max-xs:w-full"
-                            onClick={() => createDrawer.open()}
+                            onClick={createDrawer.open}
                         />
                         <ButtonComponent
                             variant="outline"
                             label="Export all"
                             className="max-xs:w-full"
-                            onClick={() => exportToExcel(ORGANIZATIONS_HISTORY_MOCK_DATA, ORGANIZATIONS_columnDefs, "organizations")}
+                            onClick={async () => exportToExcel(ORGANIZATIONS_HISTORY_MOCK_DATA, ORGANIZATIONS_columnDefs, "organizations")}
                         />
                     </div>
                 }
@@ -103,10 +136,10 @@ export default function Organizations() {
                 initialPage={1}
                 initialPageSize={5}
                 pageSizeOptions={PAGE_SIZE_OPTIONS}
-                onAddNew={() => createDrawer.open()}
+                onAddNew={createDrawer.open}
             />
 
-            {/* Create drawer */}
+            {/* ── Create Drawer ─────────────────────────────────────────────── */}
             <DrawerComponent
                 isOpen={createDrawer.isOpen}
                 onClose={createDrawer.close}
@@ -115,33 +148,39 @@ export default function Organizations() {
                 size="xl"
                 footer={
                     <div className="flex gap-3">
-                        <ButtonComponent type="button" variant="main" label={t("btnCancel")} onClick={createDrawer.close} />
-                        <ButtonComponent type="button" variant="confirmation" label={t("btnSave")} onClick={() => modal.openConfirm('create-user-drawer-form')} />
+                        <ButtonComponent type="button" variant="main"         label={t("btnCancel")} onClick={createDrawer.close} />
+                        <ButtonComponent type="button" variant="confirmation" label={t("btnSave")}   onClick={() => modal.openConfirm('create-organization-drawer-form')} />
                     </div>
                 }
             >
-                <CreateOrganizationForm onSubmit={handleCreateOrganization} type="create" formId="create-user-drawer-form" />
+                <CreateOrganizationForm onSubmit={handleCreateOrganization} type="create" formId="create-organization-drawer-form" />
             </DrawerComponent>
 
-            {/* Edit drawer */}
+            {/* ── Edit Drawer ───────────────────────────────────────────────── */}
             <DrawerComponent
                 isOpen={editDrawer.isOpen}
-                onClose={() => { editDrawer.close(); setSelectedOrganization(null); }}
+                onClose={handleEditDrawerClose}
                 title={t("mnoEditUserDetails")}
                 placement="right"
                 size="xl"
                 footer={
                     <div className="flex gap-3">
-                        <ButtonComponent type="button" variant="main" label={t("btnCancel")} onClick={() => { editDrawer.close(); setSelectedOrganization(null); }} />
-                        <ButtonComponent type="button" variant="confirmation" label={t("btnSave")} onClick={() => modal.openConfirm('edit-organization-drawer-form')} />
+                        <ButtonComponent type="button" variant="main"         label={t("btnCancel")} onClick={handleEditDrawerClose} />
+                        <ButtonComponent type="button" variant="confirmation" label={t("btnSave")}   onClick={() => modal.openConfirm('edit-organization-drawer-form')} />
                     </div>
                 }
             >
-                <CreateOrganizationForm key={selectedOrganization ? String(selectedOrganization.id) : 'edit'} onSubmit={handleEditOrganization} type="edit" initialData={selectedOrganizationData} formId="edit-organization-drawer-form" />
+                <CreateOrganizationForm
+                    key={selectedOrganization ? String(selectedOrganization.id) : 'edit'}
+                    onSubmit={handleEditOrganization}
+                    type="edit"
+                    initialData={selectedOrganizationData}
+                    formId="edit-organization-drawer-form"
+                />
             </DrawerComponent>
 
-            {/* Single action modal */}
-            <ModalComponent {...modal.modalProps} title={"Delete - custom title"} size="md">
+            {/* ── Action Modal ──────────────────────────────────────────────── */}
+            <ModalComponent {...modal.modalProps} size="md">
                 {modal.variant === 'delete' && (
                     <p className="text-primary text-md">
                         {t("msgConfirmDeleteOrganization", { name: String(organizationToDelete?.organizationName ?? '') })}

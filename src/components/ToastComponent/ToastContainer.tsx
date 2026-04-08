@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import { useState, useCallback, useEffect, useRef, memo } from 'react';
-import { Toast } from 'flowbite-react';
 import {
     RiCheckboxCircleLine,
     RiErrorWarningLine,
@@ -38,7 +37,7 @@ const ToastItem = memo(({ toast, isFading, onDismiss }: ToastItemProps) => {
                 transform: isFading ? 'translateX(20px)' : 'translateX(0)',
             }}
         >
-            <Toast className={`p-2 rounded-l-none w-full border-l-4 ${borderColor} ${backgroundColor}`}>
+            <div className={`flex items-center p-2 w-full border-l-4 shadow-md rounded-r-lg ${borderColor} ${backgroundColor ?? 'bg-surface'}`}>
                 <div className={`inline-flex shrink-0 items-center justify-center rounded-lg ${iconClass}`}>
                     {icon}
                 </div>
@@ -46,7 +45,7 @@ const ToastItem = memo(({ toast, isFading, onDismiss }: ToastItemProps) => {
                     {toast.message}
                 </div>
                 <CustomToastToggle onDismiss={() => onDismiss(toast.id)} />
-            </Toast>
+            </div>
         </div>
     );
 });

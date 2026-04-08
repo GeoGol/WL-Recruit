@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && vite build",
+    "build:staging": "tsc && vite build --mode staging",
     "dev": "vite",
     "preview": "vite preview",
     "migrate:translations": "tsx src/scripts/convert-xlsx-to-json.ts"

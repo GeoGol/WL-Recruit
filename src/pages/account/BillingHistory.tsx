@@ -27,7 +27,7 @@ export default function BillingHistory() {
                         variant="outline"
                         size="md"
                         label="Export all"
-                        onClick={() => exportToExcel(BILLING_HISTORY_MOCK_DATA, BILLING_HISTORY_columnDefs, 'billing-history')}
+                        onClick={async () => exportToExcel(BILLING_HISTORY_MOCK_DATA, BILLING_HISTORY_columnDefs, 'billing-history')}
                     />
                 }
                 emptyMessage={t('msgNoRecordsFoundForCriteria')}

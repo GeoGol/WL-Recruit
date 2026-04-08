@@ -2,8 +2,9 @@ import InputComponent from '@/components/FormComponents/InputComponent';
 import SelectComponent from '@/components/FormComponents/SelectComponent';
 import CheckboxComponent from '@/components/FormComponents/CheckboxComponent';
 import RadioComponent from '@/components/FormComponents/RadioComponent';
-import RichTextEditor from '@/components/FormComponents/RichTextEditor';
 import FileInputComponent from '@/components/FormComponents/FileInputComponent';
+import { lazy, Suspense } from 'react';
+const RichTextEditor = lazy(() => import('@/components/FormComponents/RichTextEditor'));
 import {
     RiBuildingLine,
     RiGlobalLine,
@@ -111,21 +112,23 @@ export function getCreateOrganizationMapper(
                         onChange={v => setField('jobsGrouping', v ?? '')}
                         placeholder="Select grouping..."
                     />
-                    <RichTextEditor
-                        label={t('lblCompanyProfile')}
-                        value={form.companyProfileDEFAULT}
-                        onChange={v => setField('companyProfileDEFAULT', v)}
-                    />
-                    <RichTextEditor
-                        label={t('lblCompanyProfileEl')}
-                        value={form.companyProfileGR}
-                        onChange={v => setField('companyProfileGR', v)}
-                    />
-                    <RichTextEditor
-                        label={t('lblCompanyProfileEn')}
-                        value={form.companyProfileEN}
-                        onChange={v => setField('companyProfileEN', v)}
-                    />
+                    <Suspense fallback={<div className="h-32 bg-secondary animate-pulse rounded-lg" />}>
+                        <RichTextEditor
+                            label={t('lblCompanyProfile')}
+                            value={form.companyProfileDEFAULT}
+                            onChange={v => setField('companyProfileDEFAULT', v)}
+                        />
+                        <RichTextEditor
+                            label={t('lblCompanyProfileEl')}
+                            value={form.companyProfileGR}
+                            onChange={v => setField('companyProfileGR', v)}
+                        />
+                        <RichTextEditor
+                            label={t('lblCompanyProfileEn')}
+                            value={form.companyProfileEN}
+                            onChange={v => setField('companyProfileEN', v)}
+                        />
+                    </Suspense>
                     <FileInputComponent
                         label={t('lblBackgroundImage')}
                         // accept="image/*"
@@ -208,11 +211,13 @@ export function getCreateOrganizationMapper(
                         checked={form.acceptTerms}
                         onChange={checked => setField('acceptTerms', checked)}
                     />
-                    <RichTextEditor
-                        label={t('lblPrivacyPolicyText')}
-                        value={form.privacyPolicyText}
-                        onChange={v => setField('privacyPolicyText', v)}
-                    />
+                    <Suspense fallback={<div className="h-32 bg-secondary animate-pulse rounded-lg" />}>
+                        <RichTextEditor
+                            label={t('lblPrivacyPolicyText')}
+                            value={form.privacyPolicyText}
+                            onChange={v => setField('privacyPolicyText', v)}
+                        />
+                    </Suspense>
                     <InputComponent
                         label={t('lblPrivacyPolicyLink')}
                         value={form.privacyPolicyLink}
@@ -220,12 +225,14 @@ export function getCreateOrganizationMapper(
                         placeholder="https://acme.com/privacy"
                         fullWidth
                     />
-                    <RichTextEditor
-                        value={form.generalTermsText}
-                        label={t('lblGeneralTermsText')}
-                        helperText={t('lblGeneralTermsTextMoreInfo')}
-                        onChange={v => setField('generalTermsText', v)}
-                    />
+                    <Suspense fallback={<div className="h-32 bg-secondary animate-pulse rounded-lg" />}>
+                        <RichTextEditor
+                            value={form.generalTermsText}
+                            label={t('lblGeneralTermsText')}
+                            helperText={t('lblGeneralTermsTextMoreInfo')}
+                            onChange={v => setField('generalTermsText', v)}
+                        />
+                    </Suspense>
                     <SelectComponent
                         label={t('lblAutomatedEmailTemplate')}
                         options={AUTO_REPLY_TEMPLATE_OPTIONS}

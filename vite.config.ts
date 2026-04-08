@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import path from 'path';
+import * as path from 'path';
 
 export default defineConfig(({ mode }) => ({
     plugins: [
@@ -25,17 +25,6 @@ export default defineConfig(({ mode }) => ({
                     'router'       : ['react-router-dom'],
                     'i18n'         : ['i18next', 'react-i18next', 'i18next-http-backend'],
                     'query'        : ['@tanstack/react-query'],
-                    'flowbite'     : ['flowbite-react'],
-                    'tiptap'       : [
-                        '@tiptap/react',
-                        '@tiptap/starter-kit',
-                        '@tiptap/extension-character-count',
-                        '@tiptap/extension-link',
-                        '@tiptap/extension-placeholder',
-                        '@tiptap/extension-text-align',
-                        '@tiptap/extension-underline',
-                        '@tiptap/pm',
-                    ],
                 },
             },
         },
@@ -50,6 +39,7 @@ export default defineConfig(({ mode }) => ({
             'react-i18next',
             '@tanstack/react-query',
         ],
+        exclude: ['xlsx'],
     },
     esbuild: {
         drop: mode === 'production' ? ['console', 'debugger'] : [],
