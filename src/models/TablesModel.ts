@@ -20,6 +20,20 @@ export interface TableAction<T> {
     disabled? : (row: T) => boolean;
 }
 
+export interface ServerPaginationConfig {
+    page             : number;
+    pageSize         : number;
+    total            : number;
+    onPageChange     : (page: number) => void;
+    onPageSizeChange?: (size: number) => void;
+    /** Current sort key owned by the parent (reflects server request params) */
+    sortKey?         : string | null;
+    /** Current sort direction owned by the parent */
+    sortDir?         : SortDirection;
+    /** Called when the user clicks a sortable column header */
+    onSortChange?    : (key: string | null, dir: SortDirection) => void;
+}
+
 export interface TableProps<T> {
     data              : T[];
     columns           : TableColumn<T>[];
@@ -46,6 +60,10 @@ export interface TableProps<T> {
     title?            : string;
     /** Subtitle shown below the title */
     subtitle?         : string;
+    /** Pagination behavior: local (client) or controlled by parent/API (server) */
+    paginationMode?   : 'client' | 'server';
+    /** Required when paginationMode is "server" */
+    serverPagination? : ServerPaginationConfig;
 }
 
 export interface TablePaginationProps {

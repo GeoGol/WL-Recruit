@@ -51,7 +51,7 @@ interface ButtonProps {
 }
 
 const variantClasses: Record<ButtonVariant, string> = {
-    primary:        'min-w-28 bg-primary text-primary hover:bg-base focus:ring-light-gray-focus',
+    primary:        'bg-primary text-primary hover:bg-base focus:ring-light-gray-focus',
     secondary:      'min-w-28 bg-secondary text-primary hover:bg-light-gray-focus hover:text-inverse focus:ring-light-gray-focus',
     main:           'min-w-28 bg-surface text-primary border border-main hover:bg-tertiary focus:ring-light-gray',
     outline:        'min-w-28 bg-transparent text-primary border border-main hover:bg-primary focus:ring-light-gray',

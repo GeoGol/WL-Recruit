@@ -1,5 +1,5 @@
-import {RiExpandUpDownLine} from '@/components/IconComponent/Icons';
-import type { TableColumn } from "@/models";
+import {RiExpandUpDownLine, RiArrowUpSLine, RiArrowDownSLine} from '@/components/IconComponent/Icons';
+import type { TableColumn, SortDirection } from "@/models";
 import CheckboxComponent from "@/components/FormComponents/CheckboxComponent";
 
 function TableHead<T>({
@@ -9,6 +9,8 @@ function TableHead<T>({
   allSelected,
   toggleAll,
   actions,
+  sortKey  = null,
+  sortDir  = null,
 }: Readonly<{
   columns     : TableColumn<T>[];
   handleSort  : (key: string) => void;
@@ -16,10 +18,12 @@ function TableHead<T>({
   allSelected : boolean;
   toggleAll   : () => void;
   actions?    : any[];
+  sortKey?    : string | null;
+  sortDir?    : SortDirection;
 }>) {
   return (
     <thead className="text-md text-secondary uppercase bg-surface border-b-2 border-main">
-      <tr>
+      <tr className={'min-h-12'}>
         {selectable && (
           <th scope="col" className="px-4 py-3">
             <CheckboxComponent
@@ -30,26 +34,33 @@ function TableHead<T>({
           </th>
         )}
 
-        {columns.map(col => (
-          <th
-            key={String(col.key)}
-            scope="col"
-            onClick={col.sortable ? () => handleSort(String(col.key)) : undefined}
-            className={[
-              'px-4 py-3',
-              col.width ?? '',
-              col.headerClass ?? '',
-              col.sortable ? 'cursor-pointer select-none group text-primary' : '',
-            ].filter(Boolean).join(' ')}
-          >
-            <span className="inline-flex items-center gap-1 text-primary">
-              {col.label}
-              {col.sortable && (
-                  <RiExpandUpDownLine className={'w-3 h-3 text-primary'}/>
-              )}
-            </span>
-          </th>
-        ))}
+        {columns.map(col => {
+          const isActive = col.sortable && sortKey === String(col.key);
+          return (
+            <th
+              key={String(col.key)}
+              scope="col"
+              onClick={col.sortable ? () => handleSort(String(col.key)) : undefined}
+              className={[
+                'px-4 py-3',
+                col.width ?? '',
+                col.headerClass ?? '',
+                col.sortable ? 'cursor-pointer select-none group text-primary' : '',
+              ].filter(Boolean).join(' ')}
+            >
+              <span className="inline-flex items-center gap-1 text-primary">
+                {col.label}
+                {col.sortable && (
+                  isActive
+                    ? sortDir === 'asc'
+                      ? <RiArrowUpSLine   className="w-3 h-3 text-link" />
+                      : <RiArrowDownSLine className="w-3 h-3 text-link" />
+                    : <RiExpandUpDownLine className="w-3 h-3 text-primary" />
+                )}
+              </span>
+            </th>
+          );
+        })}
 
         {actions && actions.length > 0 && (
           <th scope="col" className="px-4 py-3 text-left">

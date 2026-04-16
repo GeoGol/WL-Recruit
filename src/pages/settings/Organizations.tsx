@@ -1,5 +1,5 @@
-import {useMemo, useState, useRef, useCallback} from "react";
-import {OrganizationFormState, RowTableData} from "@/models";
+import {useMemo, useState, useRef, useCallback, useEffect} from "react";
+import {OrganizationFormState, RowTableData, SortDirection} from "@/models";
 import {mapActions, mapColumns} from "@/helpers/TableDataHelper";
 import {ORGANIZATIONS_actionDefs, ORGANIZATIONS_columnDefs, ORGANIZATIONS_HISTORY_MOCK_DATA} from "@/demoData";
 import {useModal, useActionModal} from "@/hooks/useModal";
@@ -22,6 +22,55 @@ export default function Organizations() {
     const editFormRef   = useRef<OrganizationFormState | null>(null);
 
     const { request, toast } = useFetch();
+
+    // Demo server-side pagination + sort state (replace with real list endpoint response)
+    const [page, setPage]         = useState(1);
+    const [pageSize, setPageSize] = useState(5);
+    const [sortKey, setSortKey]   = useState<string | null>(null);
+    const [sortDir, setSortDir]   = useState<SortDirection>(null);
+    const [tableData, setTableData]     = useState<RowTableData[]>([]);
+    const [tableLoading, setTableLoading] = useState(false);
+
+    useEffect(() => {
+        // ── MOCK: simulates backend sort + page locally ───────────────────────
+        // TODO: replace this block with a real API call, e.g.:
+        //
+        //   setTableLoading(true);
+        //   const abortController = new AbortController();
+        //   api.get('/organizations', {
+        //       params: { page, pageSize, sortKey, sortDir },
+        //       signal: abortController.signal,
+        //   })
+        //   .then(res => { setTableData(res.data.items); setTotal(res.data.total); })
+        //   .catch(() => {})
+        //   .finally(() => setTableLoading(false));
+        //   return () => abortController.abort();
+        //
+        // Once replaced you will see the GET /organizations request in the Network tab.
+        // ─────────────────────────────────────────────────────────────────────
+        setTableLoading(true);
+        const timeoutId = setTimeout(() => { // ← increase/decrease to control skeleton duration
+            let rows = [...ORGANIZATIONS_HISTORY_MOCK_DATA];
+            if (sortKey && sortDir) {
+                rows.sort((a, b) => {
+                    const aVal = String(a[sortKey] ?? '');
+                    const bVal = String(b[sortKey] ?? '');
+                    const cmp  = aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: 'base' });
+                    return sortDir === 'asc' ? cmp : -cmp;
+                });
+            }
+            const start = (page - 1) * pageSize;
+            setTableData(rows.slice(start, start + pageSize));
+            setTableLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [page, pageSize, sortKey, sortDir]);
+
+    const handleSortChange = useCallback((key: string | null, dir: SortDirection) => {
+        setSortKey(key);
+        setSortDir(dir);
+    }, []);
 
     const columns      = useMemo(() => mapColumns(ORGANIZATIONS_columnDefs), []);
     const createDrawer = useModal();
@@ -111,10 +160,11 @@ export default function Organizations() {
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
             <TableComponent
-                data={ORGANIZATIONS_HISTORY_MOCK_DATA}
+                data={tableData}
                 columns={columns}
                 actions={actions}
                 rowKey="id"
+                loading={tableLoading}
                 title={t("lblManageOrganizations")}
                 toolbar={
                     <div className="flex items-center max-xs:w-full max-xs:flex-wrap gap-2">
@@ -133,10 +183,22 @@ export default function Organizations() {
                     </div>
                 }
                 emptyMessage={t("msgNoRecordsFoundForCriteria")}
-                initialPage={1}
-                initialPageSize={5}
                 pageSizeOptions={PAGE_SIZE_OPTIONS}
                 onAddNew={createDrawer.open}
+                paginationMode="server"
+                serverPagination={{
+                    page,
+                    pageSize,
+                    total: ORGANIZATIONS_HISTORY_MOCK_DATA.length,
+                    onPageChange: setPage,
+                    onPageSizeChange: (size) => {
+                        setPage(1);
+                        setPageSize(size);
+                    },
+                    sortKey,
+                    sortDir,
+                    onSortChange: handleSortChange,
+                }}
             />
 
             {/* ── Create Drawer ─────────────────────────────────────────────── */}

@@ -1,13 +1,15 @@
 export interface ApiResponse<T> {
-    data: T | null;
-    error: ApiError | null;
-    status: number;
+    data   : T | null;
+    error  : ApiError | null;
+    status : number;
 }
 
 export interface ApiError {
-    message: string;
-    status: number;
-    code: ErrorCode;
+    message : string;
+    status  : number;
+    code    : ErrorCode;
+    /** Per-field validation errors e.g. { email: ["is required"], role: ["is invalid"] } */
+    fields? : Record<string, string[]>;
 }
 
 // Enum for error classification

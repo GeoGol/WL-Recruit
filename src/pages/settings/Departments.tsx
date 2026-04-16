@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { t } from 'i18next';
 import { DepartmentFormState, RowTableData } from '@/models';
 import { mapActions, mapColumns } from '@/helpers/TableDataHelper';
@@ -14,6 +14,19 @@ import { PAGE_SIZE_OPTIONS } from '@/constant/CONSTANTS';
 export default function Departments() {
     const [departmentToEdit,   setDepartmentToEdit  ] = useState<RowTableData | null>(null);
     const [departmentToDelete, setDepartmentToDelete] = useState<RowTableData | null>(null);
+
+    // ── Mock initial load skeleton ────────────────────────────────────────────
+    const [tableData,    setTableData   ] = useState<RowTableData[]>([]);
+    const [tableLoading, setTableLoading] = useState(true);
+
+    useEffect(() => {
+        setTableLoading(true);
+        const id = setTimeout(() => {
+            setTableData(DEPARTMENTS_MOCK_DATA);
+            setTableLoading(false);
+        }, 500);
+        return () => clearTimeout(id);
+    }, []);
 
     const columns      = useMemo(() => mapColumns(DEPARTMENTS_columnDefs), []);
     const createDrawer = useModal();
@@ -61,7 +74,8 @@ export default function Departments() {
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
             <TableComponent
-                data={DEPARTMENTS_MOCK_DATA}
+                data={tableData}
+                loading={tableLoading}
                 columns={columns}
                 actions={actions}
                 rowKey="id"

@@ -22,7 +22,6 @@
     "@tiptap/react": "^3.20.2",
     "@tiptap/starter-kit": "^3.20.2",
     "flowbite": "^4.0.1",
-    "flowbite-react": "^0.12.17",
     "i18next": "^23.0.0",
     "i18next-http-backend": "^3.0.2",
     "react": "^18.2.0",
@@ -30,7 +29,8 @@
     "react-i18next": "^13.0.0",
     "react-router-dom": "^7.13.1",
     "vite": "^7.3.1",
-    "vite-tsconfig-paths": "^6.1.1"
+    "vite-tsconfig-paths": "^6.1.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^25.4.0",
@@ -42,8 +42,7 @@
     "tailwindcss": "^3.4.19",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "xlsx": "^0.18.5"
+    "typescript": "^5.9.3"
   },
   "private": true
 }

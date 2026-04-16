@@ -1,4 +1,4 @@
-import { lazy, type LazyExoticComponent } from 'react';
+﻿import { lazy, type LazyExoticComponent } from 'react';
 
 // Core
 const Home       = lazy(() => import('@/pages/Home'));
@@ -33,6 +33,10 @@ const EvaluationsForms   = lazy(() => import('@/pages/settings/EvaluationsForms'
 const Consents           = lazy(() => import('@/pages/settings/Consents'));
 const Projects           = lazy(() => import('@/pages/settings/Projects'));
 const ManageIntegrations = lazy(() => import('@/pages/settings/ManageIntegrations'));
+// ── Dev only ──────────────────────────────────────────────────────────────────
+const ApiTests = import.meta.env.DEV
+    ? lazy(() => import('@/pages/ApiTests'))
+    : null;
 
 // Account
 const ChangePassword    = lazy(() => import('@/pages/account/ChangePassword'));
@@ -78,4 +82,5 @@ export const routes: AppRoute[] = [
     { path: '/consents',                     component: Consents },
     { path: '/projects',                     component: Projects },
     { path: '/manage-integrations',          component: ManageIntegrations },
+    ...(import.meta.env.DEV && ApiTests ? [{ path: '/api-playground', component: ApiTests }] : []),
 ];

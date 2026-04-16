@@ -1,27 +1,44 @@
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "outDir": "dist",
-    "jsx": "react-jsx",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "types": ["vite/client"],
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["*"]
-    },
-    "useDefineForClassFields": true,
-    "isolatedModules": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"],
-  "exclude": ["src/scripts"]
+﻿{
+    "compilerOptions":  {
+                            "target":  "ES2020",
+                            "module":  "ESNext",
+                            "moduleResolution":  "bundler",
+                            "esModuleInterop":  true,
+                            "forceConsistentCasingInFileNames":  true,
+                            "strict":  true,
+                            "skipLibCheck":  true,
+                            "resolveJsonModule":  true,
+                            "outDir":  "dist",
+                            "jsx":  "react-jsx",
+                            "lib":  [
+                                        "ES2020",
+                                        "DOM",
+                                        "DOM.Iterable"
+                                    ],
+                            "types":  [
+                                          "vite/client"
+                                      ],
+                            "baseUrl":  "./src",
+                            "paths":  {
+                                          "@/*":  [
+                                                      "*"
+                                                  ]
+                                      },
+                            "useDefineForClassFields":  true,
+                            "isolatedModules":  true,
+                            "noUnusedLocals":  true,
+                            "noUnusedParameters":  true,
+                            "noFallthroughCasesInSwitch":  true
+                        },
+    "include":  [
+                    "src"
+                ],
+    "exclude":  [
+                    "src/scripts"
+                ],
+    "references":  [
+                       {
+                           "path":  "./tsconfig.node.json"
+                       }
+                   ]
 }

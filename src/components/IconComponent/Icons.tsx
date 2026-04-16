@@ -46,6 +46,12 @@ export const RiArrowDownSLine: RemixiconComponentType = ({ size = 24, ...props }
     </svg>
 );
 
+export const RiArrowUpSLine: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M12 10.828l-4.95 4.95-1.414-1.414L12 8l6.364 6.364-1.414 1.414z" />
+    </svg>
+);
+
 // ─── Editor toolbar icons ─────────────────────────────────────────────────────
 
 export const RiBold: RemixiconComponentType = ({ size = 24, ...props }) => (

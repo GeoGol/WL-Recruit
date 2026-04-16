@@ -51,39 +51,80 @@ function TableComponent<T extends Record<string, unknown>>({
     title,
     subtitle,
     onAddNew,
+    paginationMode    = 'client',
+    serverPagination,
 }: Readonly<TableProps<T>>) {
 
     const [sortKey, setSortKey] = useState<string | null>(null);
     const [sortDir, setSortDir] = useState<SortDirection>(null);
 
-    const [page, setPage] = useState(initialPage);
-    const [pageSize, setPageSize] = useState(initialPageSize);
-    const total = data.length;
+    const [clientPage, setClientPage] = useState(initialPage);
+    const [clientPageSize, setClientPageSize] = useState(initialPageSize);
+    const isServerPagination = paginationMode === 'server' && !!serverPagination;
+
+    const page = isServerPagination ? serverPagination.page : clientPage;
+    const pageSize = isServerPagination ? serverPagination.pageSize : clientPageSize;
+    const total = isServerPagination ? serverPagination.total : data.length;
+    const canClientSort = clientSort && !isServerPagination;
 
     // ── Sorting data ─────────────────────────────────────────────────────────
     const sortedData = useMemo(() => {
-        if (!clientSort || !sortKey || !sortDir) return data;
+        if (!canClientSort || !sortKey || !sortDir) return data;
         return [...data].sort((a, b) => {
             const result = smartCompare(a[sortKey], b[sortKey]);
             return sortDir === 'asc' ? result : -result;
         });
-    }, [data, clientSort, sortKey, sortDir]);
+    }, [data, canClientSort, sortKey, sortDir]);
 
     // Slice data for current page
     const paginatedData = useMemo(() => {
+        if (isServerPagination) return sortedData;
         return sortedData.slice((page - 1) * pageSize, page * pageSize);
-    }, [sortedData, page, pageSize]);
+    }, [isServerPagination, sortedData, page, pageSize]);
+
+    // Effective sort state — server-controlled or local
+    const activeSortKey = isServerPagination ? (serverPagination.sortKey ?? null) : sortKey;
+    const activeSortDir = isServerPagination ? (serverPagination.sortDir ?? null) : sortDir;
 
     // ── Sorting ──────────────────────────────────────────────────────────────
     const handleSort = useCallback((key: string) => {
-        setPage(1);
+        if (isServerPagination) {
+            if (!serverPagination.onSortChange) return;
+            const nextDir: SortDirection =
+                serverPagination.sortKey === key
+                    ? serverPagination.sortDir === 'asc' ? 'desc' : 'asc'
+                    : 'asc';
+            // Reset to page 1 when sort changes
+            serverPagination.onPageChange(1);
+            serverPagination.onSortChange(key, nextDir);
+            return;
+        }
+        if (!canClientSort) return;
+        setClientPage(1);
         if (sortKey !== key) {
             setSortKey(key);
             setSortDir('asc');
         } else {
             setSortDir(prev => prev === 'asc' ? 'desc' : 'asc');
         }
-    }, [sortKey]);
+    }, [isServerPagination, serverPagination, canClientSort, sortKey]);
+
+    const handlePageChange = useCallback((nextPage: number) => {
+        if (isServerPagination) {
+            serverPagination.onPageChange(nextPage);
+            return;
+        }
+        setClientPage(nextPage);
+    }, [isServerPagination, serverPagination]);
+
+    const handlePageSizeChange = useCallback((nextSize: number) => {
+        if (isServerPagination) {
+            serverPagination.onPageSizeChange?.(nextSize);
+            return;
+        }
+        setClientPage(1);
+        setClientPageSize(nextSize);
+    }, [isServerPagination, serverPagination]);
 
     // ── Selection ─────────────────────────────────────────────────────────────
     const allSelected  = useMemo(
@@ -137,7 +178,7 @@ function TableComponent<T extends Record<string, unknown>>({
                             options={pageSizeOptions?.map(size => ({ label: `${size}`, value: size })) || []}
                             value={pageSize}
                             size={"sm"}
-                            onChange={(value) => setPageSize(Number(value))}
+                            onChange={(value) => handlePageSizeChange(Number(value))}
                             className={''}
                         />
 
@@ -166,6 +207,8 @@ function TableComponent<T extends Record<string, unknown>>({
                                 allSelected={allSelected}
                                 toggleAll={toggleAll}
                                 actions={actions}
+                                sortKey={activeSortKey}
+                                sortDir={activeSortDir}
                             />
 
                             {/* Body */}
@@ -192,7 +235,7 @@ function TableComponent<T extends Record<string, unknown>>({
                             page,
                             pageSize,
                             total,
-                            onPageChange: setPage,
+                            onPageChange: handlePageChange,
                         }} />
                     </>
                 )}

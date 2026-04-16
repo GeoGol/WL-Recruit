@@ -28,7 +28,13 @@ const useFetch = (): UseFetchReturn => {
 
             if (result.error) {
                 setError(result.error);
-                showError(result.error.message);
+                // 4xx → warning  |  5xx / network (0) → error
+                const { status } = result.error;
+                if (status >= 400 && status < 500) {
+                    warning(result.error.message);
+                } else {
+                    showError(result.error.message);
+                }
                 executeErrorAction(result.error);
             }
 
@@ -45,7 +51,7 @@ const useFetch = (): UseFetchReturn => {
         } finally {
             setLoading(false);
         }
-    }, [showError]);
+    }, [showError, warning]);
 
     const clearError = useCallback(() => setError(null), []);
 

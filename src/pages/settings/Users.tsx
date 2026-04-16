@@ -8,7 +8,7 @@ import { exportToExcel } from "@/helpers/ExportHelpers";
 import DrawerComponent from "@/components/DrawerComponent/DrawerComponent";
 import { useModal, useActionModal } from "@/hooks/useModal";
 import CreateUserForm from "@/forms/settings/CreateUserForm";
-import { useState, useMemo, useRef, useCallback } from "react";
+import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { CreateUserFormState, RowTableData } from "@/models";
 import ModalComponent from "@/components/ModalComponent/ModalComponent";
 
@@ -67,10 +67,24 @@ export default function Users() {
         status   : String(selectedUser.status    ?? ''),
     } : undefined;
 
+    // ── Mock initial load skeleton ────────────────────────────────────────────
+    const [tableData,    setTableData   ] = useState<RowTableData[]>([]);
+    const [tableLoading, setTableLoading] = useState(true);
+
+    useEffect(() => {
+        setTableLoading(true);
+        const id = setTimeout(() => {
+            setTableData(USERS_MOCK_DATA);
+            setTableLoading(false);
+        }, 500);
+        return () => clearTimeout(id);
+    }, []);
+
     return (
         <div className="flex flex-col items-center justify-center mx-auto">
             <TableComponent
-                data={USERS_MOCK_DATA}
+                data={tableData}
+                loading={tableLoading}
                 columns={columns}
                 actions={actions}
                 rowKey="id"
