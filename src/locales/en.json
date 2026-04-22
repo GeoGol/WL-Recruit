@@ -1,4 +1,4 @@
-{
+﻿{
   "jobs": "Jobs",
   "candidates": "Candidates",
   "lblJobsShort": "Jobs",
@@ -691,7 +691,7 @@
   "msgAtLeastOneRoleNeeded": "At least one role is required per account.",
   "msgRoleHasUsers": "The role has users linked with it.",
   "msgRoleWasSuccessfullyDeleted": "Role {0} was successfully deleted.",
-  "msgConfirmDeleteRole": "Please confirm you want to delete the {0} role. This action is permanent and cannot be undone.",
+  "msgConfirmDeleteRole": "Please confirm you want to delete the {{name}} role. This action is permanent and cannot be undone.",
   "roleExportData": "Export data",
   "roleManageTemplates": "Manage templates",
   "roleViewReports": "View reports",
@@ -1404,5 +1404,10 @@
   "lblSmsSenderName": "SMS sender name",
   "lblApplicationNumber": "Application number",
   "lblCommentVisibility": "Comment visibility",
-  "msgCommentVisibilityHelpText": "If you don’t select any roles, the comment will be visible to all internal users."
+  "msgCommentVisibilityHelpText": "If you don’t select any roles, the comment will be visible to all internal users.",
+  "msgActionSuccess": "Action successfully submitted",
+  "msgConfirmAction": "Are you sure you want to proceed with this action?",
+  "lblConfirm": "Confirm",
+  "lblWarning": "Warning",
+  "lblYesCancel": "Yes, cancel"
 }

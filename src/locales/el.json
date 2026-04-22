@@ -1,4 +1,4 @@
-{
+﻿{
   "jobs": "Θέσεις εργασίας",
   "candidates": "Υποψήφιοι",
   "lblJobsShort": "Θέσεις",
@@ -698,7 +698,7 @@
   "msgAtLeastOneRoleNeeded": "Πρέπει να έχει οριστεί τουλάχιστον ένα ρόλος",
   "msgRoleHasUsers": "O ρόλος έχει συνδεθεί με χρήστες",
   "msgRoleWasSuccessfullyDeleted": "Ο ρόλος {0} διαγράφηκε με επιτυχία.",
-  "msgConfirmDeleteRole": "Παρακαλώ επιβεβαιώστε τη διαγραφή του ρόλου {0}. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+  "msgConfirmDeleteRole": "Παρακαλώ επιβεβαιώστε τη διαγραφή του ρόλου {{name}}. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
   "roleExportData": "Εξαγωγή δεδομένων",
   "roleManageTemplates": "Διαχείριση προτύπων",
   "roleViewReports": "Προβολή αναφορών",
@@ -1411,5 +1411,10 @@
   "lblSmsSenderName": "Όνομα αποστολέα SMS",
   "lblApplicationNumber": "Αριθμός αίτησης",
   "lblCommentVisibility": "Ορατότητα σχολίου",
-  "msgCommentVisibilityHelpText": "Αν δεν επιλέξετε ρόλους, το σχόλιο θα είναι ορατό σε όλους τους εσωτερικούς χρήστες."
+  "msgCommentVisibilityHelpText": "Αν δεν επιλέξετε ρόλους, το σχόλιο θα είναι ορατό σε όλους τους εσωτερικούς χρήστες.",
+  "msgActionSuccess": "Η ενέργεια υποβλήθηκε με επιτυχία",
+  "msgConfirmAction": "Είστε σίγουροι ότι θέλετε να προχωρήσετε με αυτή την ενέργεια;",
+  "lblConfirm": "Επιβεβαίωση",
+  "lblWarning": "Προειδοποίηση",
+  "lblYesCancel": "Ναι, ακύρωση"
 }

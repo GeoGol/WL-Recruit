@@ -79,3 +79,28 @@ export interface OrganizationFormState {
     // other settings
     autoReplyTemplate           : string | number, //dropdown list
 }
+
+export type RightItem = {
+    id: string;
+    label: string;
+    enabled: boolean;
+}
+
+export type PipelineStage = {
+    psId: number;
+    psSetId: number;
+    pssName: string;
+    psName: string;
+    psRank: number;
+    enabled: boolean;
+}
+
+export interface RoleFormState {
+    roleName        : string;
+    rights          : RightItem[];
+    pipelinesStages : Record<string, PipelineStage[]>;
+}
+
+export interface PipelineStageSetsFormState {
+    pipelineStageSetName : string;
+}

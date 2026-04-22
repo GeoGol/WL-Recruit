@@ -1,6 +1,7 @@
 import {RiExpandUpDownLine, RiArrowUpSLine, RiArrowDownSLine} from '@/components/IconComponent/Icons';
 import type { TableColumn, SortDirection } from "@/models";
 import CheckboxComponent from "@/components/FormComponents/CheckboxComponent";
+import { useTranslation } from "react-i18next";
 
 function TableHead<T>({
   columns,
@@ -9,21 +10,28 @@ function TableHead<T>({
   allSelected,
   toggleAll,
   actions,
-  sortKey  = null,
-  sortDir  = null,
+  sortKey     = null,
+  sortDir     = null,
+  reorderMode = false,
 }: Readonly<{
-  columns     : TableColumn<T>[];
-  handleSort  : (key: string) => void;
-  selectable  : boolean;
-  allSelected : boolean;
-  toggleAll   : () => void;
-  actions?    : any[];
-  sortKey?    : string | null;
-  sortDir?    : SortDirection;
+  columns      : TableColumn<T>[];
+  handleSort   : (key: string) => void;
+  selectable   : boolean;
+  allSelected  : boolean;
+  toggleAll    : () => void;
+  actions?     : any[];
+  sortKey?     : string | null;
+  sortDir?     : SortDirection;
+  reorderMode? : boolean;
 }>) {
+  const { t } = useTranslation();
+
   return (
     <thead className="text-md text-secondary uppercase bg-surface border-b-2 border-main">
       <tr className={'min-h-12'}>
+        {/* Drag handle column header */}
+        {reorderMode && <th scope="col" className="w-6 px-2 py-3" />}
+
         {selectable && (
           <th scope="col" className="px-4 py-3">
             <CheckboxComponent
@@ -49,7 +57,7 @@ function TableHead<T>({
               ].filter(Boolean).join(' ')}
             >
               <span className="inline-flex items-center gap-1 text-primary">
-                {col.label}
+                {t(col.label)}
                 {col.sortable && (
                   isActive
                     ? sortDir === 'asc'

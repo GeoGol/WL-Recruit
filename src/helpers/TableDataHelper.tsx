@@ -84,5 +84,6 @@ export function mapActions<T>(defs: ActionDef<T>[]): TableAction<T>[] {
         variant : def.variant,
         onClick : def.onClick,
         disabled: def.disabled,
+        hidden  : def.hidden,
     }));
 }

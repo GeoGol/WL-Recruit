@@ -1,4 +1,9 @@
 import { memo, useState, useMemo, useCallback } from 'react';
+import {
+    DndContext, closestCenter, PointerSensor,
+    useSensor, useSensors, type DragEndEvent,
+} from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 import TablePagination from './TablePagination';
 import TableBody from './TableBody';
 import TableHead from './TableHead';
@@ -53,13 +58,26 @@ function TableComponent<T extends Record<string, unknown>>({
     onAddNew,
     paginationMode    = 'client',
     serverPagination,
+    hideActions,
+    onRowReorder,
 }: Readonly<TableProps<T>>) {
 
     const [sortKey, setSortKey] = useState<string | null>(null);
     const [sortDir, setSortDir] = useState<SortDirection>(null);
-
     const [clientPage, setClientPage] = useState(initialPage);
     const [clientPageSize, setClientPageSize] = useState(initialPageSize);
+
+    // ── DnD ───────────────────────────────────────────────────────────────────
+    const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+
+    const handleDragEnd = useCallback((event: DragEndEvent) => {
+        const { active, over } = event;
+        if (!over || active.id === over.id || !onRowReorder) return;
+        const oldIdx = data.findIndex(r => (r[rowKey] as string | number) === active.id);
+        const newIdx = data.findIndex(r => (r[rowKey] as string | number) === over.id);
+        if (oldIdx !== -1 && newIdx !== -1) onRowReorder(arrayMove([...data], oldIdx, newIdx));
+    }, [data, rowKey, onRowReorder]);
+
     const isServerPagination = paginationMode === 'server' && !!serverPagination;
 
     const page = isServerPagination ? serverPagination.page : clientPage;
@@ -151,7 +169,7 @@ function TableComponent<T extends Record<string, unknown>>({
         );
     }, [onSelectionChange, selectedKeys]);
 
-    const colCount = columns.length + (selectable ? 1 : 0) + (actions?.length ? 1 : 0);
+    const colCount = columns.length + (selectable ? 1 : 0) + (actions?.length ? 1 : 0) + (onRowReorder ? 1 : 0);
 
     // ── Render ────────────────────────────────────────────────────────────────
     return (
@@ -197,38 +215,24 @@ function TableComponent<T extends Record<string, unknown>>({
                     />
                 ) : (
                     <>
-                        <table className="w-full text-sm text-left text-primary">
-
-                            {/* Head */}
-                            <TableHead
-                                columns={columns}
-                                handleSort={handleSort}
-                                selectable={selectable}
-                                allSelected={allSelected}
-                                toggleAll={toggleAll}
-                                actions={actions}
-                                sortKey={activeSortKey}
-                                sortDir={activeSortDir}
-                            />
-
-                            {/* Body */}
-                            <TableBody
-                                data={paginatedData}
-                                columns={columns}
-                                actions={actions}
-                                selectable={selectable}
-                                selectedKeys={selectedKeys}
-                                striped={striped}
-                                hoverable={hoverable}
-                                loading={loading}
-                                emptyMessage={emptyMessage}
-                                colCount={colCount}
-                                onRowClick={onRowClick}
-                                onToggleRow={toggleRow}
-                                rowKey={rowKey}
-                                onAddNew={onAddNew}
-                            />
-                        </table>
+                        {onRowReorder ? (
+                            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                                <SortableContext
+                                    items={paginatedData.map(r => r[rowKey] as string | number)}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    <table className="w-full text-sm text-left text-primary">
+                                        <TableHead columns={columns} handleSort={handleSort} selectable={selectable} allSelected={allSelected} toggleAll={toggleAll} actions={actions} sortKey={activeSortKey} sortDir={activeSortDir} reorderMode />
+                                        <TableBody data={paginatedData} columns={columns} actions={actions} selectable={selectable} selectedKeys={selectedKeys} striped={striped} hoverable={hoverable} loading={loading} emptyMessage={emptyMessage} colCount={colCount} onRowClick={onRowClick} onToggleRow={toggleRow} rowKey={rowKey} onAddNew={onAddNew} hideActions={hideActions} reorderMode />
+                                    </table>
+                                </SortableContext>
+                            </DndContext>
+                        ) : (
+                            <table className="w-full text-sm text-left text-primary">
+                                <TableHead columns={columns} handleSort={handleSort} selectable={selectable} allSelected={allSelected} toggleAll={toggleAll} actions={actions} sortKey={activeSortKey} sortDir={activeSortDir} />
+                                <TableBody data={paginatedData} columns={columns} actions={actions} selectable={selectable} selectedKeys={selectedKeys} striped={striped} hoverable={hoverable} loading={loading} emptyMessage={emptyMessage} colCount={colCount} onRowClick={onRowClick} onToggleRow={toggleRow} rowKey={rowKey} onAddNew={onAddNew} hideActions={hideActions} />
+                            </table>
+                        )}
 
                         {/* ── Pagination ───────────────────────────────────────────── */}
                         <TablePagination config={{
@@ -245,3 +249,4 @@ function TableComponent<T extends Record<string, unknown>>({
 }
 
 export default memo(TableComponent) as typeof TableComponent;
+

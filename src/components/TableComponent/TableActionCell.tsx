@@ -3,8 +3,21 @@ import ReactDOM from 'react-dom';
 import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import { RiMoreLine } from '@/components/IconComponent/Icons';
 import {TableActionCellProps} from "@/models";
+import {useTranslation} from "react-i18next";
+
+const VARIANT_CLASS: Record<string, string> = {
+    danger      : 'text-danger',
+    confirmation: 'text-success',
+    secondary   : 'text-secondary',
+    primary     : 'text-primary',
+    outline     : 'text-primary',
+    ghost       : 'text-primary',
+    link        : 'text-link',
+};
 
 function TableActionCell<T extends Record<string, unknown>>({ row, actions }: Readonly<TableActionCellProps<T>>) {
+    const { t } = useTranslation();
+
     const [open, setOpen]   = useState(false);
     const [style, setStyle] = useState<React.CSSProperties>({});
     const triggerRef        = useRef<HTMLDivElement>(null);
@@ -18,8 +31,10 @@ function TableActionCell<T extends Record<string, unknown>>({ row, actions }: Re
         const openUpward = spaceBelow < dropH;
         setStyle({
             position: 'fixed',
-            width   : 120,
-            left    : rect.right - 120,
+            minWidth: 120,
+            maxWidth: 240,
+            // left    : rect.right - 120,
+            right   : 32,
             zIndex  : 9999,
             ...(openUpward
                 ? { bottom: window.innerHeight - rect.top }
@@ -42,20 +57,9 @@ function TableActionCell<T extends Record<string, unknown>>({ row, actions }: Re
 
     if (!actions || actions.length === 0) return null;
 
-    // // Single action — render directly
-    // if (actions.length === 1) {
-    //     const action = actions[0];
-    //     return (
-    //         <ButtonComponent
-    //             variant={action.variant ?? 'ghost'}
-    //             size="xs"
-    //             leftIcon={action.icon}
-    //             label={action.label}
-    //             disabled={action.disabled?.(row)}
-    //             onClick={() => action.onClick(row)}
-    //         />
-    //     );
-    // }
+    const visibleActions = actions.filter(a => !a.hidden?.(row));
+
+    if (visibleActions.length === 0) return null;
 
     // Multiple actions — dropdown
     return (
@@ -75,7 +79,7 @@ function TableActionCell<T extends Record<string, unknown>>({ row, actions }: Re
                     style={style}
                     className="bg-surface border border-main rounded-lg shadow-lg overflow-hidden"
                 >
-                    {actions.map((action, idx) => (
+                    {visibleActions.map((action, idx) => (
                         <button
                             key={action.label + idx}
                             type="button"
@@ -84,11 +88,11 @@ function TableActionCell<T extends Record<string, unknown>>({ row, actions }: Re
                             className={`w-full flex items-center gap-2 px-3 py-2 text-base text-left
                                 transition-colors
                                 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:font-semibold
-                                ${action.variant === 'danger' ? 'text-danger' : 'text-primary'}
+                                ${VARIANT_CLASS[action.variant as string] ?? 'text-primary'}
                             `}
                         >
                             {action.icon && <span className="w-4 h-4 flex items-center">{action.icon}</span>}
-                            {action.label}
+                            {t(action.label)}
                         </button>
                     ))}
                 </div>,

@@ -27,6 +27,7 @@ const Organizations      = lazy(() => import('@/pages/settings/Organizations'));
 const Departments        = lazy(() => import('@/pages/settings/Departments'));
 const Roles              = lazy(() => import('@/pages/settings/Roles'));
 const PipelineStagesSets = lazy(() => import('@/pages/settings/PipelineStagesSets'));
+const PipelineStages     = lazy(() => import('@/pages/settings/PipelineStages'));
 const Questions          = lazy(() => import('@/pages/settings/Questions'));
 const Templates          = lazy(() => import('@/pages/settings/Templates'));
 const EvaluationsForms   = lazy(() => import('@/pages/settings/EvaluationsForms'));
@@ -43,6 +44,9 @@ const ChangePassword    = lazy(() => import('@/pages/account/ChangePassword'));
 const EditUserDetails   = lazy(() => import('@/pages/account/EditUserDetails'));
 const BillingHistory    = lazy(() => import('@/pages/account/BillingHistory'));
 const NewSupportRequest = lazy(() => import('@/pages/account/NewSupportRequest'));
+
+// Fallback
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 export interface AppRoute {
     path: string;
@@ -76,6 +80,7 @@ export const routes: AppRoute[] = [
     { path: '/departments',                  component: Departments },
     { path: '/roles',                        component: Roles },
     { path: '/pipeline-stages-sets',         component: PipelineStagesSets },
+    { path: '/pipeline-stages',              component: PipelineStages     },
     { path: '/questions',                    component: Questions },
     { path: '/templates',                    component: Templates },
     { path: '/evaluations-forms',            component: EvaluationsForms },
@@ -83,4 +88,6 @@ export const routes: AppRoute[] = [
     { path: '/projects',                     component: Projects },
     { path: '/manage-integrations',          component: ManageIntegrations },
     ...(import.meta.env.DEV && ApiTests ? [{ path: '/api-playground', component: ApiTests }] : []),
+    { path: '*',                             component: NotFound },
+
 ];

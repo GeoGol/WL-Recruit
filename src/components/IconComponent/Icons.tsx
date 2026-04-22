@@ -330,6 +330,12 @@ export const RiEditLine: RemixiconComponentType = ({ size = 24, ...props }) => (
     </svg>
 );
 
+export const RiListCheck: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path xmlns="http://www.w3.org/2000/svg" d="M8 4H21V6H8V4ZM3 3.5H6V6.5H3V3.5ZM3 10.5H6V13.5H3V10.5ZM3 17.5H6V20.5H3V17.5ZM8 11H21V13H8V11ZM8 18H21V20H8V18Z"/>
+    </svg>
+);
+
 export const RiDeleteBinLine: RemixiconComponentType = ({ size = 24, ...props }) => (
     <svg {...iconDefaults(size)} {...props}>
         <path d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4h5zM6 6v14h12V6H6zm3 3h2v8H9V9zm4 0h2v8h-2V9z"/>
@@ -365,3 +371,10 @@ export const RiToggleLine: RemixiconComponentType = ({ size = 24, ...props }) =>
         <path d="M8 7a5 5 0 1 0 0 10A5 5 0 0 0 8 7zM2 12C2 8.134 5.134 5 9 5h6a7 7 0 0 1 0 14H9c-3.866 0-7-3.134-7-7zm9-1h6v2h-6v-2zm0 4h6v2h-6v-2zm0-8h6v2h-6V7z"/>
     </svg>
 );
+
+export const RiDraggable: RemixiconComponentType = ({ size = 24, ...props }) => (
+    <svg {...iconDefaults(size)} {...props}>
+        <path d="M8.5 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm7-13a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+    </svg>
+);
+

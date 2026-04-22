@@ -3,7 +3,7 @@ import {
     RiDeleteBinLine,
     RiDownloadLine,
     RiEditLine, RiExportLine,
-    RiEyeLine, RiLockUnlockLine,
+    RiEyeLine, RiListCheck, RiLockUnlockLine,
     RiShareLine,
     RiToggleLine
 } from "@/components/IconComponent/Icons";
@@ -227,6 +227,7 @@ export const ORGANIZATIONS_actionDefs: ActionDef<RowTableData>[] = [
     },
 ];
 
+
 export const DEPARTMENTS_MOCK_DATA: RowTableData[] = [
     { id: 1,  departmentName: 'Engineering'         },
     { id: 2,  departmentName: 'Human Resources'     },
@@ -273,7 +274,116 @@ export const DEPARTMENTS_actionDefs: ActionDef<RowTableData>[] = [
 ];
 
 
+export const ROLES_MOCK_DATA: RowTableData[] = [
+    { id: 1,  roleName: 'Administrators'         },
+    { id: 2,  roleName: 'HR'                     },
+    { id: 3,  roleName: 'Manager'                },
+    { id: 4,  roleName: 'support acme test rolls'},
+    { id: 5,  roleName: 'support'                },
+    { id: 6,  roleName: 'Users TEST'             },
+    { id: 7,  roleName: 'HR MANAGER'             }
+];
 
+export const ROLES_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key     : 'roleName',
+        label   : 'lblRole',
+    },
+];
+
+export const ROLES_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'Edit',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'Delete',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+
+export const PIPELINES_STAGES_SET_MOCK_DATA: RowTableData[] = [
+    { id: 1,  pipelineStageSetName: 'default',                                  isDefault: true  },
+    { id: 2,  pipelineStageSetName: 'Σετ Πρόσληψης Οικονομικού Τμήματος',       isDefault: false },
+    { id: 3,  pipelineStageSetName: 'Σετ Πρόσληψης Παραγωγής / Εργοστασίου',    isDefault: false },
+    { id: 4,  pipelineStageSetName: 'Σετ Πρόσληψης Πωλήσεων',                   isDefault: false },
+    { id: 5,  pipelineStageSetName: 'Σετ Τεχνικών Ειδικοτήτων',                 isDefault: false },
+    { id: 6,  pipelineStageSetName: 'Σετ Πρόσληψης Μηχανικών',                  isDefault: false },
+];
+
+export const PIPELINES_STAGES_SET_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key     : 'pipelineStageSetName',
+        label   : 'lblPipelineStagesSets',
+        sortable: true,
+    },
+];
+
+export const PIPELINES_STAGES_SET_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'lblEditPipelineStagesSet',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'toggle',
+        label  : 'lblManagePipelineStages',
+        icon   : <RiListCheck />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'lblDeletePipelineStagesSet',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+export const PIPELINE_STAGES_MOCK_DATA: RowTableData[] = [
+    { id: 1, rank: 1, stageName: 'Screening',  stageType: 'Standard', visible: true  },
+    { id: 2, rank: 2, stageName: 'Phone',       stageType: 'Standard', visible: true  },
+    { id: 3, rank: 3, stageName: 'Interview',   stageType: 'Standard', visible: true  },
+    { id: 4, rank: 4, stageName: 'Assessment',  stageType: 'Custom',   visible: false },
+    { id: 5, rank: 5, stageName: 'Offer',       stageType: 'Standard', visible: true  },
+    { id: 6, rank: 6, stageName: 'Hired',       stageType: 'Standard', visible: true  },
+    { id: 7, rank: 7, stageName: 'Rejection',   stageType: 'System',   visible: true  },
+];
+
+export const PIPELINE_STAGES_columnDefs: ColumnDef[] = [
+    { key: 'id',        label: 'ID',       hidden: true },
+    { key: 'rank',      label: 'lblRank',  sortable: false, headerClass: 'text-center', cellClass: 'text-center w-16' },
+    { key: 'stageName', label: 'lblStage', sortable: false },
+    {
+        key        : 'stageType',
+        label      : 'lblType',
+        sortable   : false,
+        type       : 'badge',
+        colorMap   : { Standard: 'blue', Custom: 'purple', System: 'gray' },
+        headerClass: 'text-center',
+        cellClass  : 'text-center',
+    },
+];
 
 
 

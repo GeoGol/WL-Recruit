@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useToast, type ToastType } from '@/hooks/useToast';
 
 // ─── useModal ─────────────────────────────────────────────────────────────────
@@ -87,6 +87,7 @@ export function useActionModal(config: ActionModalConfig = {}) {
         toastMessages = {},
     } = config;
 
+    const { t }                             = useTranslation();
     const { show: showToast }               = useToast();
     const inner                             = useVariantModal<ActionModalVariant>();
     const [pendingFormId, setPendingFormId] = useState<string | null>(null);

@@ -18,6 +18,7 @@ export interface TableAction<T> {
     onClick   : (row: T) => void;
     variant?  : 'primary' | 'secondary' | 'outline' | 'confirmation' | 'ghost' | 'danger' | 'link';
     disabled? : (row: T) => boolean;
+    hidden?   : (row: T) => boolean;
 }
 
 export interface ServerPaginationConfig {
@@ -54,6 +55,10 @@ export interface TableProps<T> {
     onRowClick?       : (row: T) => void;
     /** Callback for the empty-state "Add new" button (only shown when edit/delete actions exist) */
     onAddNew?         : () => void;
+    /** Hide the entire actions cell for rows matching this predicate */
+    hideActions?  : (row: T) => boolean;
+    /** Called with the full reordered array after a drag-and-drop. Enables row reordering. */
+    onRowReorder? : (reordered: T[]) => void;
     /** Optional toolbar slot rendered above the table */
     toolbar?          : ReactNode;
     /** Table caption / title shown in the top-left of the card */
@@ -104,6 +109,8 @@ export type ActionDef<T> = {
     variant? : "primary" | "secondary" | "outline" | "confirmation" | "ghost" | "danger" | "link";
     onClick  : (row: T) => void;
     disabled?: (row: T) => boolean;
+    /** Return true to completely hide this action for a given row */
+    hidden?  : (row: T) => boolean;
     type?    : 'edit' | 'delete' | 'view' | 'toggle' | 'download' | 'share' | 'export' | 'lock' | string;
 };
 
