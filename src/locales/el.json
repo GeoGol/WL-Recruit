@@ -1090,7 +1090,7 @@
   "lblManagePipelineStages": "Διαχείριση σταδίων πρόσληψης",
   "lblCreatePipelineStage": "Δημιουργία σταδίου πρόσληψης",
   "msgNoPipelineStages": "Δεν βρέθηκαν στάδια πρόσληψης",
-  "msgConfirmDeletePipelineStage": "Παρακαλώ επιβεβαιώστε τη διαγραφή του σταδίου πρόσληψης {0}. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+  "msgConfirmDeletePipelineStage": "Παρακαλώ επιβεβαιώστε τη διαγραφή του σταδίου πρόσληψης {{name}}. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
   "msgPipelineStageCannotBeDeleted": "To στάδιο πρόσληψης δεν μπορεί να διαγραφεί.",
   "lblDeletePipelineStage": "Διαγραφή σταδίου πρόσληψης",
   "lblEditPipelineStage": "Επεξεργασία σταδίου πρόσληψης",

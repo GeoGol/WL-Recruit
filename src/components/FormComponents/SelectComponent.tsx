@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {InputSize, SelectComponentProps, SelectOption} from "@/models";
 import {RiArrowDownSLine, RiCloseLine, RiInformationLine} from "@/components/IconComponent/Icons";
 import TooltipComponent from "@/components/FormComponents/TooltipComponent";
+import {useTranslation} from "react-i18next";
 
 const sizeClasses: Record<InputSize, { padding: string; font: string; height: string; }> = {
     sm: { padding: 'p-2.5',   font: 'text-sm', height: 'h-8'  },
@@ -26,6 +27,7 @@ const SelectComponent = memo(({
     // error,
   // ...rest
 }: SelectComponentProps) => {
+    const { t } = useTranslation();
 
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
@@ -143,7 +145,7 @@ const SelectComponent = memo(({
         selectedDisplay = (
             <TooltipComponent content={selectedOption.label ?? placeholder}>
                 <span className="text-muted text-sm line-clamp-1">
-                  {selectedOption.label ?? placeholder}
+                  {t(selectedOption.label) ?? placeholder}
                 </span>
             </TooltipComponent>
         );
@@ -151,7 +153,7 @@ const SelectComponent = memo(({
     else {
         selectedDisplay = (
             <span className={`${sizeClasses[size].font} ${selectedOption ? 'text-primary' : 'text-muted'} line-clamp-1`}>
-                {selectedOption?.label ?? placeholder}
+                {selectedOption?.label ? t(selectedOption.label) : placeholder}
             </span>
         );
     }
@@ -231,7 +233,7 @@ const SelectComponent = memo(({
                             aria-selected={selectedOption?.value === option.value}
                             tabIndex={-1}
                         >
-                            <span>{option.label}</span>
+                            <span>{option.label ? t(option.label) : ''}</span>
                         </li>
                     ))}
                 </ul>,

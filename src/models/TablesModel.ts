@@ -46,6 +46,7 @@ export interface TableProps<T> {
     initialPage?      : number;
     initialPageSize?  : number;
     pageSizeOptions?  : number[];
+    hasPagination?    : boolean;
     clientSort?       : boolean;
     loading?          : boolean;
     emptyMessage?     : string;
@@ -111,7 +112,7 @@ export type ActionDef<T> = {
     disabled?: (row: T) => boolean;
     /** Return true to completely hide this action for a given row */
     hidden?  : (row: T) => boolean;
-    type?    : 'edit' | 'delete' | 'view' | 'toggle' | 'download' | 'share' | 'export' | 'lock' | string;
+    type?    : 'edit' | 'delete' | 'view' | 'toggle' | 'navigate' | 'download' | 'share' | 'export' | 'lock' | string;
 };
 
 export type ColumnDef = {

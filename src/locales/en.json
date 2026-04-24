@@ -1083,7 +1083,7 @@
   "lblManagePipelineStages": "Manage pipeline stages",
   "lblCreatePipelineStage": "Create pipeline stage",
   "msgNoPipelineStages": "No pipeline stages",
-  "msgConfirmDeletePipelineStage": "Please confirm you want to delete the {0} pipeline stage. This action is permanent and cannot be undone.",
+  "msgConfirmDeletePipelineStage": "Please confirm you want to delete the {{name}} pipeline stage. This action is permanent and cannot be undone.",
   "msgPipelineStageCannotBeDeleted": "The pipeline stage cannot be deleted.",
   "lblDeletePipelineStage": "Delete pipeline stage",
   "lblEditPipelineStage": "Edit pipeline stage",

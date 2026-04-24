@@ -44,7 +44,8 @@ function TableComponent<T extends Record<string, unknown>>({
     onSelectionChange,
     initialPage       = 1,
     initialPageSize   = 5,
-    pageSizeOptions   = [5, 10, 20, 50],
+    pageSizeOptions,
+    hasPagination     = true,
     clientSort        = true,
     loading           = false,
     emptyMessage      = 'No data available.',
@@ -96,6 +97,7 @@ function TableComponent<T extends Record<string, unknown>>({
 
     // Slice data for current page
     const paginatedData = useMemo(() => {
+        if (!hasPagination) return sortedData;
         if (isServerPagination) return sortedData;
         return sortedData.slice((page - 1) * pageSize, page * pageSize);
     }, [isServerPagination, sortedData, page, pageSize]);
@@ -191,17 +193,19 @@ function TableComponent<T extends Record<string, unknown>>({
             {(toolbar) && (
                 <div className="flex items-end max-sm:flex-wrap justify-between gap-3 p-4">
                     {toolbar}
-                    <div className={'flex items-center max-sm:justify-end gap-1'}>
-                        <SelectComponent
-                            options={pageSizeOptions?.map(size => ({ label: `${size}`, value: size })) || []}
-                            value={pageSize}
-                            size={"sm"}
-                            onChange={(value) => handlePageSizeChange(Number(value))}
-                            className={''}
-                        />
+                    {hasPagination &&
+                        <div className = {'flex items-center max-sm:justify-end gap-1'}>
+                            <SelectComponent
+                                options = {pageSizeOptions?.map(size => ({label: `${size}`, value: size})) || []}
+                                value = {pageSize}
+                                size = {"sm"}
+                                onChange = {(value) => handlePageSizeChange(Number(value))}
+                                className = {''}
+                            />
 
-                        <span className={'text-sm text-muted'}>entries per page</span>
-                    </div>
+                            <span className = {'text-sm text-muted'}>entries per page</span>
+                        </div>
+                    }
                 </div>
             )}
 
@@ -235,12 +239,14 @@ function TableComponent<T extends Record<string, unknown>>({
                         )}
 
                         {/* ── Pagination ───────────────────────────────────────────── */}
-                        <TablePagination config={{
-                            page,
-                            pageSize,
-                            total,
-                            onPageChange: handlePageChange,
-                        }} />
+                        {hasPagination &&
+                            <TablePagination config = {{
+                                page,
+                                pageSize,
+                                total,
+                                onPageChange: handlePageChange,
+                            }}/>
+                        }
                     </>
                 )}
             </div>

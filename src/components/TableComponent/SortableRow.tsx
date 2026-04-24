@@ -30,7 +30,7 @@ export default function SortableRow({ id, children, className, onClick }: Readon
     return (
         <tr ref={setNodeRef} style={style} className={className} onClick={onClick}>
             {/* Drag handle — first cell */}
-            <td className="w-6 px-2 cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
+            <td className="w-10 px-3 cursor-grab active:cursor-grabbing" {...attributes} {...listeners}>
                 <RiDraggable className="text-muted" size={16} />
             </td>
             {children}

@@ -1,4 +1,5 @@
 import { ActionDef, ColumnDef, RowTableData } from "@/models/TablesModel";
+import { PipelineStageFormState, PipelineStageItem } from "@/models/FormStateModel";
 import {
     RiDeleteBinLine,
     RiDownloadLine,
@@ -342,10 +343,11 @@ export const PIPELINES_STAGES_SET_actionDefs: ActionDef<RowTableData>[] = [
         label  : 'lblEditPipelineStagesSet',
         icon   : <RiEditLine />,
         variant: 'primary',
+        hidden : (row: RowTableData) => row.isDefault === true,
         onClick: (row: RowTableData) => editEntry2(String(row.id)),
     },
     {
-        type   : 'toggle',
+        type   : 'navigate',
         label  : 'lblManagePipelineStages',
         icon   : <RiListCheck />,
         variant: 'primary',
@@ -356,35 +358,72 @@ export const PIPELINES_STAGES_SET_actionDefs: ActionDef<RowTableData>[] = [
         label  : 'lblDeletePipelineStagesSet',
         icon   : <RiDeleteBinLine />,
         variant: 'danger',
+        hidden : (row: RowTableData) => row.isDefault === true,
         onClick: (row: RowTableData) => deleteEntry(String(row.id)),
     },
 ];
 
+
 export const PIPELINE_STAGES_MOCK_DATA: RowTableData[] = [
-    { id: 1, rank: 1, stageName: 'Screening',  stageType: 'Standard', visible: true  },
-    { id: 2, rank: 2, stageName: 'Phone',       stageType: 'Standard', visible: true  },
-    { id: 3, rank: 3, stageName: 'Interview',   stageType: 'Standard', visible: true  },
-    { id: 4, rank: 4, stageName: 'Assessment',  stageType: 'Custom',   visible: false },
-    { id: 5, rank: 5, stageName: 'Offer',       stageType: 'Standard', visible: true  },
-    { id: 6, rank: 6, stageName: 'Hired',       stageType: 'Standard', visible: true  },
-    { id: 7, rank: 7, stageName: 'Rejection',   stageType: 'System',   visible: true  },
+    { id: 1, rank: 1, stageName: 'Screening',   stageType: '',          visible: false  },
+    { id: 2, rank: 2, stageName: 'Phone',       stageType: '',          visible: true  },
+    { id: 3, rank: 3, stageName: 'Interview',   stageType: '',          visible: true  },
+    { id: 4, rank: 4, stageName: 'Assessment',  stageType: '',          visible: false },
+    { id: 5, rank: 5, stageName: 'Offer',       stageType: '',          visible: true  },
+    { id: 6, rank: 6, stageName: 'Hired',       stageType: 'hire',      visible: true  },
+    { id: 7, rank: 7, stageName: 'Rejection',   stageType: '',          visible: true  },
 ];
+
+// ─── Fallback used when /pipelineStage/:id API is not available yet ───────────
+export const PIPELINE_STAGE_FALLBACK_STATE: PipelineStageFormState = {
+    setData  : { setId: 0, setName: '' },
+    stageData: [],
+};
+
+// ─── Shared stage items ───────────────────────────────────────────────────────
+const DEFAULT_STAGES: PipelineStageItem[] = [
+    { rank: 1, stageName: 'Screening',  stageTypeId: 1, stageType: '',     defaultMail: 1 },
+    { rank: 2, stageName: 'Phone',      stageTypeId: 1, stageType: '',     defaultMail: 2 },
+    { rank: 3, stageName: 'Interview',  stageTypeId: 1, stageType: '',     defaultMail: 3 },
+    { rank: 4, stageName: 'Assessment', stageTypeId: 2, stageType: '',     defaultMail: 4 },
+    { rank: 5, stageName: 'Offer',      stageTypeId: 1, stageType: '',     defaultMail: 5 },
+    { rank: 6, stageName: 'Hired',      stageTypeId: 1, stageType: 'hire', defaultMail: 5 },
+    { rank: 7, stageName: 'Rejection',  stageTypeId: 3, stageType: '',     defaultMail: 1 },
+];
+
+// ─── Per-setId mock map — simulates GET /pipelineStage?setId=:id ──────────────
+export const PIPELINE_STAGE_MOCK_BY_SET_ID: Record<number, PipelineStageFormState> = {
+    1: { setData: { setId: 1, setName: 'default'                                }, stageData: DEFAULT_STAGES },
+    2: { setData: { setId: 2, setName: 'Σετ Πρόσληψης Οικονομικού Τμήματος'    }, stageData: DEFAULT_STAGES },
+    3: { setData: { setId: 3, setName: 'Σετ Πρόσληψης Παραγωγής / Εργοστασίου' }, stageData: DEFAULT_STAGES },
+    4: { setData: { setId: 4, setName: 'Σετ Πρόσληψης Πωλήσεων'                }, stageData: DEFAULT_STAGES },
+    5: { setData: { setId: 5, setName: 'Σετ Τεχνικών Ειδικοτήτων'              }, stageData: DEFAULT_STAGES },
+    6: { setData: { setId: 6, setName: 'Σετ Πρόσληψης Μηχανικών'               }, stageData: DEFAULT_STAGES },
+};
 
 export const PIPELINE_STAGES_columnDefs: ColumnDef[] = [
     { key: 'id',        label: 'ID',       hidden: true },
-    { key: 'rank',      label: 'lblRank',  sortable: false, headerClass: 'text-center', cellClass: 'text-center w-16' },
-    { key: 'stageName', label: 'lblStage', sortable: false },
-    {
-        key        : 'stageType',
-        label      : 'lblType',
-        sortable   : false,
-        type       : 'badge',
-        colorMap   : { Standard: 'blue', Custom: 'purple', System: 'gray' },
-        headerClass: 'text-center',
-        cellClass  : 'text-center',
-    },
+    { key: 'rank',      label: 'lblRank',           sortable: false, headerClass: 'text-center', cellClass: 'text-center w-16' },
+    { key: 'stageName', label: 'lblPipelineStage',  sortable: false },
+    { key: 'stageType', label: 'lblType',           sortable: false, headerClass: 'text-center', cellClass: 'text-center'},
 ];
 
+export const PIPELINES_STAGES_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'lblEditPipelineStage',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'lblDeletePipelineStage',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
 
 
 // Placeholder handler functions
@@ -550,6 +589,18 @@ export const USER_ROLE_OPTIONS = [
     { value: 'HR',            label: 'HR'            },
     { value: 'Interviewer',   label: 'Interviewer'   },
     { value: 'Custom',        label: 'Custom'        },
+];
+
+export const PIPELINE_STAGES_TYPE_OPTIONS = [
+    { value: 'hire', label: 'lblHire' },
+];
+
+export const DEFAULT_MAIL_OPTIONS = [
+    { value: 1, label: 'option_11' },
+    { value: 2, label: 'option_22' },
+    { value: 3, label: 'option_33' },
+    { value: 4, label: 'option_44' },
+    { value: 5, label: 'option_55' },
 ];
 
 export const USER_STATUS = [

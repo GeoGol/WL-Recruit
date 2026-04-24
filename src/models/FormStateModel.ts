@@ -86,7 +86,7 @@ export type RightItem = {
     enabled: boolean;
 }
 
-export type PipelineStage = {
+export type RolePipelineStage = {
     psId: number;
     psSetId: number;
     pssName: string;
@@ -98,9 +98,40 @@ export type PipelineStage = {
 export interface RoleFormState {
     roleName        : string;
     rights          : RightItem[];
-    pipelinesStages : Record<string, PipelineStage[]>;
+    pipelinesStages : Record<string, RolePipelineStage[]>;
 }
 
 export interface PipelineStageSetsFormState {
     pipelineStageSetName : string;
+}
+
+export interface PipelineStage {
+    rank: number;
+    stageName: string;
+    stageType: string;
+    defaultMail: number;
+}
+
+export interface PipelineStageItem {
+    rank        : number;
+    stageName   : string;
+    stageTypeId : number;
+    stageType   : string;
+    defaultMail : number;
+}
+
+export interface PipelineStageFormState {
+    setData: {
+        setId  : number;
+        setName: string;
+    };
+    stageData: PipelineStageItem[];
+}
+
+export interface PipelineStageItemFormState {
+    stageTypeId: string | number;
+    rank        : number;
+    stageName   : string;
+    stageType   : string;
+    defaultMail : number;
 }

@@ -102,9 +102,11 @@ export default function PipelineStagesSets() {
                 ...a,
                 onClick: (row: RowTableData) => { setSelectedPipelineStageSet(row); editDrawer.open(); },
             };
-            if (a.type === 'toggle') return {
+            if (a.type === 'navigate') return {
                 ...a,
-                onClick: (row: RowTableData) => navigate(`/pipeline-stages?setId=${row.id}`),
+                onClick: (row: RowTableData) => navigate(`/pipeline-stages?setId=${String(row.id)}`, {
+                    state: { setName: row.pipelineStageSetName as string },
+                }),
             };
             if (a.type === 'delete') return {
                 ...a,
@@ -135,8 +137,6 @@ export default function PipelineStagesSets() {
                 initialPageSize={5}
                 pageSizeOptions={PAGE_SIZE_OPTIONS}
                 onAddNew={() => createDrawer.open()}
-                hideActions={(row) => row.isDefault === true}
-                onRowReorder={setTableData}
             />
 
             {/* Create drawer */}
