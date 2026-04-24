@@ -150,7 +150,7 @@ export default function PipelineStages() {
         PIPELINES_STAGES_actionDefs.map(a => {
             if (a.type === 'edit') return {
                 ...a,
-                onClick: (row: RowTableData) => { setSelectedPipelineStage(row); editDrawer.open(); },
+                onClick: (row: RowTableData) => { setEditLoading(true); setSelectedPipelineStage(row); editDrawer.open(); },
             };
             if (a.type === 'delete') return {
                 ...a,

@@ -274,15 +274,52 @@ export const DEPARTMENTS_actionDefs: ActionDef<RowTableData>[] = [
     },
 ];
 
+export const QUESTIONS_MOCK_DATA: RowTableData[] = [
+    { id: 1, questionId: 1, question: 'Είστε διαθέσιμος/η για συχνά επαγγελματικά ταξίδια στο εξωτερικό;', typeId: 'yes/no', typeName: 'Ναι/Όχι', searchLabel: 'Δυνατότητα ταξιδιών', visibility: 'Administrators', mandatory: true },
+    { id: 2, questionId: 2, question: 'Ποια συστήματα ERP γνωρίζετε και έχετε χρησιμοποιήσει;', typeId: 'multipleChoice/multiple', typeName: 'Πολλαπλών επιλογών / Πάνω από μία επιλογές', answers: 'SAP,Entersoft,Softone,Κεφάλαιο,Dynamics', searchLabel: 'Γνώση ERP: SAP, Γνώση ERP: Entersoft, Γνώση ERP: Dynamics, Γνώση ERP: Softone', visibility: 'Administrators, Manager', mandatory: true },
+    { id: 3, questionId: 3, question: 'Ποια είναι η διαθεσιμότητά σας για έναρξη εργασίας;', typeId: 'multipleChoice/single', typeName: 'Πολλαπλών επιλογών / Μία επιλογή', answers: 'Άμεσα,Λιγότερο από 1 εβδομάδα,1-2 εβδομάδες,2-3 εβδομάδες,3+ εβδομάδες', searchLabel: 'Διαθεσιμότητα: Άμεσα, Διαθεσιμότητα: 1-2 εβδομάδες, Διαθεσιμότητα: 2-3 εβδομάδες, Διαθεσιμότητα: 3+ εβδομάδες', mandatory: false },
+    { id: 4, questionId: 4, question: 'Σύνδεσμος στο portfolio σας (αν υπάρχει):', typeId: 'textSmall', typeName: 'Μικρό κείμενο', mandatory: false },
+    { id: 5, questionId: 5, question: 'Τι σας ελκύει στην εταιρεία μας και γιατί θέλετε να γίνετε μέλος της ομάδας μας;', typeId: 'textBig', typeName: 'Μεγαλύτερο κείμενο', mandatory: false },
+    { id: 6, questionId: 6, question: 'Εισαγετε το διπλωμα οδηγησης', typeId: 'file', typeName: 'Μεταφόρτωση αρχείου', mandatory: true },
+];
+
+export const QUESTIONS_columnDefs: ColumnDef[] = [
+    {key : 'id', label : 'ID', hidden: true,},
+    {key : 'questionId', label : 'lblQuestion', hidden:true},
+    {key : 'question', label : 'lblQuestion'},
+    {key : 'typeName', label : 'lblType'},
+    {key : 'typeId', label : 'lblType', hidden: true},
+    {key : 'searchLabel', label : 'lblSearchLabel', hidden: true},
+    {key : 'visibility', label : 'lblQuestionVisibility', hidden: true},
+    {key : 'mandatory', label : 'lblQuestionIsMandatory', hidden: true},
+];
+
+export const QUESTIONS_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'Edit',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'Delete',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
 
 export const ROLES_MOCK_DATA: RowTableData[] = [
-    { id: 1,  roleName: 'Administrators'         },
-    { id: 2,  roleName: 'HR'                     },
-    { id: 3,  roleName: 'Manager'                },
-    { id: 4,  roleName: 'support acme test rolls'},
-    { id: 5,  roleName: 'support'                },
-    { id: 6,  roleName: 'Users TEST'             },
-    { id: 7,  roleName: 'HR MANAGER'             }
+    { id: 1,  roleName: 'Administrators'            ,isDefault: true},
+    { id: 2,  roleName: 'HR'                        ,isDefault: false},
+    { id: 3,  roleName: 'Manager'                   ,isDefault: false},
+    { id: 4,  roleName: 'support acme test rolls'   ,isDefault: false},
+    { id: 5,  roleName: 'support'                   ,isDefault: false},
+    { id: 6,  roleName: 'Users TEST'                ,isDefault: false},
+    { id: 7,  roleName: 'HR MANAGER'                ,isDefault: false}
 ];
 
 export const ROLES_columnDefs: ColumnDef[] = [
@@ -303,6 +340,7 @@ export const ROLES_actionDefs: ActionDef<RowTableData>[] = [
         label  : 'Edit',
         icon   : <RiEditLine />,
         variant: 'primary',
+        hidden : (row: RowTableData) => row.isDefault === true,
         onClick: (row: RowTableData) => editEntry2(String(row.id)),
     },
     {
@@ -310,6 +348,7 @@ export const ROLES_actionDefs: ActionDef<RowTableData>[] = [
         label  : 'Delete',
         icon   : <RiDeleteBinLine />,
         variant: 'danger',
+        hidden : (row: RowTableData) => row.isDefault === true,
         onClick: (row: RowTableData) => deleteEntry(String(row.id)),
     },
 ];
@@ -589,6 +628,15 @@ export const USER_ROLE_OPTIONS = [
     { value: 'HR',            label: 'HR'            },
     { value: 'Interviewer',   label: 'Interviewer'   },
     { value: 'Custom',        label: 'Custom'        },
+]
+
+export const INPUT_OPTIONS = [
+    { value: 'yes/no',                  label: 'lblYesNo' },
+    { value: 'multipleChoice/single',   label: 'lblMultipleChoiceSingle' },
+    { value: 'multipleChoice/multiple', label: 'lblMultipleChoiceMultiple' },
+    { value: 'textSmall',               label: 'lblSmallText' },
+    { value: 'textBig',                 label: 'lblBiggerText' },
+    { value: 'file',                    label: 'lblFileUpload' }
 ];
 
 export const PIPELINE_STAGES_TYPE_OPTIONS = [

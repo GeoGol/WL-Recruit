@@ -135,3 +135,14 @@ export interface PipelineStageItemFormState {
     stageType   : string;
     defaultMail : number;
 }
+
+export interface QuestionFormState {
+    questionId : number;
+    question : string;
+    typeId : string;
+    typeName : string;
+    answers ?: string;
+    searchLabel ?: string;
+    visibility ?: string;
+    mandatory : boolean;
+}
