@@ -50,6 +50,15 @@ export interface DepartmentFormState {
     departmentName : string;
 }
 
+export interface TemplateFormState {
+    templateId : number;
+    templateName : string;
+    templateTypeId : string;
+    templateType : string;
+    templateLang : string;
+    templateText : string;
+}
+
 export interface OrganizationFormState {
     // general settings
     organizationName            : string, //input
@@ -103,13 +112,6 @@ export interface RoleFormState {
 
 export interface PipelineStageSetsFormState {
     pipelineStageSetName : string;
-}
-
-export interface PipelineStage {
-    rank: number;
-    stageName: string;
-    stageType: string;
-    defaultMail: number;
 }
 
 export interface PipelineStageItem {

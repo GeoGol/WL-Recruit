@@ -91,7 +91,7 @@ function TableBody<T extends Record<string, unknown>>({
         )}
         {columns.map((col) => (
             <td key={String(col.key)} className={`px-4 py-3 ${col.cellClass ?? ''}`}>
-                {col.render ? col.render(row, idx) : String(row[col.key] ?? '')}
+                {col.render ? t(col.render(row, idx)) : t(String(row[col.key] ?? ''))}
             </td>
         ))}
         {!!actions?.length && (() => {

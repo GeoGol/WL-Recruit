@@ -24,6 +24,7 @@ const SelectComponent = memo(({
     wrapperClassName = '',
     className = '',
     hint,
+    required = false,
     // error,
   // ...rest
 }: SelectComponentProps) => {
@@ -169,9 +170,12 @@ const SelectComponent = memo(({
             {/* ...existing label/hint code... */}
             {label && (
                 <div className="justify-between items-center gap-1 flex mb-2">
-                    <label className="text-muted text-base font-normal whitespace-nowrap text-ellipsis overflow-hidden">
-                        {label}
-                    </label>
+                    <div className={'flex justify-between items-center gap-1'}>
+                        <label className="text-muted text-base font-normal whitespace-nowrap text-ellipsis overflow-hidden">
+                            {label}
+                        </label>
+                        {required && <span className="ml-1 text-danger text-sm" aria-hidden="true">*</span>}
+                    </div>
                     {hint &&
                         <TooltipComponent content={<p>{hint}</p>}>
                             <RiInformationLine className="text-muted w-4 h-4 cursor-pointer" />

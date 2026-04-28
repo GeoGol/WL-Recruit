@@ -354,6 +354,65 @@ export const ROLES_actionDefs: ActionDef<RowTableData>[] = [
 ];
 
 
+export const TEMPLATES_MOCK_DATA: RowTableData[] = [
+    { id: 1, templateId: 1, templateName: 'Test template', templateType: 'Email body', templateTypeId: 'emailBody', templateLang: 'el', templateText: ''},
+    { id: 2, templateId: 2, templateName: 'Rejection', templateType: 'Email body', templateTypeId: 'emailBody', templateLang: 'en', templateText: ''},
+];
+
+export const TEMPLATES_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key     : 'templateName',
+        label   : 'lblTemplate',
+    },
+    {
+        key     : 'templateType',
+        label   : 'lblType',
+    },
+    {
+        key     : 'templateTypeId',
+        label   : 'lblType',
+        hidden  : true,
+    },
+    {
+        key     : 'templateName',
+        label   : 'lblTemplateTitle',
+        hidden  : true,
+    },
+    {
+        key     : 'templateLang',
+        label   : 'lblLanguage',
+    },
+    {
+        key     : 'templateText',
+        label   : 'lblTemplateText',
+    },
+];
+
+export const TEMPLATES_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'Edit',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        hidden : (row: RowTableData) => row.isDefault === true,
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'Delete',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        hidden : (row: RowTableData) => row.isDefault === true,
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+
 export const PIPELINES_STAGES_SET_MOCK_DATA: RowTableData[] = [
     { id: 1,  pipelineStageSetName: 'default',                                  isDefault: true  },
     { id: 2,  pipelineStageSetName: 'Σετ Πρόσληψης Οικονομικού Τμήματος',       isDefault: false },
@@ -637,6 +696,11 @@ export const INPUT_OPTIONS = [
     { value: 'textSmall',               label: 'lblSmallText' },
     { value: 'textBig',                 label: 'lblBiggerText' },
     { value: 'file',                    label: 'lblFileUpload' }
+];
+
+export const TEMPLATE_INPUT_OPTIONS = [
+    { value: 'job',       label: 'Job' },
+    { value: 'emailBody', label: 'Email body' },
 ];
 
 export const PIPELINE_STAGES_TYPE_OPTIONS = [

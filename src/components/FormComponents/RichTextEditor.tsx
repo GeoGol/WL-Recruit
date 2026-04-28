@@ -29,6 +29,7 @@ interface RichTextEditorProps {
     maxLength?   : number;
     minHeight?   : string;
     disabled?    : boolean;
+    required?    : boolean;
     onChange?    : (html: string) => void;
 }
 
@@ -175,6 +176,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
     maxLength,
     minHeight   = 'min-h-48',
     disabled    = false,
+    required    = false,
     onChange,
 }) => {
     const [linkUrl, setLinkUrl]             = useState('');
@@ -274,6 +276,7 @@ const RichTextEditor = memo<RichTextEditorProps>(({
                     <label className="text-muted text-base font-normal whitespace-nowrap text-ellipsis overflow-hidden">
                         {label}
                     </label>
+                    {required && <span className="ml-1 text-danger text-sm" aria-hidden="true">*</span>}
                 </div>
             )}
 
