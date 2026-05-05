@@ -462,6 +462,111 @@ export const PIPELINES_STAGES_SET_actionDefs: ActionDef<RowTableData>[] = [
 ];
 
 
+export const INTERVIEW_KITS_MOCK_DATA: RowTableData[] = [
+    { id: 1, interviewKitName: 'Generic Interview Kit',          isDefault: false },
+    { id: 2, interviewKitName: 'Software Engineer Interview',    isDefault: false },
+    { id: 3, interviewKitName: 'HR Manager Interview',           isDefault: false },
+    { id: 4, interviewKitName: 'Sales Representative Interview', isDefault: false },
+    { id: 5, interviewKitName: 'Product Manager Interview',      isDefault: false },
+    { id: 6, interviewKitName: 'Customer Support Interview',     isDefault: false },
+];
+
+export const INTERVIEW_KITS_columnDefs: ColumnDef[] = [
+    {
+        key   : 'id',
+        label : 'ID',
+        hidden: true,
+    },
+    {
+        key     : 'interviewKitName',
+        label   : 'lblEvaluationForm',
+        sortable: true,
+    },
+];
+
+export const INTERVIEW_KITS_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'lblEditEvaluationForm',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        hidden : (row: RowTableData) => row.isDefault === true,
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'navigate',
+        label  : 'lblEditEvaluationCriterion',
+        icon   : <RiListCheck />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'lblDeleteEvaluationForm',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        hidden : (row: RowTableData) => row.isDefault === true,
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+
+// ─── Shared default criteria ──────────────────────────────────────────────────
+const DEFAULT_CRITERIA_ROWS: RowTableData[] = [
+    { id: 1, rank: 1, criterionName: 'Communication Skills', isMandatory: true  },
+    { id: 2, rank: 2, criterionName: 'Problem Solving',      isMandatory: true  },
+    { id: 3, rank: 3, criterionName: 'Team Collaboration',   isMandatory: false },
+    { id: 4, rank: 4, criterionName: 'Technical Knowledge',  isMandatory: true  },
+    { id: 5, rank: 5, criterionName: 'Cultural Fit',         isMandatory: false },
+];
+
+export const INTERVIEW_KIT_CRITERIA_BY_KIT_ID: Record<number, RowTableData[]> = {
+    1: DEFAULT_CRITERIA_ROWS,
+    2: [
+        { id: 1, rank: 1, criterionName: 'Algorithms & Data Structures', isMandatory: true  },
+        { id: 2, rank: 2, criterionName: 'System Design',                isMandatory: true  },
+        { id: 3, rank: 3, criterionName: 'Code Quality',                 isMandatory: true  },
+        { id: 4, rank: 4, criterionName: 'Problem Solving',              isMandatory: true  },
+        { id: 5, rank: 5, criterionName: 'Communication Skills',         isMandatory: false },
+        { id: 6, rank: 6, criterionName: 'Team Collaboration',           isMandatory: false },
+        { id: 7, rank: 7, criterionName: 'Cultural Fit',                 isMandatory: false },
+        { id: 8, rank: 8, criterionName: 'Growth Mindset',               isMandatory: false },
+    ],
+    3: DEFAULT_CRITERIA_ROWS,
+    4: [
+        { id: 1, rank: 1, criterionName: 'Sales Approach',     isMandatory: true  },
+        { id: 2, rank: 2, criterionName: 'Negotiation Skills',  isMandatory: true  },
+        { id: 3, rank: 3, criterionName: 'Customer Focus',      isMandatory: true  },
+        { id: 4, rank: 4, criterionName: 'Resilience',          isMandatory: false },
+    ],
+    5: DEFAULT_CRITERIA_ROWS,
+    6: DEFAULT_CRITERIA_ROWS,
+};
+
+export const INTERVIEW_KIT_CRITERIA_columnDefs: ColumnDef[] = [
+    { key: 'id',           label: 'ID',                         hidden: true },
+    { key: 'rank',         label: 'lblRank',                    sortable: false, headerClass: 'text-center', cellClass: 'text-center w-16' },
+    { key: 'criterionName',label: 'lblEvaluationCriterion',     sortable: false },
+];
+
+export const INTERVIEW_KIT_CRITERIA_actionDefs: ActionDef<RowTableData>[] = [
+    {
+        type   : 'edit',
+        label  : 'lblEditEvaluationCriterion',
+        icon   : <RiEditLine />,
+        variant: 'primary',
+        onClick: (row: RowTableData) => editEntry2(String(row.id)),
+    },
+    {
+        type   : 'delete',
+        label  : 'lblDeleteEvaluationCriterion',
+        icon   : <RiDeleteBinLine />,
+        variant: 'danger',
+        onClick: (row: RowTableData) => deleteEntry(String(row.id)),
+    },
+];
+
+
 export const PIPELINE_STAGES_MOCK_DATA: RowTableData[] = [
     { id: 1, rank: 1, stageName: 'Screening',   stageType: '',          visible: false  },
     { id: 2, rank: 2, stageName: 'Phone',       stageType: '',          visible: true  },

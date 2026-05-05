@@ -138,6 +138,16 @@ export interface PipelineStageItemFormState {
     defaultMail : number;
 }
 
+export interface InterviewKitFormState {
+    interviewKitName : string;
+}
+
+export interface InterviewKitCriterionFormState {
+    rank         : number;
+    criterionName: string;
+    isMandatory  : boolean;
+}
+
 export interface QuestionFormState {
     questionId : number;
     question : string;

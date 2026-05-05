@@ -995,7 +995,7 @@
   "msgCriterionDoesNotExist": "Το κριτήριο δεν υπάρχει.",
   "msgCriterionHasAnswers": "Το κριτήριο έχει ήδη απαντηθεί.",
   "msgCriterionWasSuccessfullyDeleted": "Η ερώτηση «{0}» διαγράφηκε με επιτυχία.",
-  "msgConfirmDeleteCriterion": "Παρακαλώ επιβεβαιώστε τη διαγραφή του κριτηρίου «{0}». Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+  "msgConfirmDeleteCriterion": "Παρακαλώ επιβεβαιώστε τη διαγραφή του κριτηρίου «{{name}}». Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
   "msgMandatorySubject": "To θέμα είναι απαραίτητο πεδίο.",
   "msgMandatoryEmailBody": "To κείμενο του email είναι απαραίτητο πεδίο.",
   "lblBulkAction": "Μαζική ενέργεια",

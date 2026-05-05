@@ -985,7 +985,7 @@
   "msgCriterionDoesNotExist": "Criterion does not exist.",
   "msgCriterionHasAnswers": "The criterion has already been answered",
   "msgCriterionWasSuccessfullyDeleted": "Question \"{0}\" was successfully deleted.",
-  "msgConfirmDeleteCriterion": "Please confirm you want to delete the \"{0}\" criterion. This action is permanent and cannot be undone.",
+  "msgConfirmDeleteCriterion": "Please confirm you want to delete the \"{{name}}\" criterion. This action is permanent and cannot be undone.",
   "msgMandatorySubject": "Subject is a mandatory field.",
   "msgMandatoryEmailBody": "Email body is a mandatory field.",
   "lblBulkAction": "Bulk action",

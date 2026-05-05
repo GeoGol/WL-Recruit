@@ -21,19 +21,20 @@ const JobsReport             = lazy(() => import('@/pages/reports/JobsReport'));
 const Export                 = lazy(() => import('@/pages/reports/Export'));
 
 // ApplicationSettings
-const Settings           = lazy(() => import('@/pages/settings/ApplicationSettings'));
-const Users              = lazy(() => import('@/pages/settings/Users'));
-const Organizations      = lazy(() => import('@/pages/settings/Organizations'));
-const Departments        = lazy(() => import('@/pages/settings/Departments'));
-const Roles              = lazy(() => import('@/pages/settings/Roles'));
-const PipelineStagesSets = lazy(() => import('@/pages/settings/PipelineStagesSets'));
-const PipelineStages     = lazy(() => import('@/pages/settings/PipelineStages'));
-const Questions          = lazy(() => import('@/pages/settings/Questions'));
-const Templates          = lazy(() => import('@/pages/settings/Templates'));
-const EvaluationsForms   = lazy(() => import('@/pages/settings/EvaluationsForms'));
-const Consents           = lazy(() => import('@/pages/settings/Consents'));
-const Projects           = lazy(() => import('@/pages/settings/Projects'));
-const ManageIntegrations = lazy(() => import('@/pages/settings/ManageIntegrations'));
+const Settings              = lazy(() => import('@/pages/settings/ApplicationSettings'));
+const Users                 = lazy(() => import('@/pages/settings/Users'));
+const Organizations         = lazy(() => import('@/pages/settings/Organizations'));
+const Departments           = lazy(() => import('@/pages/settings/Departments'));
+const Roles                 = lazy(() => import('@/pages/settings/Roles'));
+const PipelineStagesSets    = lazy(() => import('@/pages/settings/PipelineStagesSets'));
+const PipelineStages        = lazy(() => import('@/pages/settings/PipelineStages'));
+const Questions             = lazy(() => import('@/pages/settings/Questions'));
+const Templates             = lazy(() => import('@/pages/settings/Templates'));
+const EvaluationsForms      = lazy(() => import('@/pages/settings/InterviewKits'));
+const InterviewKitCriteria  = lazy(() => import('@/pages/settings/InterviewKitCriteria'));
+const Consents              = lazy(() => import('@/pages/settings/Consents'));
+const Projects              = lazy(() => import('@/pages/settings/Projects'));
+const ManageIntegrations    = lazy(() => import('@/pages/settings/Integrations'));
 // ── Dev only ──────────────────────────────────────────────────────────────────
 const ApiTests = import.meta.env.DEV
     ? lazy(() => import('@/pages/ApiTests'))
@@ -84,6 +85,7 @@ export const routes: AppRoute[] = [
     { path: '/questions',                    component: Questions },
     { path: '/templates',                    component: Templates },
     { path: '/evaluations-forms',            component: EvaluationsForms },
+    { path: '/interview-kit-criteria',       component: InterviewKitCriteria },
     { path: '/consents',                     component: Consents },
     { path: '/projects',                     component: Projects },
     { path: '/manage-integrations',          component: ManageIntegrations },
