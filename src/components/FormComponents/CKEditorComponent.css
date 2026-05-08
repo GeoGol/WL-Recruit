@@ -1,0 +1,151 @@
+/* =============================================================================
+    CKEditor 5 — custom theme overrides for Tailwind CSS-based design system
+   ============================================================================= */
+
+:root {
+    --ck-color-base-background: var(--bg-surface);
+    --ck-color-base-text: var(--text-primary);
+    --ck-color-base-border: var(--border-main);
+
+    --ck-color-button-default-hover-background: var(--primary-bg);
+    --ck-color-button-on-background: var(--info-bg);
+    --ck-color-button-on-color: var(--text-link);
+    --ck-color-split-button-hover-border: var(--info-bg);
+    --ck-color-split-button-hover-background: var(--primary-bg);
+
+    --ck-border-main: var(--border-main);
+    --ck-color-focus-border: var(--border-main);
+    --ck-color-shadow-inner: transparent;
+
+    --editor-text-color: var(--text-primary);
+
+    /* focus shadow/ring */
+    --ck-focus-ring: 1px solid var(--text-link);
+
+    --ck-border-radius: 8px;
+
+    --ck-spacing-small: 6px;
+    --ck-spacing-standard: 12px;
+    --ck-spacing-large: 16px;
+
+    --ck-font-face: Inter, system-ui, sans-serif;
+    --ck-font-size-base: 14px;
+}
+.ck-editor__editable {
+    min-height: 12rem;
+}
+
+.ck.ck-content ul,
+.ck.ck-content ol {
+    padding-left: 1.5rem;
+}
+/*.ck-editor-wrapper {*/
+/*    @apply rounded-lg border border-main*/
+/*}*/
+
+/*.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content{*/
+/*    @apply border-t-0 border-x-0 border-b border-main;*/
+/*}*/
+
+/*.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused{*/
+/*    @apply border-0;*/
+/*}*/
+
+
+
+
+
+
+
+
+
+
+
+
+/* ── Outer wrapper ─────────────────────────────────────────────────────────── */
+/*.ck-editor-wrapper {*/
+/*    !*@apply rounded-lg border border-main bg-surface focus-within:border-primary-700 focus-within:ring-1 focus-within:ring-primary-700 transition-colors duration-150 overflow-hidden;*!*/
+
+/*    !* ── CKEditor CSS variable overrides ──────────────────────────────────────*/
+/*       These are picked up by CKEditor's own rules — no new competing selectors.*/
+/*    ── ────────────────────────────────────────────────────────────────────── *!*/
+
+/*    !* Base colours *!*/
+/*    --ck-color-base-border:                   var(--border-main);*/
+
+/*    !* Toolbar *!*/
+/*    --ck-color-toolbar-background:            var(--bg-surface);*/
+/*    --ck-color-toolbar-border:                var(--border-main);*/
+
+/*    !* Buttons — default state *!*/
+/*    --ck-color-button-default-background:     transparent;*/
+/*    --ck-color-button-default-hover-background: #f9fafb; !* gray-50 *!*/
+/*    --ck-color-button-default-active-background: #f9fafb;*/
+
+/*    !* Split button hover (used by the splitbutton rule directly) *!*/
+/*    --ck-color-split-button-hover-background: #f9fafb; !* gray-50 *!*/
+
+/*    !* Buttons — "on" (active/toggled) state *!*/
+/*    --ck-color-button-on-background:          #eff6ff; !* blue-50 *!*/
+/*    --ck-color-button-on-hover-background:    #dbeafe; !* blue-100 *!*/
+/*    --ck-color-button-on-active-background:   #dbeafe;*/
+
+/*    !* Focus ring *!*/
+/*    --ck-color-focus-border:                  var(--primary-focus);*/
+/*    --ck-color-focus-outer-shadow:            transparent;*/
+
+/*    !* Dropdown panel *!*/
+/*    --ck-color-dropdown-panel-background:     var(--bg-surface);*/
+/*    --ck-color-dropdown-panel-border:         var(--border-main);*/
+
+/*    !* Editor area *!*/
+/*    --ck-color-base-background:               var(--bg-surface);*/
+/*    --ck-color-base-text:                     var(--text-primary);*/
+/*}*/
+
+/*!* ── Sticky panel ──────────────────────────────────────────────────────────── *!*/
+/*.ck-editor-wrapper .ck.ck-reset.ck-editor.ck-rounded-corners .ck-sticky-panel__content {*/
+/*    @apply rounded-none border-x-0 border-t-0 border-b border-main;*/
+/*}*/
+
+/* ── Toolbar ───────────────────────────────────────────────────────────────── */
+/*.ck-editor-wrapper .ck.ck-reset.ck-editor.ck-rounded-corners .ck.ck-toolbar.ck-toolbar_grouping {*/
+/*    @apply px-2;*/
+/*}*/
+
+/*!* ── Editable area ─────────────────────────────────────────────────────────── *!*/
+/*.ck-editor-wrapper .ck.ck-reset.ck-editor.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable) {*/
+/*    @apply min-h-48 border-none rounded-none shadow-none p-4;*/
+/*}*/
+
+/*!* ── Remove focus/active box-shadow and border from buttons ─────────────────── *!*/
+/*.ck-editor-wrapper :is(.ck.ck-button, :where(a).ck.ck-button) {*/
+/*    @apply transition-colors duration-150 overflow-hidden;*/
+/*}*/
+
+/*.ck-editor-wrapper :is(.ck.ck-button, :where(a).ck.ck-button):is(:focus, :focus-within, :active) {*/
+/*    @apply border-none ring-0;*/
+/*}*/
+
+/*!* ── Icon colour ────────────────────────────────────────────────────────────── *!*/
+/*.ck-editor-wrapper .ck.ck-button,*/
+/*.ck-editor-wrapper .ck.ck-button .ck.ck-icon.ck-button__icon {*/
+/*    @apply text-gray-600 opacity-90;*/
+/*}*/
+
+/*!* ── Cursor on interactive buttons/dropdowns ────────────────────────────────── *!*/
+/*.ck-editor-wrapper :is(.ck.ck-button, :where(a).ck.ck-button):not(.ck-disabled),*/
+/*.ck-editor-wrapper .ck-dropdown__button {*/
+/*    @apply hover:cursor-pointer;*/
+/*}*/
+
+/*!* ── First child margin reset ───────────────────────────────────────────────── *!*/
+/*.ck.ck-editor__editable_inline > :first-child {*/
+/*    @apply mt-0;*/
+/*}*/
+
+/*!* ── List indentation ───────────────────────────────────────────────────────── *!*/
+/*.ck-editor-wrapper .ck-content ol,*/
+/*.ck-editor-wrapper .ck-content ul {*/
+/*    @apply pl-4;*/
+/*}*/

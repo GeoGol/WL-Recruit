@@ -5,7 +5,8 @@ import ButtonComponent from '@/components/FormComponents/ButtonComponent';
 import { useActionModal } from '@/hooks/useModal';
 import ModalComponent from '@/components/ModalComponent/ModalComponent';
 
-const RichTextEditor = lazy(() => import('@/components/FormComponents/RichTextEditor'));
+// const RichTextEditor = lazy(() => import('@/components/FormComponents/RichTextEditor'));
+const RichTextEditorCKEditor = lazy(() => import('@/components/FormComponents/CKEditorComponent'));
 
 export default function NewSupportRequest({formId = 'new-support-request-form'}: Readonly<{ formId?: string }>) {
     const { t } = useTranslation();
@@ -53,12 +54,24 @@ export default function NewSupportRequest({formId = 'new-support-request-form'}:
                         fullWidth
                     />
                     <Suspense fallback={<div className="h-32 bg-secondary animate-pulse rounded-lg" />}>
-                        <RichTextEditor
+                        {/*<RichTextEditor*/}
+                        {/*    label={t('lblMessage')}*/}
+                        {/*    placeholder={t('lblWriteYourMessage')}*/}
+                        {/*    maxLength={2000}*/}
+                        {/*    onChange={setBody}*/}
+                        {/*    value={body}*/}
+                        {/*    required={true}*/}
+                        {/*    helperText={'test test test'}*/}
+                        {/*/>*/}
+                        <RichTextEditorCKEditor
                             label={t('lblMessage')}
                             placeholder={t('lblWriteYourMessage')}
-                            maxLength={2000}
+                            required={true}
                             onChange={setBody}
                             value={body}
+                            maxChars={2000}
+                            helperText={'test test test'}
+                            wrapperClass={''}
                         />
                     </Suspense>
                     <div className="flex justify-end">
